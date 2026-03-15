@@ -1,0 +1,30 @@
+@use "@/styles/colors" as *;
+
+.input-border {
+	padding: 1em;
+	background-color: $gray-100;
+	border: 1px solid $gray-300;
+	border-radius: 1em;
+	color: $gray-700;
+
+	transition:
+		background-color 250ms ease-out,
+		color 250ms ease-out;
+	
+	&:hover {
+		border: 1px solid $gray-500;
+		color: $gray-900;
+
+		transition:
+			background-color 150ms ease-in,
+			border-color 150ms ease-in,
+			color 150ms ease-in;
+
+		.icon {
+			path {
+				fill: $gray-500;
+				transition: color 150ms ease-in;
+			}
+		}
+	}
+}

@@ -1,0 +1,27 @@
+@use "@/styles/colors" as *;
+
+.delete-project {
+	width: 480px;
+	padding: 1em;
+	flex-direction: column;
+	gap: 0.5em;
+
+	h2 {
+		margin-bottom: 0.5em;
+		font-weight: 400;
+		color: $gray-500;
+	}
+
+	.row {
+		align-items: center;
+		gap: 0.5em;
+		
+		.button {
+			gap: 0.2em;
+			
+			span {
+				padding-top: 0.2em;
+			}
+		}
+	}
+}

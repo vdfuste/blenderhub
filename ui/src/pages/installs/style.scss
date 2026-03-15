@@ -1,0 +1,24 @@
+.tabs {
+	.tab {
+		padding: 1em 2em;
+		color: #505256;
+
+		text-decoration: none;
+		cursor: pointer;
+
+		&:hover {
+			background-color: #16181a;
+			color: #aaacaf;
+		}
+		
+		&.active {
+			border-bottom: 2px solid #007aff;
+			color: #aaacaf;
+			
+			&:hover {
+				border-color: #009aff;
+				color: white;
+			}
+		}
+	}
+}

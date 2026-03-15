@@ -1,0 +1,77 @@
+@use "@/styles/colors" as *;
+
+.menu {
+	min-width: 5em;
+	//min-height: 100%;
+
+	position: absolute;
+	top: calc(100% + 0.5em);
+	right: 0;
+
+	flex-direction: column;
+
+	background-color: $gray-100;
+	border: 1px solid $gray-200;
+	border-radius: 1em;
+	color: $gray-700;
+	
+	overflow: hidden;
+	z-index: 1;
+
+	box-shadow: 2px 8px 20px -8px rgb(black, 0.6);
+
+	.menu-list {
+		padding: 0.5em;
+		flex-direction: column;
+		
+		.list-section {
+			display: flex;
+			flex-direction: column;
+			list-style-type: none;
+			cursor: pointer;
+			
+			.list-title {
+				margin: 1em 3em 0.25em 1em;
+				
+				text-wrap: nowrap;
+				font-size: 0.8em;
+				font-weight: 700;
+				color: $gray-500;
+			}
+			
+			.list-item {
+				padding: 1em;
+				border-radius: 0.8em;
+
+				text-wrap: nowrap;
+
+				transition:
+					background-color 250ms ease-out,
+					color 250ms ease-out;
+
+				&:hover {
+					background-color: $gray-150;
+					color: $gray-900;
+
+					transition:
+						background-color 150ms ease-out,
+						color 150ms ease-out;
+				}
+			}
+		}
+	}
+}
+
+.context-menu {
+	position: relative;
+
+	.menu {
+		display: none;
+	}
+
+	&.open {
+		.menu {
+			display: flex;
+		}
+	}
+}

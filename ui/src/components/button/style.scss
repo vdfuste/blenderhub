@@ -1,0 +1,92 @@
+@use "@/styles/colors" as *;
+
+.button {
+	padding: 0.85em 1.75em;
+	display: flex;
+
+	font-size: inherit;
+	background-color: $primary-2;
+	border: 1px solid $primary-2;
+	border-radius: 1em;
+	color: white;
+
+	outline: none;
+	cursor: pointer;
+
+	transition:
+		background-color 250ms ease-out,
+		border-color 250ms ease-out,
+		color 250ms ease-out;
+
+	path {
+		fill: white;
+		transition: fill 250ms ease-out;
+	}
+	
+	&:hover {
+		background-color: $primary-hover;
+
+		transition:
+			background-color 150ms ease-in,
+			border-color 150ms ease-in,
+			color 150ms ease-in;
+		
+		path {
+			transition: fill 150ms ease-in;
+		}
+	}
+
+	&:disabled {
+		background-color: $gray-100;
+		border-color: $gray-250;
+		color: $gray-300;
+		cursor: not-allowed;
+
+		transition: none;
+	}
+
+	&.outline {
+		background-color: transparent;
+		border: 1px solid $gray-300;
+		color: $gray-700;
+		
+		path {
+			fill: $gray-600;
+		}
+
+		&:hover {
+			border-color: $gray-700;
+			color: $gray-900;
+			
+			path {
+				fill: $gray-800;
+			}
+		}
+		
+		&:disabled {
+			border-color: $gray-300;
+			color: $gray-300;
+			
+			path {
+				fill: $gray-200;
+			}
+		}
+	}
+
+	&.ghost {
+		padding: 0;
+
+		text-decoration: underline;
+		background-color: transparent;
+		border: none;
+		color: $primary;
+
+		&:hover {
+			color: $primary-hover;
+		}
+
+		&:disabled {
+			color: $gray-300;
+		}
+	}
+}

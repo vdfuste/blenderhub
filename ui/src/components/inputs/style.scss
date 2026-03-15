@@ -1,0 +1,28 @@
+@use "@/styles/colors" as *;
+@use "@/styles/inputs" as *;
+
+.text-input {
+	@extend .input-border;
+	padding: 0;
+
+	flex-grow: 1;
+	
+	input {
+		width: 100%;
+		padding: 1em;
+		font-size: 1em;
+		color: $gray-900;
+
+		border: none;
+		background-color: transparent;
+		outline: none;
+
+		&::placeholder {
+			color: $gray-600;
+		}
+	}
+
+	&:has(input:focus) {
+		border-color: $primary;
+	}
+}

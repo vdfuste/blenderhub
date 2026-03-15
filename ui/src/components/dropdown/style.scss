@@ -1,0 +1,67 @@
+@use "@/styles/colors" as *;
+@use "@/styles/inputs" as *;
+
+.dropdown {
+	width: 100%;
+	flex-direction: column;
+	
+	.dropdown-header {
+		@extend .input-border;
+		
+		padding: 0.85em 1.25em;
+		padding-right: 0.5em;
+
+		cursor: pointer;
+		outline: none;
+
+		.content {
+			padding-top: 0.05em;
+			flex-grow: 1;
+		}
+
+		.icon {
+			path {
+				fill: $gray-350;
+				transition: fill 250ms ease-in;
+			}
+		}
+		
+		&:hover {
+			.icon {
+				path {
+					fill: $gray-500;
+					transition: color 150ms ease-in;
+				}
+			}
+		}
+	}
+
+	.dropdown-menu {
+		min-width: 100%;
+	}
+
+	&:focus {
+		.dropdown-header {
+			border: 1px solid $gray-500;
+			color: $gray-900;
+		}
+	}
+	
+	&.open {
+		.dropdown-header {
+			border: 1px solid $primary;
+			color: $gray-900;
+			
+			.icon {
+				rotate: -180deg;
+			}
+		}
+	}
+
+	&:disabled {
+		.dropdown-header {
+			background-color: $gray-300;
+			cursor: not-allowed;
+		}
+	}
+}

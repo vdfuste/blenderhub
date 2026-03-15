@@ -1,0 +1,9 @@
+.input-password {
+	padding: 1em;
+	flex-direction: column;
+	gap: 1em;
+
+	.error-message {
+		color: #c42;
+	}
+}

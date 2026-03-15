@@ -1,0 +1,52 @@
+@use "@/styles/scrollbar";
+
+:root {
+	font-family: Inter, sans-serif;
+	font-size: 14px;
+	font-synthesis: none;
+
+	color: #aaacaf;
+	background-color: #121416;
+
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+
+aside,
+body,
+div,
+footer,
+header,
+main,
+nav {
+	display: flex;
+}
+
+body {
+	
+}
+
+#root {
+	width: 100%;
+	height: 100%;
+}
+
+button {
+	background-color: transparent;
+	border: inherit;
+	outline: inherit;
+}
+

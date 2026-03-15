@@ -1,0 +1,12 @@
+<!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+<svg xmlns="http://www.w3.org/2000/svg"
+	width="16" height="16" viewBox="0 0 448 512">
+	<path id="check" fill="white"
+		d="M438.6 105.4
+		c12.5 12.5 12.5 32.8 0 45.3l-256 256
+		c-12.5 12.5-32.8 12.5-45.3 0l-128-128
+		c-12.5-12.5-12.5-32.8 0-45.3
+		s32.8-12.5 45.3 0
+		L160 338.7 393.4 105.4
+		c12.5-12.5 32.8-12.5 45.3 0z" />
+</svg>

@@ -1,0 +1,98 @@
+@use "@/styles/colors" as *;
+
+.sidebar {
+	width: 240px;
+	height: 100%;
+	padding: 1em;
+
+	position: fixed;
+
+	flex-direction: column;
+	flex-shrink: 0;
+	background-color: $gray-300;
+
+	h1 {
+		font-size: 1em;
+		font-weight: 400;
+		text-align: center;
+	}
+	
+	nav {
+		margin-top: -1em;
+		flex-direction: column;
+		justify-content: center;
+		flex-grow: 1;
+
+		.route {
+			padding: 12px;
+			padding-right: 42px;
+			
+			display: flex;
+			align-items: center;
+			gap: 4px;
+
+			border-radius: 12px;
+			color: white;
+			text-decoration: none;
+
+			opacity: 0.25;
+
+			transition:
+				background-color 250ms ease-in-out,
+				opacity 250ms ease-in-out;
+
+			.decorator {
+				width: 3px;
+				height: 3px;
+				background-color: $primary;
+				border-radius: 2px;
+				opacity: 0;
+
+				transition:
+					height 500ms ease-out,
+					opacity 500ms ease-out;
+			}
+			
+			.icon {
+				width: 20px;
+				height: 20px;
+			}
+
+			.label {
+				padding-top: 4px;
+				font-weight: 300;
+				text-wrap: nowrap;
+			}
+
+			// Current route
+			&[aria-current="page"] {
+				opacity: 1;
+
+				.decorator {
+					height: 13px;
+					opacity: 1;
+					transition:
+						height 200ms ease-in,
+						opacity 100ms ease-in;
+				}
+
+				&:hover {
+					opacity: 1;
+				}
+			}
+
+			&:hover {
+				opacity: 0.75;
+				background-color: $gray-200;
+
+				transition:
+					background-color 150ms ease-in-out,
+					opacity 150ms ease-in-out;
+				
+				.decorator {
+					//opacity: 1;
+				}
+			}
+		}
+	}
+}

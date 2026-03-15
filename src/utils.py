@@ -1,0 +1,1434 @@
+import hashlib
+import subprocess
+import sys
+
+def download_releases_data() -> dict:
+	# TODO: Get the actual data from gist.
+	
+	mock_local_data:dict = {
+		"linux": {
+			"serie-3": {
+				"3.0": {
+					"subversions": {
+						"3.0.0": {
+							"checksum": "76f5dd81ce25de026dc4b08f17169eee",
+							"filename": "blender-3.0.0-linux-x64.tar.xz"
+						},
+						"3.0.1": {
+							"checksum": "b5d63972928a7d60ab7dffd422b91b81",
+							"filename": "blender-3.0.1-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2021/11/splash_300.jpg"
+				},
+				"3.1": {
+					"subversions": {
+						"3.1.0": {
+							"checksum": "8cf60d0c2cbda2ad26d8ff65e54cce45",
+							"filename": "blender-3.1.0-linux-x64.tar.xz"
+						},
+						"3.1.1": {
+							"checksum": "70dd94dfbcc65539d9eb421eed131382",
+							"filename": "blender-3.1.1-linux-x64.tar.xz"
+						},
+						"3.1.2": {
+							"checksum": "c3403f5b897c9ed4794226df69400d87",
+							"filename": "blender-3.1.2-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2022/03/splash.jpg"
+				},
+				"3.2": {
+					"subversions": {
+						"3.2.0": {
+							"checksum": "ea65ae99137a9737a7ea733269b71597",
+							"filename": "blender-3.2.0-linux-x64.tar.xz"
+						},
+						"3.2.1": {
+							"checksum": "17589532f9e76f6e5657d5bdf24c1c17",
+							"filename": "blender-3.2.1-linux-x64.tar.xz"
+						},
+						"3.2.2": {
+							"checksum": "d2653c8a024a1b25598d7f2291673bc4",
+							"filename": "blender-3.2.2-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2022/05/blender_32_splash_s.jpg"
+				},
+				"3.3": {
+					"subversions": {
+						"3.3.0": {
+							"checksum": "86781ec0b3910f0721c8281b9f8c98ff",
+							"filename": "blender-3.3.0-linux-x64.tar.xz"
+						},
+						"3.3.1": {
+							"checksum": "325e762abf814a3bf6659c2b5a13b63d",
+							"filename": "blender-3.3.1-linux-x64.tar.xz"
+						},
+						"3.3.10": {
+							"checksum": "524f3c7249b59d8a112b94d713a441b2",
+							"filename": "blender-3.3.10-linux-x64.tar.xz"
+						},
+						"3.3.11": {
+							"checksum": "f134407bb59fe77baaeda49e085bd3aa",
+							"filename": "blender-3.3.11-linux-x64.tar.xz"
+						},
+						"3.3.12": {
+							"checksum": "16110f0c91871ed1cb56cddd2dd31893",
+							"filename": "blender-3.3.12-linux-x64.tar.xz"
+						},
+						"3.3.14": {
+							"checksum": "23815bcc575ed94e0588c9f39260d321",
+							"filename": "blender-3.3.14-linux-x64.tar.xz"
+						},
+						"3.3.15": {
+							"checksum": "a114cd42df299ac7f7689e854527470b",
+							"filename": "blender-3.3.15-linux-x64.tar.xz"
+						},
+						"3.3.16": {
+							"checksum": "8f2fc5040f2b14432dd7cbcaac2ed9a1",
+							"filename": "blender-3.3.16-linux-x64.tar.xz"
+						},
+						"3.3.17": {
+							"checksum": "06f85a9c3a0eadda44ffbb82d866c783",
+							"filename": "blender-3.3.17-linux-x64.tar.xz"
+						},
+						"3.3.18": {
+							"checksum": "4aad1e304a428cad515aa13d1a8e3e50",
+							"filename": "blender-3.3.18-linux-x64.tar.xz"
+						},
+						"3.3.19": {
+							"checksum": "769e22dc846205e8dbc012ea9701ac72",
+							"filename": "blender-3.3.19-linux-x64.tar.xz"
+						},
+						"3.3.2": {
+							"checksum": "a43167feb76f7e59ebede5ba1e9d0b88",
+							"filename": "blender-3.3.2-linux-x64.tar.xz"
+						},
+						"3.3.20": {
+							"checksum": "0393fba017723ae9e1bac7a44db41f88",
+							"filename": "blender-3.3.20-linux-x64.tar.xz"
+						},
+						"3.3.21": {
+							"checksum": "d3e18a927b65011d28c06556e94a1e3b",
+							"filename": "blender-3.3.21-linux-x64.tar.xz"
+						},
+						"3.3.3": {
+							"checksum": "7c562b49c396bf7d05bd58fd2a4110ad",
+							"filename": "blender-3.3.3-linux-x64.tar.xz"
+						},
+						"3.3.4": {
+							"checksum": "393c598343b43e95ed6b2dab4755d15b",
+							"filename": "blender-3.3.4-linux-x64.tar.xz"
+						},
+						"3.3.5": {
+							"checksum": "7450aa8885b1089d52c3127518b8e7df",
+							"filename": "blender-3.3.5-linux-x64.tar.xz"
+						},
+						"3.3.6": {
+							"checksum": "cc31e5ac210903e262ba69cbca21269a",
+							"filename": "blender-3.3.6-linux-x64.tar.xz"
+						},
+						"3.3.7": {
+							"checksum": "5ac8963baed06037e19f57542505f516",
+							"filename": "blender-3.3.7-linux-x64.tar.xz"
+						},
+						"3.3.8": {
+							"checksum": "e8040153187389d20092ce832634134d",
+							"filename": "blender-3.3.8-linux-x64.tar.xz"
+						},
+						"3.3.9": {
+							"checksum": "4bd718991562be7a7fd3eb297471d3d8",
+							"filename": "blender-3.3.9-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2022/08/splash_blender_33_lts.jpg",
+					"lts": True
+				},
+				"3.4": {
+					"subversions": {
+						"3.4.0": {
+							"checksum": "e993aaf26fecde0685a839a298a94bbc",
+							"filename": "blender-3.4.0-linux-x64.tar.xz"
+						},
+						"3.4.1": {
+							"checksum": "0334aaa99a4eef1efe9cf7070a2c8ab9",
+							"filename": "blender-3.4.1-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2022/11/splash_34.jpg"
+				},
+				"3.5": {
+					"subversions": {
+						"3.5.0": {
+							"checksum": "5bf3100ef85d645df8ad5bbfa9f41b89",
+							"filename": "blender-3.5.0-linux-x64.tar.xz"
+						},
+						"3.5.1": {
+							"checksum": "9d701d231376d53d2c57a6daad07bb24",
+							"filename": "blender-3.5.1-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2023/03/blender_35_splash_nicole_morena.jpg"
+				},
+				"3.6": {
+					"subversions": {
+						"3.6.0": {
+							"checksum": "1887f4123dd08e02e66c6c7e04a45922",
+							"filename": "blender-3.6.0-linux-x64.tar.xz"
+						},
+						"3.6.1": {
+							"checksum": "ecae66868570091065414af91b89805c",
+							"filename": "blender-3.6.1-linux-x64.tar.xz"
+						},
+						"3.6.10": {
+							"checksum": "e4a657456ddb7526799013949c3ea055",
+							"filename": "blender-3.6.10-linux-x64.tar.xz"
+						},
+						"3.6.11": {
+							"checksum": "e802a0da5d77bda062cf167ae9108eba",
+							"filename": "blender-3.6.11-linux-x64.tar.xz"
+						},
+						"3.6.12": {
+							"checksum": "d29bbc7c761f6eebb3877ea490cfbb71",
+							"filename": "blender-3.6.12-linux-x64.tar.xz"
+						},
+						"3.6.13": {
+							"checksum": "7ae7a34ef6899ce8263cb2f0b3ad59a9",
+							"filename": "blender-3.6.13-linux-x64.tar.xz"
+						},
+						"3.6.14": {
+							"checksum": "e2751a7625c50631b1ab9f28cec46367",
+							"filename": "blender-3.6.14-linux-x64.tar.xz"
+						},
+						"3.6.15": {
+							"checksum": "10f5cc4cf43598f3af53307c2eb61582",
+							"filename": "blender-3.6.15-linux-x64.tar.xz"
+						},
+						"3.6.16": {
+							"checksum": "5b42c22f0fd20ea82a976488b7a4b79a",
+							"filename": "blender-3.6.16-linux-x64.tar.xz"
+						},
+						"3.6.17": {
+							"checksum": "f60dbbd9108a39bee0093977c05374ff",
+							"filename": "blender-3.6.17-linux-x64.tar.xz"
+						},
+						"3.6.18": {
+							"checksum": "d4439de37a7b16807b3e829c0c58e510",
+							"filename": "blender-3.6.18-linux-x64.tar.xz"
+						},
+						"3.6.19": {
+							"checksum": "52f72cf46e4845529a53b6a439b16abb",
+							"filename": "blender-3.6.19-linux-x64.tar.xz"
+						},
+						"3.6.2": {
+							"checksum": "5a8174a11288335bbea78b8cdfc087c6",
+							"filename": "blender-3.6.2-linux-x64.tar.xz"
+						},
+						"3.6.20": {
+							"checksum": "6744dbc5e5e1bbc996b6fb81348b4531",
+							"filename": "blender-3.6.20-linux-x64.tar.xz"
+						},
+						"3.6.21": {
+							"checksum": "e23cb265f1a1723625c04033198e9543",
+							"filename": "blender-3.6.21-linux-x64.tar.xz"
+						},
+						"3.6.22": {
+							"checksum": "6f2dbc7ead8768979a295e5b090204f5",
+							"filename": "blender-3.6.22-linux-x64.tar.xz"
+						},
+						"3.6.23": {
+							"checksum": "aee9a98b8d68986e707e15241814c36b",
+							"filename": "blender-3.6.23-linux-x64.tar.xz"
+						},
+						"3.6.3": {
+							"checksum": "b0a0c5c1c718b39a8c9572688c7041f3",
+							"filename": "blender-3.6.3-linux-x64.tar.xz"
+						},
+						"3.6.4": {
+							"checksum": "2855bca9fd7db706158df1c043f376ff",
+							"filename": "blender-3.6.4-linux-x64.tar.xz"
+						},
+						"3.6.5": {
+							"checksum": "24baedd28f94d4cd8ae1e642f2e25770",
+							"filename": "blender-3.6.5-linux-x64.tar.xz"
+						},
+						"3.6.7": {
+							"checksum": "f1735e6a468a096b4f9d7d56ab44a9d5",
+							"filename": "blender-3.6.7-linux-x64.tar.xz"
+						},
+						"3.6.8": {
+							"checksum": "0266fdd5e94a668af9ec86d8b8047df8",
+							"filename": "blender-3.6.8-linux-x64.tar.xz"
+						},
+						"3.6.9": {
+							"checksum": "d8f8f235c25d7f48784497c99bf75991",
+							"filename": "blender-3.6.9-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2023/05/blender_36_lts_splash.jpg",
+					"lts": True
+				}
+			},
+			"serie-4": {
+				"4.0": {
+					"subversions": {
+						"4.0.0": {
+							"checksum": "b20551460b715dc3dfe6fc3361ede67d",
+							"filename": "blender-4.0.0-linux-x64.tar.xz"
+						},
+						"4.0.1": {
+							"checksum": "9860fa32abdf60a19e7f9234fbffd858",
+							"filename": "blender-4.0.1-linux-x64.tar.xz"
+						},
+						"4.0.2": {
+							"checksum": "9194f13836e9c43db8da86d935297df5",
+							"filename": "blender-4.0.2-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2023/10/blender_40_splash.jpg"
+				},
+				"4.1": {
+					"subversions": {
+						"4.1.0": {
+							"checksum": "c217ef2d5599e10baa39fd3091bb1270",
+							"filename": "blender-4.1.0-linux-x64.tar.xz"
+						},
+						"4.1.1": {
+							"checksum": "9162a33b58c88180d17cd1051559b520",
+							"filename": "blender-4.1.1-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2024/03/blender_4_1_splash.jpg"
+				},
+				"4.2": {
+					"subversions": {
+						"4.2.0": {
+							"checksum": "d4555313745524a6add308001e3198cf",
+							"filename": "blender-4.2.0-linux-x64.tar.xz"
+						},
+						"4.2.1": {
+							"checksum": "de8a9914c11ec08c96254623cb4137d6",
+							"filename": "blender-4.2.1-linux-x64.tar.xz"
+						},
+						"4.2.10": {
+							"checksum": "5ac63742baef8117cc04eaa801c1705b",
+							"filename": "blender-4.2.10-linux-x64.tar.xz"
+						},
+						"4.2.11": {
+							"checksum": "a35cc2af6b2d13bc217c1daa9f338e0e",
+							"filename": "blender-4.2.11-linux-x64.tar.xz"
+						},
+						"4.2.12": {
+							"checksum": "2efefd335261a3e53e5298561d0f7054",
+							"filename": "blender-4.2.12-linux-x64.tar.xz"
+						},
+						"4.2.13": {
+							"checksum": "13af2b1496a5e1249de72605b7c5edcc",
+							"filename": "blender-4.2.13-linux-x64.tar.xz"
+						},
+						"4.2.14": {
+							"checksum": "8be8a6fffe6af3aea0ee64fc59990c73",
+							"filename": "blender-4.2.14-linux-x64.tar.xz"
+						},
+						"4.2.15": {
+							"checksum": "cea7239cf656c596994bd7af3c830298",
+							"filename": "blender-4.2.15-linux-x64.tar.xz"
+						},
+						"4.2.16": {
+							"checksum": "588fefb2cd46d745176a6901657c99aa",
+							"filename": "blender-4.2.16-linux-x64.tar.xz"
+						},
+						"4.2.17": {
+							"checksum": "7e4ee7cdb675ea3b6df67996e5cbf9b3",
+							"filename": "blender-4.2.17-linux-x64.tar.xz"
+						},
+						"4.2.18": {
+							"checksum": "6ee6ead3415d888eaacba82f7351539e",
+							"filename": "blender-4.2.18-linux-x64.tar.xz"
+						},
+						"4.2.2": {
+							"checksum": "83407c8a6d5553998f6424f1ce03f685",
+							"filename": "blender-4.2.2-linux-x64.tar.xz"
+						},
+						"4.2.3": {
+							"checksum": "34fe4456252a703c39cb93efbfa84f8c",
+							"filename": "blender-4.2.3-linux-x64.tar.xz"
+						},
+						"4.2.4": {
+							"checksum": "3526c3083fc7d1705eac41ffc0e869d6",
+							"filename": "blender-4.2.4-linux-x64.tar.xz"
+						},
+						"4.2.5": {
+							"checksum": "9b0af377b2f37f733a83c87d8486fadb",
+							"filename": "blender-4.2.5-linux-x64.tar.xz"
+						},
+						"4.2.6": {
+							"checksum": "0054151b109159a010aa300df6159292",
+							"filename": "blender-4.2.6-linux-x64.tar.xz"
+						},
+						"4.2.7": {
+							"checksum": "0d42da3d91db0ce89484741bdff8a4dd",
+							"filename": "blender-4.2.7-linux-x64.tar.xz"
+						},
+						"4.2.8": {
+							"checksum": "9e9764344d72afd417f2749fe79fda40",
+							"filename": "blender-4.2.8-linux-x64.tar.xz"
+						},
+						"4.2.9": {
+							"checksum": "466ebd0136c52fb7bb2fc53826f11c7c",
+							"filename": "blender-4.2.9-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2024/07/splash.webp",
+					"lts": True
+				},
+				"4.3": {
+					"subversions": {
+						"4.3.0": {
+							"checksum": "cad93448903c13a37e2e860729fce4de",
+							"filename": "blender-4.3.0-linux-x64.tar.xz"
+						},
+						"4.3.1": {
+							"checksum": "bdca1a08218eec53b538d0f68f97cb9e",
+							"filename": "blender-4.3.1-linux-x64.tar.xz"
+						},
+						"4.3.2": {
+							"checksum": "f2afb0b76690646c4af1ee477a4e468f",
+							"filename": "blender-4.3.2-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2024/10/blender_43_splash.webp"
+				},
+				"4.4": {
+					"subversions": {
+						"4.4.0": {
+							"checksum": "72f90f24306b12fa9b19344ed39621e2",
+							"filename": "blender-4.4.0-linux-x64.tar.xz"
+						},
+						"4.4.1": {
+							"checksum": "1a2ea52dfbc4ea5fa581f863a6273a77",
+							"filename": "blender-4.4.1-linux-x64.tar.xz"
+						},
+						"4.4.2": {
+							"checksum": "de0dd9c1b90cb4582cfb0e1c31cc8ce6",
+							"filename": "blender-4.4.2-linux-x64.tar.xz"
+						},
+						"4.4.3": {
+							"checksum": "8984edb35712293f70cc7c8ba7d06ba4",
+							"filename": "blender-4.4.3-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2025/03/splash.webp"
+				},
+				"4.5": {
+					"subversions": {
+						"4.5.0": {
+							"checksum": "94c3801620867e9a5ceaeb0ae20d9db7",
+							"filename": "blender-4.5.0-linux-x64.tar.xz"
+						},
+						"4.5.1": {
+							"checksum": "57671b4b0c8bd488a2f2ba178500a91e",
+							"filename": "blender-4.5.1-linux-x64.tar.xz"
+						},
+						"4.5.2": {
+							"checksum": "1c40c1edd6c406d63ccf04a872a68b0d",
+							"filename": "blender-4.5.2-linux-x64.tar.xz"
+						},
+						"4.5.3": {
+							"checksum": "7b72f7080e2c6efa11bb504fe8bccd44",
+							"filename": "blender-4.5.3-linux-x64.tar.xz"
+						},
+						"4.5.4": {
+							"checksum": "f96fa632493fa617cb7d95fb9b0d5c0e",
+							"filename": "blender-4.5.4-linux-x64.tar.xz"
+						},
+						"4.5.5": {
+							"checksum": "1f21f46abe1a1a38b11ad0420eba4f04",
+							"filename": "blender-4.5.5-linux-x64.tar.xz"
+						},
+						"4.5.6": {
+							"checksum": "3ad449cf8a64f8bc93d6a5e5b2efca34",
+							"filename": "blender-4.5.6-linux-x64.tar.xz"
+						},
+						"4.5.7": {
+							"checksum": "f819cf157b39fec7623d0b22f7a121b4",
+							"filename": "blender-4.5.7-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2025/06/blender_splash_45.webp",
+					"lts": True
+				}
+			},
+			"serie-5": {
+				"5.0": {
+					"subversions": {
+						"5.0.0": {
+							"checksum": "b8d13f1ba77456a21631ce5ee861bec9",
+							"filename": "blender-5.0.0-linux-x64.tar.xz"
+						},
+						"5.0.1": {
+							"checksum": "1613a6c2746dc124f088c6888b75dbf2",
+							"filename": "blender-5.0.1-linux-x64.tar.xz"
+						}
+					},
+					"url_image": "2025/10/blender_50_splash.webp"
+				}
+			}
+		},
+		"macos": {
+			"serie-3": {
+				"3.0": {
+					"subversions": {
+						"3.0.0": {
+							"checksum": "75aa566746eb997e6a8b9d580c643fce",
+							"filename": "blender-3.0.0-macos-x64.dmg"
+						},
+						"3.0.1": {
+							"checksum": "c3cf4378e1959ad0a8640cb1b815db89",
+							"filename": "blender-3.0.1-macos-x64.dmg"
+						}
+					},
+					"url_image": "2021/11/splash_300.jpg"
+				},
+				"3.1": {
+					"subversions": {
+						"3.1.0": {
+							"checksum": "cd4522a44786745a4db0f6eac41e0ca4",
+							"filename": "blender-3.1.0-macos-x64.dmg"
+						},
+						"3.1.1": {
+							"checksum": "62dfa03572018462430f47d95875df0c",
+							"filename": "blender-3.1.1-macos-x64.dmg"
+						},
+						"3.1.2": {
+							"checksum": "3bf81464c2d85d5ccdb845c46076aa81",
+							"filename": "blender-3.1.2-macos-x64.dmg"
+						}
+					},
+					"url_image": "2022/03/splash.jpg"
+				},
+				"3.2": {
+					"subversions": {
+						"3.2.0": {
+							"checksum": "cabc74cb1ad1ee13dc2879c5bdd19c3c",
+							"filename": "blender-3.2.0-macos-x64.dmg"
+						},
+						"3.2.1": {
+							"checksum": "76626b60aa0dfcc7cf9e9a9fc03bb66c",
+							"filename": "blender-3.2.1-macos-x64.dmg"
+						},
+						"3.2.2": {
+							"checksum": "8837bda1f8066bd9ab7134a292d17915",
+							"filename": "blender-3.2.2-macos-x64.dmg"
+						}
+					},
+					"url_image": "2022/05/blender_32_splash_s.jpg"
+				},
+				"3.3": {
+					"subversions": {
+						"3.3.0": {
+							"checksum": "7b0a62a6141ca0e980a0fe7f06816ddd",
+							"filename": "blender-3.3.0-macos-x64.dmg"
+						},
+						"3.3.1": {
+							"checksum": "22e8803bc9af2031f5a096d6d57c4262",
+							"filename": "blender-3.3.1-macos-x64.dmg"
+						},
+						"3.3.10": {
+							"checksum": "e06f32a04ac4b985f6372de90037e7ed",
+							"filename": "blender-3.3.10-macos-x64.dmg"
+						},
+						"3.3.11": {
+							"checksum": "4843eecad5d7ebfacbf7c2231d419d04",
+							"filename": "blender-3.3.11-macos-x64.dmg"
+						},
+						"3.3.12": {
+							"checksum": "63ad11e9dfd9743c73cf1219cfda2af0",
+							"filename": "blender-3.3.12-macos-x64.dmg"
+						},
+						"3.3.14": {
+							"checksum": "70311e1ef6471d9de13c31ee6be05b6f",
+							"filename": "blender-3.3.14-macos-x64.dmg"
+						},
+						"3.3.15": {
+							"checksum": "69d611e4162e3e260228918493e9c96f",
+							"filename": "blender-3.3.15-macos-x64.dmg"
+						},
+						"3.3.16": {
+							"checksum": "b8345b9ac9df45916717728f8e425bbe",
+							"filename": "blender-3.3.16-macos-x64.dmg"
+						},
+						"3.3.17": {
+							"checksum": "9663012dfc718c99d94d8fff505e5566",
+							"filename": "blender-3.3.17-macos-x64.dmg"
+						},
+						"3.3.18": {
+							"checksum": "ca0bd383cef8baeadfdb6f379cbd81ef",
+							"filename": "blender-3.3.18-macos-x64.dmg"
+						},
+						"3.3.19": {
+							"checksum": "a740464955c22f202fe9f5966420ecee",
+							"filename": "blender-3.3.19-macos-x64.dmg"
+						},
+						"3.3.2": {
+							"checksum": "7c9d7aef27ff1cde691531b6baac0b43",
+							"filename": "blender-3.3.2-macos-x64.dmg"
+						},
+						"3.3.20": {
+							"checksum": "b33ff06302dd379d4b91fa42b07a68aa",
+							"filename": "blender-3.3.20-macos-x64.dmg"
+						},
+						"3.3.21": {
+							"checksum": "7ca5901d228535ebc858b8b13870f277",
+							"filename": "blender-3.3.21-macos-x64.dmg"
+						},
+						"3.3.3": {
+							"checksum": "1e8ae1309176651737c2502fc10c67ba",
+							"filename": "blender-3.3.3-macos-x64.dmg"
+						},
+						"3.3.4": {
+							"checksum": "59c67c31ed0e6d0ea013070e8b801821",
+							"filename": "blender-3.3.4-macos-x64.dmg"
+						},
+						"3.3.5": {
+							"checksum": "f84bad8b1a44f26d429e075a6618f3de",
+							"filename": "blender-3.3.5-macos-x64.dmg"
+						},
+						"3.3.6": {
+							"checksum": "30e561ab58ce98888213c1ee6e772726",
+							"filename": "blender-3.3.6-macos-x64.dmg"
+						},
+						"3.3.7": {
+							"checksum": "80bd328fb04df4227527758950f6c332",
+							"filename": "blender-3.3.7-macos-x64.dmg"
+						},
+						"3.3.8": {
+							"checksum": "2e673c3e305ff3053e1dcc873ad7f9b2",
+							"filename": "blender-3.3.8-macos-x64.dmg"
+						},
+						"3.3.9": {
+							"checksum": "7deabd509c6e35e0035268ca92eda89f",
+							"filename": "blender-3.3.9-macos-x64.dmg"
+						}
+					},
+					"url_image": "2022/08/splash_blender_33_lts.jpg",
+					"lts": True
+				},
+				"3.4": {
+					"subversions": {
+						"3.4.0": {
+							"checksum": "a8f935c7948d3402afa1ca589fc2e201",
+							"filename": "blender-3.4.0-macos-x64.dmg"
+						},
+						"3.4.1": {
+							"checksum": "11ed1c32b53dcc32a6e4d63c2d57aede",
+							"filename": "blender-3.4.1-macos-x64.dmg"
+						}
+					},
+					"url_image": "2022/11/splash_34.jpg"
+				},
+				"3.5": {
+					"subversions": {
+						"3.5.0": {
+							"checksum": "9a15e80be5beea5bd34c3aba9b5b48f7",
+							"filename": "blender-3.5.0-macos-x64.dmg"
+						},
+						"3.5.1": {
+							"checksum": "6ecda42acf76f95ac264d52fd2064de4",
+							"filename": "blender-3.5.1-macos-x64.dmg"
+						}
+					},
+					"url_image": "2023/03/blender_35_splash_nicole_morena.jpg"
+				},
+				"3.6": {
+					"subversions": {
+						"3.6.0": {
+							"checksum": "91b99cd100cd5bff91e7bbe87f234da6",
+							"filename": "blender-3.6.0-macos-x64.dmg"
+						},
+						"3.6.1": {
+							"checksum": "276bb41716642d9f67f94ebdae6087b5",
+							"filename": "blender-3.6.1-macos-x64.dmg"
+						},
+						"3.6.10": {
+							"checksum": "d22a15576091fbff72f1a46c863062dc",
+							"filename": "blender-3.6.10-macos-x64.dmg"
+						},
+						"3.6.11": {
+							"checksum": "9fb930b83d6c5a34ecff4c6933895540",
+							"filename": "blender-3.6.11-macos-x64.dmg"
+						},
+						"3.6.12": {
+							"checksum": "c88cca2bdaac65cd022224bdf3ab8d52",
+							"filename": "blender-3.6.12-macos-x64.dmg"
+						},
+						"3.6.13": {
+							"checksum": "36c9f15084c8da3de9dbbd1e8515dbdb",
+							"filename": "blender-3.6.13-macos-x64.dmg"
+						},
+						"3.6.14": {
+							"checksum": "a3c39071637f4b5a4448532563a3d59f",
+							"filename": "blender-3.6.14-macos-x64.dmg"
+						},
+						"3.6.15": {
+							"checksum": "6dbd146913bed99d0732f534557df38a",
+							"filename": "blender-3.6.15-macos-x64.dmg"
+						},
+						"3.6.16": {
+							"checksum": "140ee73f915f5f318fc49a6b2677efb4",
+							"filename": "blender-3.6.16-macos-x64.dmg"
+						},
+						"3.6.17": {
+							"checksum": "819e993ab7a547d6e291fc4f1c5f537e",
+							"filename": "blender-3.6.17-macos-x64.dmg"
+						},
+						"3.6.18": {
+							"checksum": "73865708ea1a8afb076e7d770fceccb2",
+							"filename": "blender-3.6.18-macos-x64.dmg"
+						},
+						"3.6.19": {
+							"checksum": "014fa9c006d14bfc662b95f1dda32078",
+							"filename": "blender-3.6.19-macos-x64.dmg"
+						},
+						"3.6.2": {
+							"checksum": "b01a78abeee19c15b510597c319de8cf",
+							"filename": "blender-3.6.2-macos-x64.dmg"
+						},
+						"3.6.20": {
+							"checksum": "efd99a3b75b592ee398923e0f8b84d66",
+							"filename": "blender-3.6.20-macos-x64.dmg"
+						},
+						"3.6.21": {
+							"checksum": "78284d846d70fc0328b1fd5080ffb718",
+							"filename": "blender-3.6.21-macos-x64.dmg"
+						},
+						"3.6.22": {
+							"checksum": "56d8225c651c0ddd4c08b800168f0d4b",
+							"filename": "blender-3.6.22-macos-x64.dmg"
+						},
+						"3.6.23": {
+							"checksum": "77fb99d7a4cd24764d8f163b629ad750",
+							"filename": "blender-3.6.23-macos-x64.dmg"
+						},
+						"3.6.3": {
+							"checksum": "fb52e06ed491f949ad323c7283f4e972",
+							"filename": "blender-3.6.3-macos-x64.dmg"
+						},
+						"3.6.4": {
+							"checksum": "30e6bcf30a3f7b6e5afd18293b915491",
+							"filename": "blender-3.6.4-macos-x64.dmg"
+						},
+						"3.6.5": {
+							"checksum": "e70da0dead30b8909d30b07c69073c16",
+							"filename": "blender-3.6.5-macos-x64.dmg"
+						},
+						"3.6.7": {
+							"checksum": "99ff18b60e45b81cbae02a047b496312",
+							"filename": "blender-3.6.7-macos-x64.dmg"
+						},
+						"3.6.8": {
+							"checksum": "3330346d33cd11014a394330b88c5f51",
+							"filename": "blender-3.6.8-macos-x64.dmg"
+						},
+						"3.6.9": {
+							"checksum": "8bb72f739d313b10094dbdb311cc5622",
+							"filename": "blender-3.6.9-macos-x64.dmg"
+						}
+					},
+					"url_image": "2023/05/blender_36_lts_splash.jpg",
+					"lts": True
+				}
+			},
+			"serie-4": {
+				"4.0": {
+					"subversions": {
+						"4.0.0": {
+							"checksum": "aebe9adf069cd74e471e3c36304ba153",
+							"filename": "blender-4.0.0-macos-x64.dmg"
+						},
+						"4.0.1": {
+							"checksum": "7759414351606c0b6cb7d83728139634",
+							"filename": "blender-4.0.1-macos-x64.dmg"
+						},
+						"4.0.2": {
+							"checksum": "7fa7c3d8ab9bf2b479255d9cd410ffdd",
+							"filename": "blender-4.0.2-macos-x64.dmg"
+						}
+					},
+					"url_image": "2023/10/blender_40_splash.jpg"
+				},
+				"4.1": {
+					"subversions": {
+						"4.1.0": {
+							"checksum": "fe86dc632a5f86c0278323122b8d7759",
+							"filename": "blender-4.1.0-macos-x64.dmg"
+						},
+						"4.1.1": {
+							"checksum": "a11aee59c88b5a34fb70d0509412a732",
+							"filename": "blender-4.1.1-macos-x64.dmg"
+						}
+					},
+					"url_image": "2024/03/blender_4_1_splash.jpg"
+				},
+				"4.2": {
+					"subversions": {
+						"4.2.0": {
+							"checksum": "763777c07538dda3c58042c455a4f274",
+							"filename": "blender-4.2.0-macos-x64.dmg"
+						},
+						"4.2.1": {
+							"checksum": "755c39430463b1f14fd15e0c8ea8d8f7",
+							"filename": "blender-4.2.1-macos-x64.dmg"
+						},
+						"4.2.10": {
+							"checksum": "baa9bbe449167a719ba68e2a34e7adbf",
+							"filename": "blender-4.2.10-macos-x64.dmg"
+						},
+						"4.2.11": {
+							"checksum": "d754d2eaaeb59900e1030aa5f86e6212",
+							"filename": "blender-4.2.11-macos-x64.dmg"
+						},
+						"4.2.12": {
+							"checksum": "99de96fcf03bf6940bcbb9605aae4d03",
+							"filename": "blender-4.2.12-macos-x64.dmg"
+						},
+						"4.2.13": {
+							"checksum": "7323d2dae5b15ab310f4cd905b49d031",
+							"filename": "blender-4.2.13-macos-x64.dmg"
+						},
+						"4.2.14": {
+							"checksum": "1e233c00848d648784451a3c696c62f6",
+							"filename": "blender-4.2.14-macos-x64.dmg"
+						},
+						"4.2.15": {
+							"checksum": "4dde879a78733cb7b61cb253534fb2d7",
+							"filename": "blender-4.2.15-macos-x64.dmg"
+						},
+						"4.2.16": {
+							"checksum": "14723e2eab2ed749d8737c44430d9b59",
+							"filename": "blender-4.2.16-macos-x64.dmg"
+						},
+						"4.2.17": {
+							"checksum": "f23f7a86957b8451eaa31828e06fe5af",
+							"filename": "blender-4.2.17-macos-x64.dmg"
+						},
+						"4.2.18": {
+							"checksum": "0bc7b013a254c8598290e31d4beb3194",
+							"filename": "blender-4.2.18-macos-x64.dmg"
+						},
+						"4.2.2": {
+							"checksum": "453bfb1167c1b68224ce8ffa10eec595",
+							"filename": "blender-4.2.2-macos-x64.dmg"
+						},
+						"4.2.3": {
+							"checksum": "7b5f6ddba082265a20eedd861d8809d0",
+							"filename": "blender-4.2.3-macos-x64.dmg"
+						},
+						"4.2.4": {
+							"checksum": "7edaf881c4ef564105aabacfd81ec6fc",
+							"filename": "blender-4.2.4-macos-x64.dmg"
+						},
+						"4.2.5": {
+							"checksum": "69e0fa93e29c7427843aa80e6bffb391",
+							"filename": "blender-4.2.5-macos-x64.dmg"
+						},
+						"4.2.6": {
+							"checksum": "cccac656ab43498893b48659873baa60",
+							"filename": "blender-4.2.6-macos-x64.dmg"
+						},
+						"4.2.7": {
+							"checksum": "b7606c8c78de4f02db904cb71c89d757",
+							"filename": "blender-4.2.7-macos-x64.dmg"
+						},
+						"4.2.8": {
+							"checksum": "b5c1a1acf60e06f26ad76daeca29015d",
+							"filename": "blender-4.2.8-macos-x64.dmg"
+						},
+						"4.2.9": {
+							"checksum": "e8b969d78520c9ebc5b23d8b999eef02",
+							"filename": "blender-4.2.9-macos-x64.dmg"
+						}
+					},
+					"url_image": "2024/07/splash.webp",
+					"lts": True
+				},
+				"4.3": {
+					"subversions": {
+						"4.3.0": {
+							"checksum": "cba57f8187a44cab96e979ddfc4b2ed4",
+							"filename": "blender-4.3.0-macos-x64.dmg"
+						},
+						"4.3.1": {
+							"checksum": "9f78aa2d4d155a2146d04af0147108fa",
+							"filename": "blender-4.3.1-macos-x64.dmg"
+						},
+						"4.3.2": {
+							"checksum": "249e2c34c6c5c5e12cce0ed52d76c773",
+							"filename": "blender-4.3.2-macos-x64.dmg"
+						}
+					},
+					"url_image": "2024/10/blender_43_splash.webp"
+				},
+				"4.4": {
+					"subversions": {
+						"4.4.0": {
+							"checksum": "e717b97f78463f6212593fb06f7c49c5",
+							"filename": "blender-4.4.0-macos-x64.dmg"
+						},
+						"4.4.1": {
+							"checksum": "3b24d09bae8b77563b9114ea9b4fad6b",
+							"filename": "blender-4.4.1-macos-x64.dmg"
+						},
+						"4.4.2": {
+							"checksum": "48f29eb8a12a241ca98883181549ac3c",
+							"filename": "blender-4.4.2-macos-x64.dmg"
+						},
+						"4.4.3": {
+							"checksum": "6a9b061c45f83a2fd6f38ee12eee8556",
+							"filename": "blender-4.4.3-macos-x64.dmg"
+						}
+					},
+					"url_image": "2025/03/splash.webp"
+				},
+				"4.5": {
+					"subversions": {
+						"4.5.0": {
+							"checksum": "e141e98f2951b245c6dfee2ea7a6b88a",
+							"filename": "blender-4.5.0-macos-x64.dmg"
+						},
+						"4.5.1": {
+							"checksum": "8a973f67daa05852992d17a43ddd52c9",
+							"filename": "blender-4.5.1-macos-x64.dmg"
+						},
+						"4.5.2": {
+							"checksum": "4068ec12cf84e54bde1951ee6dafdc84",
+							"filename": "blender-4.5.2-macos-x64.dmg"
+						},
+						"4.5.3": {
+							"checksum": "8f594b1800840f6d07841ed3bd06b15d",
+							"filename": "blender-4.5.3-macos-x64.dmg"
+						},
+						"4.5.4": {
+							"checksum": "25209aaf259e5459637a7d38f9a660c5",
+							"filename": "blender-4.5.4-macos-x64.dmg"
+						},
+						"4.5.5": {
+							"checksum": "226104519f02b2303cdef69aac076b93",
+							"filename": "blender-4.5.5-macos-x64.dmg"
+						},
+						"4.5.6": {
+							"checksum": "9db8a3906ce228c8d9bfa6412a44cb1f",
+							"filename": "blender-4.5.6-macos-x64.dmg"
+						},
+						"4.5.7": {
+							"checksum": "2e161d462e997e0f448ae22152ab1bb0",
+							"filename": "blender-4.5.7-macos-x64.dmg"
+						}
+					},
+					"url_image": "2025/06/blender_splash_45.webp",
+					"lts": True
+				}
+			}
+		},
+		"windows": {
+			"serie-3": {
+				"3.0": {
+					"subversions": {
+						"3.0.0": {
+							"checksum": "08bf0ea5d35c109919de18441b65d669",
+							"filename": "blender-3.0.0-windows-x64.msix"
+						},
+						"3.0.1": {
+							"checksum": "b90727dca146d0a06f1777c9cefe2223",
+							"filename": "blender-3.0.1-windows-x64.msix"
+						}
+					},
+					"url_image": "2021/11/splash_300.jpg"
+				},
+				"3.1": {
+					"subversions": {
+						"3.1.0": {
+							"checksum": "1ba0a167cbcfefa8f065159704a0c339",
+							"filename": "blender-3.1.0-windows-x64.msix"
+						},
+						"3.1.1": {
+							"checksum": "6538ee8ef17b7c6e2bb2fb0fea39dfd5",
+							"filename": "blender-3.1.1-windows-x64.msix"
+						},
+						"3.1.2": {
+							"checksum": "921bde032b826e4226628ad2107483fa",
+							"filename": "blender-3.1.2-windows-x64.msix"
+						}
+					},
+					"url_image": "2022/03/splash.jpg"
+				},
+				"3.2": {
+					"subversions": {
+						"3.2.0": {
+							"checksum": "7c0b4f67471a5a29c4c79579bf1373ad",
+							"filename": "blender-3.2.0-windows-x64.msix"
+						},
+						"3.2.1": {
+							"checksum": "91e143f0195fbe7ca38b3ae2c8af2ace",
+							"filename": "blender-3.2.1-windows-x64.msix"
+						},
+						"3.2.2": {
+							"checksum": "7d99016e0f82f6303282507c0f49c797",
+							"filename": "blender-3.2.2-windows-x64.msix"
+						}
+					},
+					"url_image": "2022/05/blender_32_splash_s.jpg"
+				},
+				"3.3": {
+					"subversions": {
+						"3.3.0": {
+							"checksum": "41c3789d1ab551debc1a5891d7793c0d",
+							"filename": "blender-3.3.0-windows-x64.msix"
+						},
+						"3.3.1": {
+							"checksum": "d668c85e62f8c00745a02152e11095bf",
+							"filename": "blender-3.3.1-windows-x64.msix"
+						},
+						"3.3.10": {
+							"checksum": "b817698e03ecfef1683bbd921e713c75",
+							"filename": "blender-3.3.10-windows-x64.msix"
+						},
+						"3.3.11": {
+							"checksum": "8f46c5be3525fef8d77a7ff5182cf40b",
+							"filename": "blender-3.3.11-windows-x64.msix"
+						},
+						"3.3.12": {
+							"checksum": "b74ca131ad5e4f5e78fd601fef0125b4",
+							"filename": "blender-3.3.12-windows-x64.msix"
+						},
+						"3.3.14": {
+							"checksum": "5c2693898ca77cdf13890c895daea984",
+							"filename": "blender-3.3.14-windows-x64.msix"
+						},
+						"3.3.15": {
+							"checksum": "24540e4feb76a608e7b04ede052a166c",
+							"filename": "blender-3.3.15-windows-x64.msix"
+						},
+						"3.3.16": {
+							"checksum": "ffec7ffafd1f1e0b2a042e9f41169883",
+							"filename": "blender-3.3.16-windows-x64.msix"
+						},
+						"3.3.17": {
+							"checksum": "46cbf32e4769be28cee51781031c2e86",
+							"filename": "blender-3.3.17-windows-x64.msix"
+						},
+						"3.3.18": {
+							"checksum": "6141ed986fc1490a91fea4f586cbc8ac",
+							"filename": "blender-3.3.18-windows-x64.msix"
+						},
+						"3.3.19": {
+							"checksum": "8daab1c8ba790c18106d2f0825f5c9e1",
+							"filename": "blender-3.3.19-windows-x64.msix"
+						},
+						"3.3.2": {
+							"checksum": "4666463ea19f817f3497a86d74cc25f9",
+							"filename": "blender-3.3.2-windows-x64.msix"
+						},
+						"3.3.20": {
+							"checksum": "1a58f74a9ab9bad95b6bac2c01079e54",
+							"filename": "blender-3.3.20-windows-x64.msix"
+						},
+						"3.3.21": {
+							"checksum": "ae42d682d81c57e629a5edf6c824e6b3",
+							"filename": "blender-3.3.21-windows-x64.msix"
+						},
+						"3.3.3": {
+							"checksum": "5f0afeaa74ea65b69d06c7c3cdba2f78",
+							"filename": "blender-3.3.3-windows-x64.msix"
+						},
+						"3.3.4": {
+							"checksum": "ed9f195829542bf5421e5ca88c6f7206",
+							"filename": "blender-3.3.4-windows-x64.msix"
+						},
+						"3.3.5": {
+							"checksum": "a43f3ab86a43fb699e328822aca2a62a",
+							"filename": "blender-3.3.5-windows-x64.msix"
+						},
+						"3.3.6": {
+							"checksum": "2058f8cf31d37c591bbd0cf64964ea46",
+							"filename": "blender-3.3.6-windows-x64.msix"
+						},
+						"3.3.7": {
+							"checksum": "bb346a951c20d84f6e31baac01a352c4",
+							"filename": "blender-3.3.7-windows-x64.msix"
+						},
+						"3.3.8": {
+							"checksum": "243c054a90cff99bbc3fb45c261b4d1d",
+							"filename": "blender-3.3.8-windows-x64.msix"
+						},
+						"3.3.9": {
+							"checksum": "628ebfb64fabceea298b0075790ecef8",
+							"filename": "blender-3.3.9-windows-x64.msix"
+						}
+					},
+					"url_image": "2022/08/splash_blender_33_lts.jpg",
+					"lts": True
+				},
+				"3.4": {
+					"subversions": {
+						"3.4.0": {
+							"checksum": "ebf2598d99281eb2df88b9d14cf93cdc",
+							"filename": "blender-3.4.0-windows-x64.msix"
+						},
+						"3.4.1": {
+							"checksum": "7ee04616c68ae20781ac3c5d5bd3eb36",
+							"filename": "blender-3.4.1-windows-x64.msix"
+						}
+					},
+					"url_image": "2022/11/splash_34.jpg"
+				},
+				"3.5": {
+					"subversions": {
+						"3.5.0": {
+							"checksum": "d65f5585b578e881c6fb99f7168a7bf7",
+							"filename": "blender-3.5.0-windows-x64.msix"
+						},
+						"3.5.1": {
+							"checksum": "37f077b74730888d2ec8cb4b56d1e35c",
+							"filename": "blender-3.5.1-windows-x64.msix"
+						}
+					},
+					"url_image": "2023/03/blender_35_splash_nicole_morena.jpg"
+				},
+				"3.6": {
+					"subversions": {
+						"3.6.0": {
+							"checksum": "2ee663168086b6a8ab34071a376bb812",
+							"filename": "blender-3.6.0-windows-x64.msix"
+						},
+						"3.6.1": {
+							"checksum": "1a182f357ae8d7218d15579d8b1a3c5c",
+							"filename": "blender-3.6.1-windows-x64.msix"
+						},
+						"3.6.10": {
+							"checksum": "bb2a21a6f4bb1d8a0381f8dda3312ddc",
+							"filename": "blender-3.6.10-windows-x64.msix"
+						},
+						"3.6.11": {
+							"checksum": "e55c0d256a42ea3173aa2f9781c83dcb",
+							"filename": "blender-3.6.11-windows-x64.msix"
+						},
+						"3.6.12": {
+							"checksum": "9337d7ad902da77ddcf8a268b2d2c484",
+							"filename": "blender-3.6.12-windows-x64.msix"
+						},
+						"3.6.13": {
+							"checksum": "f10157c363513821493471e05dd42126",
+							"filename": "blender-3.6.13-windows-x64.msix"
+						},
+						"3.6.14": {
+							"checksum": "994d4a8575da0f0b666e1afb1b95e3e4",
+							"filename": "blender-3.6.14-windows-x64.msix"
+						},
+						"3.6.15": {
+							"checksum": "ab28c46d6a2c70a4e09e1ad2afb39550",
+							"filename": "blender-3.6.15-windows-x64.msix"
+						},
+						"3.6.16": {
+							"checksum": "69698ccc7201a37522dfdd050e00f002",
+							"filename": "blender-3.6.16-windows-x64.msix"
+						},
+						"3.6.17": {
+							"checksum": "1552c74c5318827900cf209ef244a683",
+							"filename": "blender-3.6.17-windows-x64.msix"
+						},
+						"3.6.18": {
+							"checksum": "6d9f2a0a9c2710acef06dc2d53f7c990",
+							"filename": "blender-3.6.18-windows-x64.msix"
+						},
+						"3.6.19": {
+							"checksum": "595da60b3a32b7b562d0c97c908df3c6",
+							"filename": "blender-3.6.19-windows-x64.msix"
+						},
+						"3.6.2": {
+							"checksum": "9b71628a4272ea65822d753211799c43",
+							"filename": "blender-3.6.2-windows-x64.msix"
+						},
+						"3.6.20": {
+							"checksum": "247e3bd87bf9caad76e2826b8084895c",
+							"filename": "blender-3.6.20-windows-x64.msix"
+						},
+						"3.6.21": {
+							"checksum": "80a252d2edab1190c1e1c3ba09098058",
+							"filename": "blender-3.6.21-windows-x64.msix"
+						},
+						"3.6.22": {
+							"checksum": "394080725284d1f97b72e490401ed68a",
+							"filename": "blender-3.6.22-windows-x64.msix"
+						},
+						"3.6.23": {
+							"checksum": "a137d7ae410ea3bfaf30a2e0d62607b6",
+							"filename": "blender-3.6.23-windows-x64.msix"
+						},
+						"3.6.3": {
+							"checksum": "64ef221bd0110298e361dd3d2a7d5c48",
+							"filename": "blender-3.6.3-windows-x64.msix"
+						},
+						"3.6.4": {
+							"checksum": "e794908a41f47887a84149ec6c787a3d",
+							"filename": "blender-3.6.4-windows-x64.msix"
+						},
+						"3.6.5": {
+							"checksum": "a9f943e40b0f1f529db6025e8956b670",
+							"filename": "blender-3.6.5-windows-x64.msix"
+						},
+						"3.6.7": {
+							"checksum": "454af4ffeb13dd9d767319edb95885bf",
+							"filename": "blender-3.6.7-windows-x64.msix"
+						},
+						"3.6.8": {
+							"checksum": "d127864c7b3450becc01b8aabac16cb9",
+							"filename": "blender-3.6.8-windows-x64.msix"
+						},
+						"3.6.9": {
+							"checksum": "701bcf93e0a92f403543068540687781",
+							"filename": "blender-3.6.9-windows-x64.msix"
+						}
+					},
+					"url_image": "2023/05/blender_36_lts_splash.jpg",
+					"lts": True
+				}
+			},
+			"serie-4": {
+				"4.0": {
+					"subversions": {
+						"4.0.0": {
+							"checksum": "fd8fc6e71632cdd40c5624a510c2b0d2",
+							"filename": "blender-4.0.0-windows-x64.msix"
+						},
+						"4.0.1": {
+							"checksum": "ddff15427ac3d7c62c279eedfb7bf882",
+							"filename": "blender-4.0.1-windows-x64.msix"
+						},
+						"4.0.2": {
+							"checksum": "9a38f16304811e3ae4676dc48a7214f6",
+							"filename": "blender-4.0.2-windows-x64.msix"
+						}
+					},
+					"url_image": "2023/10/blender_40_splash.jpg"
+				},
+				"4.1": {
+					"subversions": {
+						"4.1.0": {
+							"checksum": "cccad9efec2b7aeb79351bde859cde16",
+							"filename": "blender-4.1.0-windows-x64.msix"
+						},
+						"4.1.1": {
+							"checksum": "8cbbaccb51ed946de9de9afe332b65cf",
+							"filename": "blender-4.1.1-windows-x64.msix"
+						}
+					},
+					"url_image": "2024/03/blender_4_1_splash.jpg"
+				},
+				"4.2": {
+					"subversions": {
+						"4.2.0": {
+							"checksum": "2284b07e1615903bf60c4a99a449a26f",
+							"filename": "blender-4.2.0-windows-x64.msix"
+						},
+						"4.2.1": {
+							"checksum": "9c7352a0979657a1b568d3aeb0d0986a",
+							"filename": "blender-4.2.1-windows-x64.msix"
+						},
+						"4.2.10": {
+							"checksum": "89af89f9edba595592673a3939b39f70",
+							"filename": "blender-4.2.10-windows-x64.msix"
+						},
+						"4.2.11": {
+							"checksum": "d9119fc0f7e6c9fab7f57dd2755688f4",
+							"filename": "blender-4.2.11-windows-x64.msix"
+						},
+						"4.2.12": {
+							"checksum": "81960758e9cc05e507ba18b2618350d8",
+							"filename": "blender-4.2.12-windows-x64.msix"
+						},
+						"4.2.13": {
+							"checksum": "58c1ef94f2e3e59b1ea31f511624a25f",
+							"filename": "blender-4.2.13-windows-x64.msix"
+						},
+						"4.2.14": {
+							"checksum": "a23b88653cff4279b98ab45051929e57",
+							"filename": "blender-4.2.14-windows-x64.msix"
+						},
+						"4.2.15": {
+							"checksum": "e4b1521d297dd630d8e6ea12d24377ab",
+							"filename": "blender-4.2.15-windows-x64.msix"
+						},
+						"4.2.16": {
+							"checksum": "693e1f5e96ad085865d6390d7689b8b6",
+							"filename": "blender-4.2.16-windows-x64.msix"
+						},
+						"4.2.17": {
+							"checksum": "516779cf1f39ae43efcfd8cde68ba5ee",
+							"filename": "blender-4.2.17-windows-x64.msix"
+						},
+						"4.2.18": {
+							"checksum": "201b2a14432b6cf61ad041e283a4ea15",
+							"filename": "blender-4.2.18-windows-x64.msix"
+						},
+						"4.2.2": {
+							"checksum": "5e50291419ec1b1576626dc26ab5d904",
+							"filename": "blender-4.2.2-windows-x64.msix"
+						},
+						"4.2.3": {
+							"checksum": "caa3a05d27ac317dec7c711b3394f988",
+							"filename": "blender-4.2.3-windows-x64.msix"
+						},
+						"4.2.4": {
+							"checksum": "28ffc03eb457bae50f377e129d391ac3",
+							"filename": "blender-4.2.4-windows-x64.msix"
+						},
+						"4.2.5": {
+							"checksum": "f455194385d17ad9be19a3f6a0f0c2c2",
+							"filename": "blender-4.2.5-windows-x64.msix"
+						},
+						"4.2.6": {
+							"checksum": "2e163b4b213c178860307415b56a8eeb",
+							"filename": "blender-4.2.6-windows-x64.msix"
+						},
+						"4.2.7": {
+							"checksum": "51055588467ee3ce831a91e694fddaef",
+							"filename": "blender-4.2.7-windows-x64.msix"
+						},
+						"4.2.8": {
+							"checksum": "81e64c8c8845978ac7e331498dcc6a11",
+							"filename": "blender-4.2.8-windows-x64.msix"
+						},
+						"4.2.9": {
+							"checksum": "7d795ace3e9edb3294688c1b81f11400",
+							"filename": "blender-4.2.9-windows-x64.msix"
+						}
+					},
+					"url_image": "2024/07/splash.webp",
+					"lts": True
+				},
+				"4.3": {
+					"subversions": {
+						"4.3.0": {
+							"checksum": "f54dbf3d16a4eee486c7b0bf4818cf60",
+							"filename": "blender-4.3.0-windows-x64.msix"
+						},
+						"4.3.1": {
+							"checksum": "9ce84eea4102e18663f26fb3cd2a7006",
+							"filename": "blender-4.3.1-windows-x64.msix"
+						},
+						"4.3.2": {
+							"checksum": "3581e3e3bff886ee8fc329c6ae5ead20",
+							"filename": "blender-4.3.2-windows-x64.msix"
+						}
+					},
+					"url_image": "2024/10/blender_43_splash.webp"
+				},
+				"4.4": {
+					"subversions": {
+						"4.4.0": {
+							"checksum": "baeced8424f6fa43eb063959cf17929f",
+							"filename": "blender-4.4.0-windows-x64.msix"
+						},
+						"4.4.1": {
+							"checksum": "ecc59c901aa034ebd8ecbacb19ee0f1b",
+							"filename": "blender-4.4.1-windows-x64.msix"
+						},
+						"4.4.2": {
+							"checksum": "cf5c5db0c0728ad3772dce4e228c10c4",
+							"filename": "blender-4.4.2-windows-x64.msix"
+						},
+						"4.4.3": {
+							"checksum": "5980e227495fe5217c87f74617c23b4e",
+							"filename": "blender-4.4.3-windows-x64.msix"
+						}
+					},
+					"url_image": "2025/03/splash.webp"
+				},
+				"4.5": {
+					"subversions": {
+						"4.5.0": {
+							"checksum": "b02abe2f8852d6b22ae077ed011ee994",
+							"filename": "blender-4.5.0-windows-x64.msix"
+						},
+						"4.5.1": {
+							"checksum": "d6bbad163c6d75cda09686e7781c5af8",
+							"filename": "blender-4.5.1-windows-x64.msix"
+						},
+						"4.5.2": {
+							"checksum": "e2399dfd30428cb4bbe49a13e6bb797d",
+							"filename": "blender-4.5.2-windows-x64.msix"
+						},
+						"4.5.3": {
+							"checksum": "d52c8d7bbb7a5dbc29aae3d56cb0dcdc",
+							"filename": "blender-4.5.3-windows-x64.msix"
+						},
+						"4.5.4": {
+							"checksum": "0ad23cac540ab3b88dd4d8988a0b804f",
+							"filename": "blender-4.5.4-windows-x64.msix"
+						},
+						"4.5.5": {
+							"checksum": "a6c68c09028a327a3731dae08147280a",
+							"filename": "blender-4.5.5-windows-x64.msix"
+						},
+						"4.5.6": {
+							"checksum": "ad3d54a91a6b2701a02ad026a7998431",
+							"filename": "blender-4.5.6-windows-x64.msix"
+						},
+						"4.5.7": {
+							"checksum": "3f9c6212f16df3788d9beb0cff982354",
+							"filename": "blender-4.5.7-windows-x64.msix"
+						}
+					},
+					"url_image": "2025/06/blender_splash_45.webp",
+					"lts": True
+				}
+			},
+			"serie-5": {
+				"5.0": {
+					"subversions": {
+						"5.0.0": {
+							"checksum": "61afe66b48bbc5f515015621d4bb0120",
+							"filename": "blender-5.0.0-windows-x64.msix"
+						},
+						"5.0.1": {
+							"checksum": "25f0b39da1cab907f8dc2087721b634c",
+							"filename": "blender-5.0.1-windows-x64.msix"
+						}
+					},
+					"url_image": "2025/10/blender_50_splash.webp"
+				}
+			}
+		}
+	}
+
+	return mock_local_data[sys.platform]
+
+def check_passw(passw:str) -> bool:
+	try:
+		subprocess.run(["sudo", "-K"])
+		subprocess.run(
+			["sudo", "-S", "true"],
+			input=passw.encode(),
+			stdout=subprocess.DEVNULL,
+			stderr=subprocess.DEVNULL,
+			text=False,
+			check=True
+		)
+		return True
+	except subprocess.CalledProcessError:
+		return False
+
+def generate_checksum(filename, algorithm="md5", chunk_size=8192) -> str:
+	try:
+		hash = hashlib.new(algorithm)
+		with open(filename, "rb") as file:
+			while True:
+				chunck = file.read(chunk_size)
+				if not chunck: break
+				hash.update(chunck)
+		return hash.hexdigest()
+	except Exception as e:
+		print(f"Error generating the checksum: {e}")
+		return ""

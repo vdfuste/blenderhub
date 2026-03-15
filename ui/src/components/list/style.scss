@@ -1,0 +1,161 @@
+@use "@/styles/colors" as *;
+
+.list {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+
+	.list-header,
+	.items {
+		display: grid;
+		grid-template-columns: 1em /*48px*/ 3fr 200px 200px 2em;
+	}
+	
+	.list-header {
+		//display: contents;
+		//position: fixed;
+		
+		button,
+		div {
+			border-right: 1px solid $gray-300;
+			border-bottom: 1px solid $gray-300;
+			color: $gray-700;
+		}
+		
+		button {
+			padding: 1.5em 1em;
+			font-weight: normal;
+			text-align: start;
+			
+			//cursor: pointer;
+			
+			&.header-star {
+				padding-bottom: 1em;
+				text-align: center;
+				
+				path {
+					fill: $gray-600;
+				}
+			}
+
+			&:last-child {
+				border-right: none;
+			}
+		}
+	}
+
+	.items {
+		height: 100%;
+		grid-auto-rows: 128px;
+
+		overflow-x: hidden;
+		overflow-y: scroll;
+	
+		.item {
+			display: contents;
+			color: $gray-800;
+
+			& > * {
+				margin-bottom: 1px;
+				padding: 2em 1em;
+				
+				flex-direction: column;
+				justify-content: center;
+
+				background-color: $gray-150;
+
+				transition:
+					background-color 250ms ease-in,
+					color 250ms ease-in;
+			}
+
+			.item-name,
+			.item-modified {
+				cursor: pointer;
+			}
+
+			.item-star {
+				path {
+					fill: transparent;
+					stroke: $gray-600;
+					stroke-width: 1px;
+				}
+
+				&:hover {
+					path {
+						fill: $gray-600;
+						stroke: $gray-900;
+					}
+				}
+			}
+
+			.item-name {
+				gap: 0.25em;
+
+				.filename {
+					font-size: 1.2em;
+				}
+
+				.filepath {
+					font-weight: 200;
+					font-style: italic;
+					color: $gray-600;
+				}
+			}
+
+			.item-version {
+				flex-direction: row;
+				align-items: center;
+				gap: 0.5em;
+
+				.item-options {
+					width: 2.5em;
+					height: 2.5em;
+
+					align-items: center;
+					justify-content: center;
+					border-radius: 1.25em;
+
+					cursor: pointer;
+
+					transition: background-color 250ms ease-in;
+
+					path {
+						fill: $gray-500;
+						transition: fill 250ms ease-in;
+					}
+
+					&:hover {
+						background-color: $gray-350;
+						transition: background-color 150ms ease-in;
+
+						path {
+							fill: $gray-700;
+							transition: fill 150ms ease-in;
+						}
+					}
+				}
+			}
+
+			&:hover {
+				& > * {
+					background-color: $gray-250;
+					color: $gray-900;
+
+					transition:
+						background-color 150ms ease-out,
+						color 150ms ease-out;
+				}
+			}
+		}
+	}
+}
+
+.empty-list {
+	padding: 1.5em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1em;
+}

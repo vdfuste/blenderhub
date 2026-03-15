@@ -1,0 +1,36 @@
+@use "@/styles/colors" as *;
+
+.progress-bar {
+	flex-direction: column;
+	//justify-content: flex-end;
+	gap: 0.5em;
+		
+	.feedback-text {
+		justify-content: space-between;
+		
+		.percent {
+			
+		}
+	}
+	
+	.bar {
+		width: 100%;
+		height: 4px;
+		
+		align-items: center;
+		
+		background-color: $gray-500;
+		border-radius: 2px;
+		
+		
+		.progress {
+			min-width: 8px;
+			height: 8px;
+			
+			background-color: $primary;
+			border-radius: 4px;
+			
+			transition: width 500ms ease-out;
+		}
+	}
+}

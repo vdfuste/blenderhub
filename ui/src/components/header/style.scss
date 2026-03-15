@@ -1,0 +1,24 @@
+@use "@/styles/colors" as *;
+
+.header {
+	width: calc(100% - 240px);
+	height: 120px;
+	position: fixed;
+	top: 0;
+
+	align-items: flex-end;
+	justify-content: space-between;
+	flex-shrink: 0;
+
+	background-color: $gray-100;
+	border-bottom: 1px solid $gray-300;
+
+	z-index: 1;
+
+	h2 {
+		margin: 0.25em 0.5em;
+		font-size: 2.5em;
+		font-weight: normal;
+		color: $gray-500;
+	}
+}

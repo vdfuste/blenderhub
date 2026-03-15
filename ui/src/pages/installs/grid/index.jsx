@@ -1,0 +1,60 @@
+import { useState } from "react";
+import { useOutletContext, useParams } from "react-router";
+import "./style.scss";
+
+import Dropdown from "@/components/dropdown";
+import Button from "@/components/button";
+
+const URL = "https://www.blender.org/wp-content/uploads/";
+
+const VersionCard = ({ version, subversions, urlImage, lts=false }) => {
+	const [selected, setSelected] = useState(subversions[0].items[0]);
+	const isInstalled = subversions[1].items.includes(selected);
+	const dropdownSubversions = subversions.filter(s => s.items.length !== 0);
+	
+	const hanldeInstallRemove = () => {
+		if(isInstalled) window.pywebview.api.remove_version(selected);
+		else window.pywebview.api.install_version(selected);
+	};
+	
+	return (
+		<div className="version-card" style={{ backgroundImage: `url(${URL}${urlImage})` }}>
+			<div className="card-content">
+				<div className="version">
+					<span className="version-text">
+						{version}{lts && " LTS"}
+					</span>
+				</div>
+				<div className="row">
+					<div className="install-button">
+						<Dropdown
+							selected={selected}
+							options={dropdownSubversions}
+							onChange={setSelected} />
+
+						<Button onClick={hanldeInstallRemove}>
+							{isInstalled ? "Remove" : "Install"} Blender {selected}
+						</Button>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+const GridInstallsSubPage = () => {
+	const { serie } = useParams();
+	const versions = useOutletContext();
+
+	return (
+		<div className="grid-installs">
+			{versions[serie].map(data => <VersionCard {...data} key={data.version} />)}
+			<div className="filler"></div>
+			<div className="filler"></div>
+			<div className="filler"></div>
+			<div className="filler"></div>
+		</div>
+	);
+};
+
+export default GridInstallsSubPage;
