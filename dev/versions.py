@@ -58,16 +58,18 @@ def get_images(*, force=False) -> dict:
 	
 	print("Getting all the releases images!")
 	
-	data:dict = {}
-	releases_url:str = "https://www.blender.org/download/releases/"
+	RELEASES_URL:str = "https://www.blender.org/download/releases/"
+	IMAGE_URL_REMOVE:str = "https://www.blender.org/wp-content/uploads/"
 
-	response = BeautifulSoup(requests.get(releases_url).text, "html.parser")
+	data:dict = {}
+
+	response = BeautifulSoup(requests.get(RELEASES_URL).text, "html.parser")
 	for link in response.find_all("a", class_="cards-item-thumbnail"):
 		image_data = link.find("img")
 		_, version, *lts = image_data["alt"].split()
 		url_image:str = image_data["src"]
 
-		data.setdefault(version, { "url_image": url_image })
+		data.setdefault(version, { "url_image": url_image.replace(IMAGE_URL_REMOVE, "") })
 
 		if len(lts):
 			data[version].update({ "lts": True })

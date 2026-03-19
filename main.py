@@ -4,7 +4,7 @@ import webview
 from src.api import BHApi
 
 ui_path = os.path.abspath("ui/dist/index.html")
-config = { "gui": "qt" }
+config = {}
 
 if "--dev" in sys.argv:
 	import requests
@@ -25,10 +25,26 @@ if "--dev" in sys.argv:
 	except requests.exceptions.RequestException as e:
 		print(e)
 
+	# Verbose mode
+	if "-v" in sys.argv or "--verbose" in sys.argv:
+		from src.locations import *
+
+		print(f"OS_PLATFORM: {OS_PLATFORM}")
+		print(f"HOME_DIR: {HOME_DIR}")
+		print(f"USER_DOCS_DIR: {USER_DOCS_DIR}")
+		print(f"LOCAL_APP_DATA: {LOCAL_APP_DATA}")
+		print(f"PROJECTS_DATA: {PROJECTS_DATA}")
+		print(f"RELEASES_DATA: {RELEASES_DATA}")
 
 bhapi = BHApi()
+window_config = {
+	"title": "Blender Hub v0.1.0",
+	"width": 1280,
+	"height": 720,
+	"background_color": "#121416",
+	"url": ui_path,
+	"js_api": bhapi,
+}
 
-window = webview.create_window("Blender Hub v0.1.0", ui_path, js_api=bhapi)
-bhapi.set_window(window)
-
-webview.start(**config)
+window = webview.create_window(**window_config)
+webview.start()

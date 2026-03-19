@@ -5,11 +5,10 @@ import webview
 import src.utils as utils
 from src.api.projects import Projects
 from src.api.versions import Versions
-from src.locations import USER_DOCS_DIR
+from src.locations import OS_PLATFORM, USER_DOCS_DIR
 
 class BHApi:
 	def __init__(self) -> None:
-		self.window = None
 		self.projects = Projects()
 		self.versions = Versions()
 	
@@ -18,11 +17,7 @@ class BHApi:
 		execute:str = f"{method}({','.join(map(parse, args))})"
 		#print(execute)
 
-		return self.window.evaluate_js(execute, callback)
-	
-	def set_window(self, window) -> None:
-		self.window = window
-		self.versions.set_window(window)
+		return webview.windows[0].evaluate_js(execute, callback)
 	
 	def get_init_data(self) -> dict:
 		return {
@@ -32,11 +27,14 @@ class BHApi:
 			"userDocs": USER_DOCS_DIR,
 		}
 	
+	def print_log(self, data) -> None:
+		print(data)
+
 	def refresh_ui(self) -> None:
 		self.__exec_on_gui("updateData", self.get_init_data())
 	
 	def close_app(self) -> None:
-		self.window.destroy()
+		webview.windows[0].destroy()
 		sys.exit()
 	
 	# PROJECTS STUFF
@@ -48,11 +46,11 @@ class BHApi:
 			self.versions.open_project(self.projects.data[0])
 	
 	def get_folder_location(self, current_location:str) -> str:
-		result = self.window.create_file_dialog(webview.FileDialog.FOLDER, directory=current_location)
+		result = webview.windows[0].create_file_dialog(webview.FileDialog.FOLDER, directory=current_location)
 		return result[0] if result else current_location
 	
 	def import_projects(self) -> None:
-		result = self.window.create_file_dialog(
+		result = webview.windows[0].create_file_dialog(
 			webview.FileDialog.OPEN,
 			directory=USER_DOCS_DIR,
 			allow_multiple=True,
@@ -91,12 +89,18 @@ class BHApi:
 		return is_valid
 	
 	def install_version(self, version:str, passw:str=None) -> None:
-		self.window.state.install_process = {
+		webview.windows[0].state.install_process = {
 			"percent": 0,
 			"feedback": "Initializing process"
 		}
 		
-		if sys.platform == "windows":
+		if OS_PLATFORM == "windows":
+			install_dialog_data:dict = {
+				"version": version,
+				"title": f"Installing Blender {version}",
+			}
+			self.__exec_on_gui("installVersion", install_dialog_data)
+
 			self.versions.install_version_on_window(version)
 		else:
 			if not passw:
@@ -122,7 +126,7 @@ class BHApi:
 		self.versions.open_version(version)
 
 	def remove_version(self, version:str, passw:str=None) -> None:
-		if sys.platform == "windows":
+		if OS_PLATFORM == "windows":
 			self.versions.remove_version_on_window(version)
 		else:
 			if not passw:
@@ -135,7 +139,7 @@ class BHApi:
 				}
 				self.__exec_on_gui("getPassword", dialogData)
 			else:
-				self.window.state.remove_process = {
+				webview.windows[0].state.remove_process = {
 					"percent": 0,
 					"feedback": f"Removing Blender {version}"
 				}

@@ -21,7 +21,7 @@ const InstallsPage = () => {
 			label: labelize(serie)
 		});
 	});
-	
+
 	return <>
 		<Header title="Installs">
 			<nav className="tabs">

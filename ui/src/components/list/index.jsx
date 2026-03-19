@@ -6,18 +6,10 @@ import DeleteProjectDialog from "@/pages/dialogs/projects/delete";
 
 import { ContextMenu, MenuList } from "@/components/menu";
 import Dropdown from "@/components/dropdown";
-import Button from "@/components/button";
 
 import Bookmark from "@/assets/images/icons/bookmark.svg?react";
 import ThreeDotsIcon from "@/assets/images/icons/three-dots.svg?react";
-
-const EmptyList = ({ children }) => {
-	return (
-		<div className="empty-list">
-			No projects found. {children}
-		</div>
-	);
-};
+import { Link } from "react-router";
 
 const Item = ({ data, onChange, versions }) => {
 	const { setDialog } = useContext(OverlayContext);
@@ -124,18 +116,25 @@ const List = ({ items, versions, onChange, buttons }) => {
 				<button className="header-version">Version</button>
 				<div className="header-space"></div>
 			</div>
-			{!items.length ?
-				<EmptyList>{buttons}</EmptyList> :
-				<ul className="items">
-					{items.map((item, index) => 
-						<Item
-							data={item}
-							onChange={data => handleSetItem(data, index)}
-							versions={versions}
-							key={index} />
-					)}
-				</ul>
-			}
+			{!versions.length ?
+				<div className="empty-list">
+					There are no Blender versions installed yet.
+					Please go to <Link to="/installs">Installs</Link> and download any version.
+				</div> : (
+				!items.length ?
+					<div className="empty-list">
+						No projects found. {buttons}
+					</div> :
+					<ul className="items">
+						{items.map((item, index) => 
+							<Item
+								data={item}
+								onChange={data => handleSetItem(data, index)}
+								versions={versions}
+								key={index} />
+						)}
+					</ul>
+			)}
 		</div>
 	);
 };

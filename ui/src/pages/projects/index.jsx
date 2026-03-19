@@ -60,7 +60,7 @@ const ProjectsPage = () => {
 
 	return <>
 		<Header title="Projects">
-			{data && data.installedVersions &&
+			{data && data.installedVersions.lenght > 0 &&
 				<Buttons
 					versions={data.installedVersions}
 					userDocs={data.userDocs} />
