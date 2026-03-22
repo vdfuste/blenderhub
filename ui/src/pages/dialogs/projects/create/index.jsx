@@ -51,11 +51,13 @@ const CreateProjectDialog = ({ data }) => {
 			
 			<div className="row">
 				<TextInput
+					className="filename"
 					value={newProject.filename}
 					placeholder="Project Name"
 					onChange={event => handleChange(event.target.value, "filename")} />
 			
 				<Dropdown
+					className="version"
 					selected={newProject.version}
 					options={dropdownVersions}
 					onChange={option => handleChange(option, "version")} />

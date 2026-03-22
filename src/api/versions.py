@@ -4,8 +4,9 @@ import subprocess
 import tempfile
 import webview
 
+import src.blender.scripts
 import src.utils as utils
-from src.locations import INSTALLS_DIR, RELEASES_DATA
+from src.locations import INSTALLS_DIR, OS_PLATFORM, RELEASES_DATA
 
 class Versions:
 	def __init__(self):
@@ -25,10 +26,18 @@ class Versions:
 		folders.sort()
 
 		for folder in reversed(folders):
-			version:str = folder.split("-", 2)[1]
+			if OS_PLATFORM == "linux":
+				version:str = folder.split("-", 2)[1]
+				self.installed.append(version)
+				self.executes[version] = os.path.join(INSTALLS_DIR, folder, "blender")
 			
-			self.installed.append(version)
-			self.executes[version] = os.path.join(INSTALLS_DIR, folder, "blender")
+			#elif OS_PLATFORM == "macos":
+			#	pass
+			
+			elif OS_PLATFORM == "windows":
+				version:str = folder.split(" ")[1]
+				self.installed.append(version)
+				self.executes[version] = os.path.join(INSTALLS_DIR, folder, "blender.exe")
 
 	def __get_releases(self) -> None:
 		data:dict = {}
@@ -100,16 +109,20 @@ class Versions:
 		self.__exec(self.executes[version], no_parent=True)
 	
 	def create_project(self, data:dict) -> bool:
-		filepath:str = os.path.join(data["path"], f"{data["filename"]}.blend")
+		filename, path, version = data.values()
+		filename = f"{filename}.blend"
+		filepath:str = os.path.join(path, filename)
 		
 		if os.path.isfile(filepath):
-			print(f"{data["filename"]}.blend already exists in {data["path"]}!")
+			print(f"{filename} already exists in {path}!")
 			return False
-		else:
-			script:str = f"import bpy; bpy.ops.wm.save_as_mainfile(filepath=\"{filepath}\")"
-			commands:list = [self.executes[data["version"]], "--background", "--python-expr", script]
-			self.__exec(commands)
-			return True
+		
+		self.__exec([
+			self.executes[version], "--background", "--python",
+			"src/blender/create.py", filepath
+		])
+		
+		return True
 
 	# INSTALL AND UNINSTALL VERSIONS
 	def __download_version(self, subversion:dict) -> str:
@@ -232,7 +245,7 @@ class Versions:
 		# Running the .msix installer from PowerShell
 		#self.install_process = 
 		self.__exec(
-			["powershell", "-Command", f"'Add-AppxPackage -Path {temp_file}'"],
+			["msiexec", "/i", temp_file, "/norestart"],
 			#no_parent=True,
 			#stdout=subprocess.PIPE,
 			#text=True

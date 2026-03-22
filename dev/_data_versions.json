@@ -954,12 +954,12 @@
       "3.0": {
         "subversions": {
           "3.0.0": {
-            "checksum": "08bf0ea5d35c109919de18441b65d669",
-            "filename": "blender-3.0.0-windows-x64.msix"
+            "checksum": "38dea3385b579ca0837da2c85a91056b",
+            "filename": "blender-3.0.0-windows-x64.msi"
           },
           "3.0.1": {
-            "checksum": "b90727dca146d0a06f1777c9cefe2223",
-            "filename": "blender-3.0.1-windows-x64.msix"
+            "checksum": "303177d7f2b520cfa2c61fa7789c252c",
+            "filename": "blender-3.0.1-windows-x64.msi"
           }
         },
         "url_image": "2021/11/splash_300.jpg"
@@ -967,16 +967,16 @@
       "3.1": {
         "subversions": {
           "3.1.0": {
-            "checksum": "1ba0a167cbcfefa8f065159704a0c339",
-            "filename": "blender-3.1.0-windows-x64.msix"
+            "checksum": "c4108025d7e0d29e59edac29203c2a87",
+            "filename": "blender-3.1.0-windows-x64.msi"
           },
           "3.1.1": {
-            "checksum": "6538ee8ef17b7c6e2bb2fb0fea39dfd5",
-            "filename": "blender-3.1.1-windows-x64.msix"
+            "checksum": "b05206b9b753f969b49d225c402d4228",
+            "filename": "blender-3.1.1-windows-x64.msi"
           },
           "3.1.2": {
-            "checksum": "921bde032b826e4226628ad2107483fa",
-            "filename": "blender-3.1.2-windows-x64.msix"
+            "checksum": "ff63c1aab54a4293d36fe07ab8145a55",
+            "filename": "blender-3.1.2-windows-x64.msi"
           }
         },
         "url_image": "2022/03/splash.jpg"
@@ -984,16 +984,16 @@
       "3.2": {
         "subversions": {
           "3.2.0": {
-            "checksum": "7c0b4f67471a5a29c4c79579bf1373ad",
-            "filename": "blender-3.2.0-windows-x64.msix"
+            "checksum": "2f19eb95376ef860e5dcb680a5de75b3",
+            "filename": "blender-3.2.0-windows-x64.msi"
           },
           "3.2.1": {
-            "checksum": "91e143f0195fbe7ca38b3ae2c8af2ace",
-            "filename": "blender-3.2.1-windows-x64.msix"
+            "checksum": "8f24efaef1b4c27e0d6db1e99ada6ee3",
+            "filename": "blender-3.2.1-windows-x64.msi"
           },
           "3.2.2": {
-            "checksum": "7d99016e0f82f6303282507c0f49c797",
-            "filename": "blender-3.2.2-windows-x64.msix"
+            "checksum": "93c665e5f9f276c4481dba0ea3809379",
+            "filename": "blender-3.2.2-windows-x64.msi"
           }
         },
         "url_image": "2022/05/blender_32_splash_s.jpg"
@@ -1001,88 +1001,88 @@
       "3.3": {
         "subversions": {
           "3.3.0": {
-            "checksum": "41c3789d1ab551debc1a5891d7793c0d",
-            "filename": "blender-3.3.0-windows-x64.msix"
+            "checksum": "5954cae37a16ae97735a3d55b93d1a29",
+            "filename": "blender-3.3.0-windows-x64.msi"
           },
           "3.3.1": {
-            "checksum": "d668c85e62f8c00745a02152e11095bf",
-            "filename": "blender-3.3.1-windows-x64.msix"
+            "checksum": "b873dae04da469f52a9654564b302192",
+            "filename": "blender-3.3.1-windows-x64.msi"
           },
           "3.3.10": {
-            "checksum": "b817698e03ecfef1683bbd921e713c75",
-            "filename": "blender-3.3.10-windows-x64.msix"
+            "checksum": "7207d3923d93fc8a713e4dc69afe4202",
+            "filename": "blender-3.3.10-windows-x64.msi"
           },
           "3.3.11": {
-            "checksum": "8f46c5be3525fef8d77a7ff5182cf40b",
-            "filename": "blender-3.3.11-windows-x64.msix"
+            "checksum": "a841abc80b5a8f3c1e091a53e70ec171",
+            "filename": "blender-3.3.11-windows-x64.msi"
           },
           "3.3.12": {
-            "checksum": "b74ca131ad5e4f5e78fd601fef0125b4",
-            "filename": "blender-3.3.12-windows-x64.msix"
+            "checksum": "4e0e5022ca87b8e965e3010ae8c879b0",
+            "filename": "blender-3.3.12-windows-x64.msi"
           },
           "3.3.14": {
-            "checksum": "5c2693898ca77cdf13890c895daea984",
-            "filename": "blender-3.3.14-windows-x64.msix"
+            "checksum": "540f68ccd3891bce15d207a0a0fe9070",
+            "filename": "blender-3.3.14-windows-x64.msi"
           },
           "3.3.15": {
-            "checksum": "24540e4feb76a608e7b04ede052a166c",
-            "filename": "blender-3.3.15-windows-x64.msix"
+            "checksum": "525f7e67c6b94eba81cb61d997948069",
+            "filename": "blender-3.3.15-windows-x64.msi"
           },
           "3.3.16": {
-            "checksum": "ffec7ffafd1f1e0b2a042e9f41169883",
-            "filename": "blender-3.3.16-windows-x64.msix"
+            "checksum": "b735bc969e42e0ce03ff8edb90e2f62f",
+            "filename": "blender-3.3.16-windows-x64.msi"
           },
           "3.3.17": {
-            "checksum": "46cbf32e4769be28cee51781031c2e86",
-            "filename": "blender-3.3.17-windows-x64.msix"
+            "checksum": "85ec1be51efe1cd7698433d0563061d6",
+            "filename": "blender-3.3.17-windows-x64.msi"
           },
           "3.3.18": {
-            "checksum": "6141ed986fc1490a91fea4f586cbc8ac",
-            "filename": "blender-3.3.18-windows-x64.msix"
+            "checksum": "583ddd6fbd48ad09a28f4543ee8c8e69",
+            "filename": "blender-3.3.18-windows-x64.msi"
           },
           "3.3.19": {
-            "checksum": "8daab1c8ba790c18106d2f0825f5c9e1",
-            "filename": "blender-3.3.19-windows-x64.msix"
+            "checksum": "a8c7c679199dfdb5fc3ca81d0fe6ce21",
+            "filename": "blender-3.3.19-windows-x64.msi"
           },
           "3.3.2": {
-            "checksum": "4666463ea19f817f3497a86d74cc25f9",
-            "filename": "blender-3.3.2-windows-x64.msix"
+            "checksum": "b4c6411985aade3f049d3bf9a75847ed",
+            "filename": "blender-3.3.2-windows-x64.msi"
           },
           "3.3.20": {
-            "checksum": "1a58f74a9ab9bad95b6bac2c01079e54",
-            "filename": "blender-3.3.20-windows-x64.msix"
+            "checksum": "be3c51e57c07f3f7ad5057292019b0bb",
+            "filename": "blender-3.3.20-windows-x64.msi"
           },
           "3.3.21": {
-            "checksum": "ae42d682d81c57e629a5edf6c824e6b3",
-            "filename": "blender-3.3.21-windows-x64.msix"
+            "checksum": "e83b43448d790ced21713c10f2860e3c",
+            "filename": "blender-3.3.21-windows-x64.msi"
           },
           "3.3.3": {
-            "checksum": "5f0afeaa74ea65b69d06c7c3cdba2f78",
-            "filename": "blender-3.3.3-windows-x64.msix"
+            "checksum": "4abde93c267555e2953cc45a7e351336",
+            "filename": "blender-3.3.3-windows-x64.msi"
           },
           "3.3.4": {
-            "checksum": "ed9f195829542bf5421e5ca88c6f7206",
-            "filename": "blender-3.3.4-windows-x64.msix"
+            "checksum": "a7b87929c9e6d06a795bbd0d42f685ea",
+            "filename": "blender-3.3.4-windows-x64.msi"
           },
           "3.3.5": {
-            "checksum": "a43f3ab86a43fb699e328822aca2a62a",
-            "filename": "blender-3.3.5-windows-x64.msix"
+            "checksum": "a13dc637f7d25bef7e6b6a02f1883c0c",
+            "filename": "blender-3.3.5-windows-x64.msi"
           },
           "3.3.6": {
-            "checksum": "2058f8cf31d37c591bbd0cf64964ea46",
-            "filename": "blender-3.3.6-windows-x64.msix"
+            "checksum": "fcf83e1fecd3eddb7cb5679145c00d0b",
+            "filename": "blender-3.3.6-windows-x64.msi"
           },
           "3.3.7": {
-            "checksum": "bb346a951c20d84f6e31baac01a352c4",
-            "filename": "blender-3.3.7-windows-x64.msix"
+            "checksum": "6e5963ca05e7b913445292ca2ea2c1a8",
+            "filename": "blender-3.3.7-windows-x64.msi"
           },
           "3.3.8": {
-            "checksum": "243c054a90cff99bbc3fb45c261b4d1d",
-            "filename": "blender-3.3.8-windows-x64.msix"
+            "checksum": "9d8f2712aff9961b568920b8f2cdc0c6",
+            "filename": "blender-3.3.8-windows-x64.msi"
           },
           "3.3.9": {
-            "checksum": "628ebfb64fabceea298b0075790ecef8",
-            "filename": "blender-3.3.9-windows-x64.msix"
+            "checksum": "202e77c166022a5b332f146056ab7a8a",
+            "filename": "blender-3.3.9-windows-x64.msi"
           }
         },
         "url_image": "2022/08/splash_blender_33_lts.jpg",
@@ -1091,12 +1091,12 @@
       "3.4": {
         "subversions": {
           "3.4.0": {
-            "checksum": "ebf2598d99281eb2df88b9d14cf93cdc",
-            "filename": "blender-3.4.0-windows-x64.msix"
+            "checksum": "f13beb8b3f27a009c2a54be5746c4737",
+            "filename": "blender-3.4.0-windows-x64.msi"
           },
           "3.4.1": {
-            "checksum": "7ee04616c68ae20781ac3c5d5bd3eb36",
-            "filename": "blender-3.4.1-windows-x64.msix"
+            "checksum": "237a1b94ac2c32a1695acc93ad812837",
+            "filename": "blender-3.4.1-windows-x64.msi"
           }
         },
         "url_image": "2022/11/splash_34.jpg"
@@ -1104,12 +1104,12 @@
       "3.5": {
         "subversions": {
           "3.5.0": {
-            "checksum": "d65f5585b578e881c6fb99f7168a7bf7",
-            "filename": "blender-3.5.0-windows-x64.msix"
+            "checksum": "11142801fd377a0c1a7bc8052d8afdb1",
+            "filename": "blender-3.5.0-windows-x64.msi"
           },
           "3.5.1": {
-            "checksum": "37f077b74730888d2ec8cb4b56d1e35c",
-            "filename": "blender-3.5.1-windows-x64.msix"
+            "checksum": "a82f15a3007749304d7bd389e7509135",
+            "filename": "blender-3.5.1-windows-x64.msi"
           }
         },
         "url_image": "2023/03/blender_35_splash_nicole_morena.jpg"
@@ -1117,96 +1117,96 @@
       "3.6": {
         "subversions": {
           "3.6.0": {
-            "checksum": "2ee663168086b6a8ab34071a376bb812",
-            "filename": "blender-3.6.0-windows-x64.msix"
+            "checksum": "3fa6ba89b70327aec110494f57e9b55b",
+            "filename": "blender-3.6.0-windows-x64.msi"
           },
           "3.6.1": {
-            "checksum": "1a182f357ae8d7218d15579d8b1a3c5c",
-            "filename": "blender-3.6.1-windows-x64.msix"
+            "checksum": "fab8048586c4c1a80a0827261137212f",
+            "filename": "blender-3.6.1-windows-x64.msi"
           },
           "3.6.10": {
-            "checksum": "bb2a21a6f4bb1d8a0381f8dda3312ddc",
-            "filename": "blender-3.6.10-windows-x64.msix"
+            "checksum": "41fe8c0fc5e9d182552373ba9f696809",
+            "filename": "blender-3.6.10-windows-x64.msi"
           },
           "3.6.11": {
-            "checksum": "e55c0d256a42ea3173aa2f9781c83dcb",
-            "filename": "blender-3.6.11-windows-x64.msix"
+            "checksum": "30033e6aa5d674939d755f0c1b51e0ce",
+            "filename": "blender-3.6.11-windows-x64.msi"
           },
           "3.6.12": {
-            "checksum": "9337d7ad902da77ddcf8a268b2d2c484",
-            "filename": "blender-3.6.12-windows-x64.msix"
+            "checksum": "1ba31828a86193ae5f5202d969aea4b6",
+            "filename": "blender-3.6.12-windows-x64.msi"
           },
           "3.6.13": {
-            "checksum": "f10157c363513821493471e05dd42126",
-            "filename": "blender-3.6.13-windows-x64.msix"
+            "checksum": "1a9e202f645d60718bf6068eb1bb9905",
+            "filename": "blender-3.6.13-windows-x64.msi"
           },
           "3.6.14": {
-            "checksum": "994d4a8575da0f0b666e1afb1b95e3e4",
-            "filename": "blender-3.6.14-windows-x64.msix"
+            "checksum": "a8727eff2401fb4103265a268ab1e35c",
+            "filename": "blender-3.6.14-windows-x64.msi"
           },
           "3.6.15": {
-            "checksum": "ab28c46d6a2c70a4e09e1ad2afb39550",
-            "filename": "blender-3.6.15-windows-x64.msix"
+            "checksum": "9800793f445039013bca6d035893535b",
+            "filename": "blender-3.6.15-windows-x64.msi"
           },
           "3.6.16": {
-            "checksum": "69698ccc7201a37522dfdd050e00f002",
-            "filename": "blender-3.6.16-windows-x64.msix"
+            "checksum": "cc69c8f6b57973e6ad780d47ba5ceb5f",
+            "filename": "blender-3.6.16-windows-x64.msi"
           },
           "3.6.17": {
-            "checksum": "1552c74c5318827900cf209ef244a683",
-            "filename": "blender-3.6.17-windows-x64.msix"
+            "checksum": "01b207310c86b7ef394057145b779722",
+            "filename": "blender-3.6.17-windows-x64.msi"
           },
           "3.6.18": {
-            "checksum": "6d9f2a0a9c2710acef06dc2d53f7c990",
-            "filename": "blender-3.6.18-windows-x64.msix"
+            "checksum": "de470c2cf9929ff6ec28111c20d7df29",
+            "filename": "blender-3.6.18-windows-x64.msi"
           },
           "3.6.19": {
-            "checksum": "595da60b3a32b7b562d0c97c908df3c6",
-            "filename": "blender-3.6.19-windows-x64.msix"
+            "checksum": "5c097ce6b4aff7ea48a102cbcf358ce4",
+            "filename": "blender-3.6.19-windows-x64.msi"
           },
           "3.6.2": {
-            "checksum": "9b71628a4272ea65822d753211799c43",
-            "filename": "blender-3.6.2-windows-x64.msix"
+            "checksum": "2b22a29bbf1e1802d37f0ac7011da25f",
+            "filename": "blender-3.6.2-windows-x64.msi"
           },
           "3.6.20": {
-            "checksum": "247e3bd87bf9caad76e2826b8084895c",
-            "filename": "blender-3.6.20-windows-x64.msix"
+            "checksum": "45bd1da1e2671f9ed9f1f59270a15b97",
+            "filename": "blender-3.6.20-windows-x64.msi"
           },
           "3.6.21": {
-            "checksum": "80a252d2edab1190c1e1c3ba09098058",
-            "filename": "blender-3.6.21-windows-x64.msix"
+            "checksum": "5322f6dcca79e2631cd254a806561d80",
+            "filename": "blender-3.6.21-windows-x64.msi"
           },
           "3.6.22": {
-            "checksum": "394080725284d1f97b72e490401ed68a",
-            "filename": "blender-3.6.22-windows-x64.msix"
+            "checksum": "abe7d1c0d70e5580f8427fd08373f567",
+            "filename": "blender-3.6.22-windows-x64.msi"
           },
           "3.6.23": {
-            "checksum": "a137d7ae410ea3bfaf30a2e0d62607b6",
-            "filename": "blender-3.6.23-windows-x64.msix"
+            "checksum": "064a01f2169b4f947934260eed6dc2e4",
+            "filename": "blender-3.6.23-windows-x64.msi"
           },
           "3.6.3": {
-            "checksum": "64ef221bd0110298e361dd3d2a7d5c48",
-            "filename": "blender-3.6.3-windows-x64.msix"
+            "checksum": "c31f492c587b717cf1b5e23d0a3eee3a",
+            "filename": "blender-3.6.3-windows-x64.msi"
           },
           "3.6.4": {
-            "checksum": "e794908a41f47887a84149ec6c787a3d",
-            "filename": "blender-3.6.4-windows-x64.msix"
+            "checksum": "c5921367457d759bc8c0f9b27686a8fe",
+            "filename": "blender-3.6.4-windows-x64.msi"
           },
           "3.6.5": {
-            "checksum": "a9f943e40b0f1f529db6025e8956b670",
-            "filename": "blender-3.6.5-windows-x64.msix"
+            "checksum": "be9f7b2e9ac1997d49f4846318975ab8",
+            "filename": "blender-3.6.5-windows-x64.msi"
           },
           "3.6.7": {
-            "checksum": "454af4ffeb13dd9d767319edb95885bf",
-            "filename": "blender-3.6.7-windows-x64.msix"
+            "checksum": "a3fb1b4a4d067f39455072efb80f49ff",
+            "filename": "blender-3.6.7-windows-x64.msi"
           },
           "3.6.8": {
-            "checksum": "d127864c7b3450becc01b8aabac16cb9",
-            "filename": "blender-3.6.8-windows-x64.msix"
+            "checksum": "7e47008b63eb8c8e7ac2dfa681e8e282",
+            "filename": "blender-3.6.8-windows-x64.msi"
           },
           "3.6.9": {
-            "checksum": "701bcf93e0a92f403543068540687781",
-            "filename": "blender-3.6.9-windows-x64.msix"
+            "checksum": "007c86ee47511bfe3e5cb449fbe9f814",
+            "filename": "blender-3.6.9-windows-x64.msi"
           }
         },
         "url_image": "2023/05/blender_36_lts_splash.jpg",
@@ -1217,16 +1217,16 @@
       "4.0": {
         "subversions": {
           "4.0.0": {
-            "checksum": "fd8fc6e71632cdd40c5624a510c2b0d2",
-            "filename": "blender-4.0.0-windows-x64.msix"
+            "checksum": "157cbcd82aa00a6f7fe7a57957f93562",
+            "filename": "blender-4.0.0-windows-x64.msi"
           },
           "4.0.1": {
-            "checksum": "ddff15427ac3d7c62c279eedfb7bf882",
-            "filename": "blender-4.0.1-windows-x64.msix"
+            "checksum": "e16882cc168359b6e1903f597c6bf098",
+            "filename": "blender-4.0.1-windows-x64.msi"
           },
           "4.0.2": {
-            "checksum": "9a38f16304811e3ae4676dc48a7214f6",
-            "filename": "blender-4.0.2-windows-x64.msix"
+            "checksum": "e91f229d9e2fe726e7a7ffe01e84db9e",
+            "filename": "blender-4.0.2-windows-x64.msi"
           }
         },
         "url_image": "2023/10/blender_40_splash.jpg"
@@ -1234,12 +1234,12 @@
       "4.1": {
         "subversions": {
           "4.1.0": {
-            "checksum": "cccad9efec2b7aeb79351bde859cde16",
-            "filename": "blender-4.1.0-windows-x64.msix"
+            "checksum": "73795af9a97434f16659a165b735e214",
+            "filename": "blender-4.1.0-windows-x64.msi"
           },
           "4.1.1": {
-            "checksum": "8cbbaccb51ed946de9de9afe332b65cf",
-            "filename": "blender-4.1.1-windows-x64.msix"
+            "checksum": "55bd512f4202de3fc8ff955244c4d989",
+            "filename": "blender-4.1.1-windows-x64.msi"
           }
         },
         "url_image": "2024/03/blender_4_1_splash.jpg"
@@ -1247,84 +1247,84 @@
       "4.2": {
         "subversions": {
           "4.2.0": {
-            "checksum": "2284b07e1615903bf60c4a99a449a26f",
-            "filename": "blender-4.2.0-windows-x64.msix"
+            "checksum": "dee3c247282de4f8ced7d49c66bf89ef",
+            "filename": "blender-4.2.0-windows-x64.msi"
           },
           "4.2.1": {
-            "checksum": "9c7352a0979657a1b568d3aeb0d0986a",
-            "filename": "blender-4.2.1-windows-x64.msix"
+            "checksum": "cdece273a5dcd74d1a8b7c44e865c687",
+            "filename": "blender-4.2.1-windows-x64.msi"
           },
           "4.2.10": {
-            "checksum": "89af89f9edba595592673a3939b39f70",
-            "filename": "blender-4.2.10-windows-x64.msix"
+            "checksum": "c33b618f0bf2e323bd5e632999024573",
+            "filename": "blender-4.2.10-windows-x64.msi"
           },
           "4.2.11": {
-            "checksum": "d9119fc0f7e6c9fab7f57dd2755688f4",
-            "filename": "blender-4.2.11-windows-x64.msix"
+            "checksum": "07258cd24025c1ed55d2b318df371e49",
+            "filename": "blender-4.2.11-windows-x64.msi"
           },
           "4.2.12": {
-            "checksum": "81960758e9cc05e507ba18b2618350d8",
-            "filename": "blender-4.2.12-windows-x64.msix"
+            "checksum": "43deb49374d07af9923afeb5c55cf502",
+            "filename": "blender-4.2.12-windows-x64.msi"
           },
           "4.2.13": {
-            "checksum": "58c1ef94f2e3e59b1ea31f511624a25f",
-            "filename": "blender-4.2.13-windows-x64.msix"
+            "checksum": "7804f402ede2cae26f31996743a37f89",
+            "filename": "blender-4.2.13-windows-x64.msi"
           },
           "4.2.14": {
-            "checksum": "a23b88653cff4279b98ab45051929e57",
-            "filename": "blender-4.2.14-windows-x64.msix"
+            "checksum": "e81db5808d1465c04015c03aec43af03",
+            "filename": "blender-4.2.14-windows-x64.msi"
           },
           "4.2.15": {
-            "checksum": "e4b1521d297dd630d8e6ea12d24377ab",
-            "filename": "blender-4.2.15-windows-x64.msix"
+            "checksum": "4a51a6b345eb2fa3b4cca6cea2f9e26c",
+            "filename": "blender-4.2.15-windows-x64.msi"
           },
           "4.2.16": {
-            "checksum": "693e1f5e96ad085865d6390d7689b8b6",
-            "filename": "blender-4.2.16-windows-x64.msix"
+            "checksum": "736e75c9a4931d62b1601b13a67f12ad",
+            "filename": "blender-4.2.16-windows-x64.msi"
           },
           "4.2.17": {
-            "checksum": "516779cf1f39ae43efcfd8cde68ba5ee",
-            "filename": "blender-4.2.17-windows-x64.msix"
+            "checksum": "df5bd14a115216e040b8273d3dddc1b1",
+            "filename": "blender-4.2.17-windows-x64.msi"
           },
           "4.2.18": {
-            "checksum": "201b2a14432b6cf61ad041e283a4ea15",
-            "filename": "blender-4.2.18-windows-x64.msix"
+            "checksum": "451f3cbd428d39bd8183468b5811029e",
+            "filename": "blender-4.2.18-windows-x64.msi"
           },
           "4.2.19": {
-            "checksum": "32aea574c468b68ec90d26e85c01cd12",
-            "filename": "blender-4.2.19-windows-x64.msix"
+            "checksum": "a1819bd4861371d1bd58c87320a0352d",
+            "filename": "blender-4.2.19-windows-x64.msi"
           },
           "4.2.2": {
-            "checksum": "5e50291419ec1b1576626dc26ab5d904",
-            "filename": "blender-4.2.2-windows-x64.msix"
+            "checksum": "e8a20786f4241da509a0b6951bcf3aa0",
+            "filename": "blender-4.2.2-windows-x64.msi"
           },
           "4.2.3": {
-            "checksum": "caa3a05d27ac317dec7c711b3394f988",
-            "filename": "blender-4.2.3-windows-x64.msix"
+            "checksum": "387f5ba9d5009cd18fa5373c3d49c17b",
+            "filename": "blender-4.2.3-windows-x64.msi"
           },
           "4.2.4": {
-            "checksum": "28ffc03eb457bae50f377e129d391ac3",
-            "filename": "blender-4.2.4-windows-x64.msix"
+            "checksum": "8209fe02f50d077f98438c8ca1801d86",
+            "filename": "blender-4.2.4-windows-x64.msi"
           },
           "4.2.5": {
-            "checksum": "f455194385d17ad9be19a3f6a0f0c2c2",
-            "filename": "blender-4.2.5-windows-x64.msix"
+            "checksum": "6b558532dfcf0a6f290a4b68d02253da",
+            "filename": "blender-4.2.5-windows-x64.msi"
           },
           "4.2.6": {
-            "checksum": "2e163b4b213c178860307415b56a8eeb",
-            "filename": "blender-4.2.6-windows-x64.msix"
+            "checksum": "e6a336c4648d1e88d328f56877ecfbf9",
+            "filename": "blender-4.2.6-windows-x64.msi"
           },
           "4.2.7": {
-            "checksum": "51055588467ee3ce831a91e694fddaef",
-            "filename": "blender-4.2.7-windows-x64.msix"
+            "checksum": "c53e9cd60468404842372bb34772e7e0",
+            "filename": "blender-4.2.7-windows-x64.msi"
           },
           "4.2.8": {
-            "checksum": "81e64c8c8845978ac7e331498dcc6a11",
-            "filename": "blender-4.2.8-windows-x64.msix"
+            "checksum": "9cbf20b416ddfcc363674e64a347eb1e",
+            "filename": "blender-4.2.8-windows-x64.msi"
           },
           "4.2.9": {
-            "checksum": "7d795ace3e9edb3294688c1b81f11400",
-            "filename": "blender-4.2.9-windows-x64.msix"
+            "checksum": "117999d8b35ea103f0813243a2be2061",
+            "filename": "blender-4.2.9-windows-x64.msi"
           }
         },
         "url_image": "2024/07/splash.webp",
@@ -1333,16 +1333,16 @@
       "4.3": {
         "subversions": {
           "4.3.0": {
-            "checksum": "f54dbf3d16a4eee486c7b0bf4818cf60",
-            "filename": "blender-4.3.0-windows-x64.msix"
+            "checksum": "b33bc1b72f07551990101073170b7085",
+            "filename": "blender-4.3.0-windows-x64.msi"
           },
           "4.3.1": {
-            "checksum": "9ce84eea4102e18663f26fb3cd2a7006",
-            "filename": "blender-4.3.1-windows-x64.msix"
+            "checksum": "83f65588d9869f92af56e577b354933f",
+            "filename": "blender-4.3.1-windows-x64.msi"
           },
           "4.3.2": {
-            "checksum": "3581e3e3bff886ee8fc329c6ae5ead20",
-            "filename": "blender-4.3.2-windows-x64.msix"
+            "checksum": "496a4e14511ae8975c83ad947875e2ba",
+            "filename": "blender-4.3.2-windows-x64.msi"
           }
         },
         "url_image": "2024/10/blender_43_splash.webp"
@@ -1350,20 +1350,20 @@
       "4.4": {
         "subversions": {
           "4.4.0": {
-            "checksum": "baeced8424f6fa43eb063959cf17929f",
-            "filename": "blender-4.4.0-windows-x64.msix"
+            "checksum": "9823521c22a54b746aff7736b1ce36d8",
+            "filename": "blender-4.4.0-windows-x64.msi"
           },
           "4.4.1": {
-            "checksum": "ecc59c901aa034ebd8ecbacb19ee0f1b",
-            "filename": "blender-4.4.1-windows-x64.msix"
+            "checksum": "c719c9b15f8eef89e7d7a3c5be82930f",
+            "filename": "blender-4.4.1-windows-x64.msi"
           },
           "4.4.2": {
-            "checksum": "cf5c5db0c0728ad3772dce4e228c10c4",
-            "filename": "blender-4.4.2-windows-x64.msix"
+            "checksum": "dc8e9f9aaf389c2ef5eb2d89108db907",
+            "filename": "blender-4.4.2-windows-x64.msi"
           },
           "4.4.3": {
-            "checksum": "5980e227495fe5217c87f74617c23b4e",
-            "filename": "blender-4.4.3-windows-x64.msix"
+            "checksum": "70298bff9538aca4416633790d2f6a04",
+            "filename": "blender-4.4.3-windows-x64.msi"
           }
         },
         "url_image": "2025/03/splash.webp"
@@ -1371,40 +1371,40 @@
       "4.5": {
         "subversions": {
           "4.5.0": {
-            "checksum": "b02abe2f8852d6b22ae077ed011ee994",
-            "filename": "blender-4.5.0-windows-x64.msix"
+            "checksum": "4e5d729872b62e0690b9b4fb74f381b0",
+            "filename": "blender-4.5.0-windows-x64.msi"
           },
           "4.5.1": {
-            "checksum": "d6bbad163c6d75cda09686e7781c5af8",
-            "filename": "blender-4.5.1-windows-x64.msix"
+            "checksum": "5c264845108068ba184402e3f1b887bb",
+            "filename": "blender-4.5.1-windows-x64.msi"
           },
           "4.5.2": {
-            "checksum": "e2399dfd30428cb4bbe49a13e6bb797d",
-            "filename": "blender-4.5.2-windows-x64.msix"
+            "checksum": "aec3ee9723bf629399b34426321ccd6d",
+            "filename": "blender-4.5.2-windows-x64.msi"
           },
           "4.5.3": {
-            "checksum": "d52c8d7bbb7a5dbc29aae3d56cb0dcdc",
-            "filename": "blender-4.5.3-windows-x64.msix"
+            "checksum": "1fc7e7dd0b85e5fb5e7d828abf49837d",
+            "filename": "blender-4.5.3-windows-x64.msi"
           },
           "4.5.4": {
-            "checksum": "0ad23cac540ab3b88dd4d8988a0b804f",
-            "filename": "blender-4.5.4-windows-x64.msix"
+            "checksum": "853eed49c8fbc57b61569097f4bc5fed",
+            "filename": "blender-4.5.4-windows-x64.msi"
           },
           "4.5.5": {
-            "checksum": "a6c68c09028a327a3731dae08147280a",
-            "filename": "blender-4.5.5-windows-x64.msix"
+            "checksum": "4bea2014d6a1cf187d3f46524a2df17b",
+            "filename": "blender-4.5.5-windows-x64.msi"
           },
           "4.5.6": {
-            "checksum": "ad3d54a91a6b2701a02ad026a7998431",
-            "filename": "blender-4.5.6-windows-x64.msix"
+            "checksum": "66de1a9c7a2daf141057f1c27986e2d0",
+            "filename": "blender-4.5.6-windows-x64.msi"
           },
           "4.5.7": {
-            "checksum": "3f9c6212f16df3788d9beb0cff982354",
-            "filename": "blender-4.5.7-windows-x64.msix"
+            "checksum": "73912a1b70752aaa63e0857210cec216",
+            "filename": "blender-4.5.7-windows-x64.msi"
           },
           "4.5.8": {
-            "checksum": "5a66ab4940e90543c3590117f7e25d34",
-            "filename": "blender-4.5.8-windows-x64.msix"
+            "checksum": "a4bf54c88ddd69555a261641efd7a9d7",
+            "filename": "blender-4.5.8-windows-x64.msi"
           }
         },
         "url_image": "2025/06/blender_splash_45.webp",
@@ -1415,12 +1415,12 @@
       "5.0": {
         "subversions": {
           "5.0.0": {
-            "checksum": "61afe66b48bbc5f515015621d4bb0120",
-            "filename": "blender-5.0.0-windows-x64.msix"
+            "checksum": "3f9e3124503e84733894e53d690fc77d",
+            "filename": "blender-5.0.0-windows-x64.msi"
           },
           "5.0.1": {
-            "checksum": "25f0b39da1cab907f8dc2087721b634c",
-            "filename": "blender-5.0.1-windows-x64.msix"
+            "checksum": "2dcc77efa5bb93be298af201134d36ab",
+            "filename": "blender-5.0.1-windows-x64.msi"
           }
         },
         "url_image": "2025/10/blender_50_splash.webp"
@@ -1428,8 +1428,8 @@
       "5.1": {
         "subversions": {
           "5.1.0": {
-            "checksum": "97f49e678f4ed6878081cc0835f602d4",
-            "filename": "blender-5.1.0-windows-x64.msix"
+            "checksum": "673a3f0787f5bfd3dac4fed77604707a",
+            "filename": "blender-5.1.0-windows-x64.msi"
           }
         },
         "url_image": "2026/02/splash.webp"

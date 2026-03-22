@@ -95,7 +95,7 @@ def get_all_versions_data() -> None:
 			major, minor, subversion = version.split(".")
 			architecture, extension = rest.split(".", 1)
 
-			if extension in ["msi", "zip"] or "arm" in architecture:
+			if extension in ["msix", "zip"] or "arm" in architecture:
 				continue
 			
 			data.setdefault(platform, {})

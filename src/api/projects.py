@@ -9,13 +9,11 @@ class Projects:
 
 	def __load_all_projects(self) -> None:
 		os.makedirs(LOCAL_APP_DATA, exist_ok=True)
-		
 		if os.path.exists(PROJECTS_DATA):
 			with open(PROJECTS_DATA, "r") as file:
 				projects:dict = {}
-				
 				for line in file:
-					filepath, modified_time, version = line.strip().split(";", 2)
+					filepath, modified_time, version = line.strip().split(";")
 					if os.path.exists(filepath):
 						path, filename = os.path.split(filepath)					
 						projects[float(modified_time)] = {
