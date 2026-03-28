@@ -55,7 +55,7 @@ const AppProvider = ({ children }) => {
 		window.updateData = newData => setData(newData);
 		window.addEventListener("pywebviewready", async () => {
 			const response = await window.pywebview.api.get_init_data();
-			setData(response);
+			setData(JSON.parse(response));
 		});
 	}, []);
 

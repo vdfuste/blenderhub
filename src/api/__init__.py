@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 import webview
@@ -12,23 +13,21 @@ class BHApi:
 		self.projects = Projects()
 		self.versions = Versions()
 	
-	def __exec_on_gui(self, method:str, *args:list, callback=None):
-		parse = lambda arg: f"'{arg}'" if type(arg) is str else str(arg)
-		execute:str = f"{method}({','.join(map(parse, args))})"
+	def __exec_on_gui(self, method:str, args:str, callback=None):
+		execute:str = f"{method}({args})"
 		#print(execute)
-
 		return webview.windows[0].evaluate_js(execute, callback)
-	
+
 	def get_init_data(self) -> dict:
-		return {
+		return json.dumps({
 			"installedVersions": self.versions.installed,
 			"releases": self.versions.releases_ui,
 			"projects": self.projects.data,
 			"userDocs": USER_DOCS_DIR,
-		}
+		})
 	
-	def print_log(self, data) -> None:
-		print(data)
+	def print_log(self, *args) -> None:
+		print(args)
 
 	def refresh_ui(self) -> None:
 		self.__exec_on_gui("updateData", self.get_init_data())
