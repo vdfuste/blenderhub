@@ -1,6 +1,8 @@
 import os
 import sys
 
+UI_PATH = os.path.abspath("ui/dist/index.html")
+
 OS_PLATFORM = sys.platform
 HOME_DIR = os.path.expanduser("~")
 LOCAL_DIR_NAME = "blenderhub"

@@ -4,7 +4,6 @@ import subprocess
 import tempfile
 import webview
 
-import src.blender.scripts
 import src.utils as utils
 from src.locations import INSTALLS_DIR, OS_PLATFORM, RELEASES_DATA
 
