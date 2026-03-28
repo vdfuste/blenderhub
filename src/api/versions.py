@@ -40,13 +40,13 @@ class Versions:
 
 	def __get_releases(self) -> None:
 		data:dict = {}
-		if os.path.isfile(RELEASES_DATA):
-			with open(RELEASES_DATA, "r") as file:
-				data = json.load(file)
-		else:
-			data = utils.download_releases_data()
-			with open(RELEASES_DATA, "w") as file:
-				json.dump(data, file)
+		# if os.path.isfile(RELEASES_DATA):
+		# 	with open(RELEASES_DATA, "r") as file:
+		# 		data = json.load(file)
+		# else:
+		data = utils.download_releases_data()
+		with open(RELEASES_DATA, "w") as file:
+			json.dump(data, file)
 		
 		self.releases:dict = {}
 		self.releases_ui:dict = {
@@ -124,12 +124,12 @@ class Versions:
 		return True
 
 	# INSTALL AND UNINSTALL VERSIONS
-	def __download_version(self, subversion:dict) -> str:
-		URL:str = "https://download.blender.org/release/"
-
-		checksum, filename = subversion.values()
-		major, minor, _ = filename.split("-")[1].split(".")
-		folder_version = f"Blender{major}.{minor}/"
+	def __download_version(self, checksum, filename):		
+		# blender-x.y.z-linux-x64.tar.xz -> ["blender", "x.y.z", "linux", "x64.tar.xz"]
+		_, version, platform, arch_ext = filename.split("-")
+		major, minor, _ = version.split(".")
+		architecture, extension = arch_ext.split(".", 1)
+		extension = f".{extension}"
 
 		# Creating and moving to a temporal folder.
 		temp_folder:str = tempfile.gettempdir()
@@ -148,6 +148,9 @@ class Versions:
 			is_valid_installer = checksum == checksum_installer
 		
 		# Downloading the Blender installer on the temporal folder if is not already downloaded.
+		URL:str = "https://download.blender.org/release/"
+		folder_version:str = f"Blender{major}.{minor}/"
+		
 		if not is_valid_installer:
 			self.install_process = self.__exec(
 				["curl", "--progress-bar", "-o", filename, f"{URL}{folder_version}{filename}"],
@@ -180,43 +183,43 @@ class Versions:
 				
 				return ""
 		
-		return os.path.join(temp_folder, filename)
+		folder_name:str = filename.replace(extension, "")
+		return (folder_name, filename)
 	
 	def install_version_on_linux(self, version:str, passw:str) -> None:
-		temp_file:str = self.__download_version(version, self.releases[version])
+		folder_name, filename = self.__download_version(**self.releases[version])
 		
-		if not temp_file:
+		if not filename:
 			print(f"Error installing Blender {version}")
 			return
 		
 		# Extracting files from the .tar.xz file.
 		self.install_process = self.__exec(
-			["tar", "-xf", temp_file],
+			["tar", "-xf", filename],
 			no_parent=True,
 			stdout=subprocess.PIPE,
 			text=True
 		)
 
 		for line in self.install_process.stdout:
-			percent:int = 85
+			percent:int = 5
 			percent_bar:list = line.strip().split()
 			
 			if percent_bar[1]:
 				percent = int(percent_bar[1].split(".")[0])
 			
 			webview.windows[0].state.install_process = {
-				"percent": percent,
+				"percent": 5 + (percent - 5) * 0.85,
 				"feedback": "Extracting files"
 			}
 
-		# Moving files from /tmp folder to /opt/blender folder.
+		# Moving extracted folder from /tmp folder to /opt/blender folder.
 		webview.windows[0].state.install_process = {
 			"percent": 90,
 			"feedback": f"Installing Blender {version}"
 		}
 
-		extracted_folder_name:str = self.releases[version]["filename"].split(".", 2)[0]
-		self.install_process = self.__exec(["sudo", "mv", extracted_folder_name, INSTALLS_DIR])
+		self.install_process = self.__exec(["sudo", "mv", folder_name, INSTALLS_DIR])
 		
 		# Finish process.
 		self.__get_installed_versions()
@@ -228,7 +231,8 @@ class Versions:
 	def install_version_on_window(self, version:str) -> None:
 		# TODO: Check the CPU architecture (x64 or ARM).
 		
-		temp_file:str = self.__download_version(self.releases[version])
+		temp_folder, filename = self.__download_version(self.releases[version])
+		temp_file:str = os.path.join(temp_folder, filename)
 		print(temp_file)
 		
 		if not temp_file:

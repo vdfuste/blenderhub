@@ -8,7 +8,8 @@ import Button from "@/components/button";
 const URL_IMAGES = "https://www.blender.org/wp-content/uploads/";
 
 const VersionCard = ({ version, subversions, urlImage, lts=false }) => {
-	const [selected, setSelected] = useState(subversions[0].items[0]);
+	const firstSelectionIndex = subversions[0].items.length > 0 ? 0 : 1;
+	const [selected, setSelected] = useState(subversions[firstSelectionIndex].items[0]);
 	const isInstalled = subversions[1].items.includes(selected);
 	const dropdownSubversions = subversions.filter(s => s.items.length !== 0);
 	
