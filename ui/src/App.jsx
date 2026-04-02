@@ -23,7 +23,7 @@ function App() {
 							<Route index element={<Navigate to="all" replace />} />
 							<Route path=":serie" element={<GridInstallsSubPage />} />
 						</Route>
-						<Route path="config" element={<ConfigPage />} />
+						{/* <Route path="config" element={<ConfigPage />} /> */}
 					</Routes>
 				</main>
 			</AppProvider>

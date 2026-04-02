@@ -17,7 +17,7 @@ window_config:dict = {
 
 if "--dev" in sys.argv:
 	from dev import dev_mode
-	dev_mode(window_config)
+	dev_mode(config, window_config)
 
 if OS_PLATFORM == "linux":
 	config["gui"] = "qt"

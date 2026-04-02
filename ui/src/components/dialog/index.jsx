@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./style.scss";
 
-import Button from "@/components/button";
+import { Button } from"@/components/button";
 
 const defaultButtonsConfig = {
 	accept: {

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useOutletContext, useParams } from "react-router";
 import "./style.scss";
 
-import Dropdown from "@/components/dropdown";
-import Button from "@/components/button";
+import { Dropdown } from "@/components/dropdown";
+import { Button } from"@/components/button";
 
 const URL_IMAGES = "https://www.blender.org/wp-content/uploads/";
 

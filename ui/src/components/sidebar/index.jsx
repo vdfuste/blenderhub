@@ -20,11 +20,11 @@ const Sidebar = () => {
 			label: "Installs",
 			icon: () => <Installs />,
 		},
-		{
+		/*{
 			path: "/config",
 			label: "Config Files",
 			icon: () => <Properties />,
-		},
+		},*/
 	];
 
 	return (

@@ -18,7 +18,7 @@ class BHApi:
 		#print(execute)
 		return webview.windows[0].evaluate_js(execute, callback)
 
-	def get_init_data(self) -> dict:
+	def get_init_data(self) -> str:
 		return json.dumps({
 			"installedVersions": self.versions.installed,
 			"releases": self.versions.releases_ui,
@@ -30,7 +30,8 @@ class BHApi:
 		print(args)
 
 	def refresh_ui(self) -> None:
-		self.__exec_on_gui("updateData", self.get_init_data())
+		data:str = self.get_init_data()
+		self.__exec_on_gui("updateData", data)
 	
 	def close_app(self) -> None:
 		webview.windows[0].destroy()
@@ -99,7 +100,6 @@ class BHApi:
 				"title": f"Installing Blender {version}",
 			}
 			self.__exec_on_gui("installVersion", install_dialog_data)
-
 			self.versions.install_version_on_window(version)
 		else:
 			if not passw:
@@ -118,7 +118,6 @@ class BHApi:
 					"title": f"Installing Blender {version}",
 				}
 				self.__exec_on_gui("installVersion", install_dialog_data)
-
 				self.versions.install_version_on_linux(version, passw)
 	
 	def open_version(self, version:str="") -> None:
@@ -128,6 +127,11 @@ class BHApi:
 		if OS_PLATFORM == "windows":
 			self.versions.remove_version_on_window(version)
 		else:
+			webview.windows[0].state.remove_process = {
+				"percent": 0,
+				"feedback": f"Removing Blender {version}"
+			}
+			
 			if not passw:
 				dialogData:dict = {
 					"version": version,
@@ -138,11 +142,6 @@ class BHApi:
 				}
 				self.__exec_on_gui("getPassword", dialogData)
 			else:
-				webview.windows[0].state.remove_process = {
-					"percent": 0,
-					"feedback": f"Removing Blender {version}"
-				}
-
 				remove_dialog_data:dict = {
 					"version": version,
 					"title": f"Removing Blender {version}",

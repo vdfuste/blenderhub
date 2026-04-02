@@ -3,6 +3,7 @@
 .button {
 	padding: 0.85em 1.75em;
 	display: flex;
+	align-items: center;
 
 	font-size: inherit;
 	background-color: $primary-2;
@@ -87,6 +88,42 @@
 
 		&:disabled {
 			color: $gray-300;
+		}
+	}
+}
+
+.dropdown-button {
+	.label-button {
+		padding-right: 0.5em;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	
+	.arrow-button {
+		padding-right: 0.5em;
+		align-items: center;
+		
+		background-color: $primary-2;
+		border-top-right-radius: 1em;
+		border-bottom-right-radius: 1em;
+
+		.icon {
+			padding-left: 0.25em;
+			border-left: 1px solid $primary-dark;
+			pointer-events: none;
+		}
+
+		&:hover {
+			background-color: $primary-hover;
+			cursor: pointer;
+		}
+	}
+
+	&:hover {
+		.arrow-button {
+			.icon {
+				border-color: transparent;
+			}
 		}
 	}
 }

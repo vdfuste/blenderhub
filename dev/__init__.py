@@ -2,7 +2,7 @@ import sys
 import requests
 from src.locations import *
 
-def dev_mode(window_config) -> None:
+def dev_mode(config, window_config) -> None:
 	dev_ui_path = "http://localhost:5173"
 
 	# Check if the UI is running locally.

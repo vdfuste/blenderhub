@@ -5,7 +5,7 @@ import { OverlayContext } from "@/providers/overlay";
 import DeleteProjectDialog from "@/pages/dialogs/projects/delete";
 
 import { ContextMenu, MenuList } from "@/components/menu";
-import Dropdown from "@/components/dropdown";
+import { Dropdown } from "@/components/dropdown";
 
 import Bookmark from "@/assets/images/icons/bookmark.svg?react";
 import ThreeDotsIcon from "@/assets/images/icons/three-dots.svg?react";
@@ -41,9 +41,14 @@ const Item = ({ data, onChange, versions }) => {
 	const handleDeleteProject = () => {
 		setDialog({
 			content: () => <DeleteProjectDialog />,
-			accept: {
-				label: "Delete project from computer",
-				onClick: () => window.pywebview.api.remove_project(data, true)
+			buttons: {
+				accept: {
+					label: "Delete project from computer",
+					onClick: handleClose => {
+						window.pywebview.api.remove_project(data, true);
+						handleClose();
+					}
+				}
 			},
 		});
 	};
@@ -121,20 +126,20 @@ const List = ({ items, versions, onChange, buttons }) => {
 					There are no Blender versions installed yet.
 					Please go to <Link to="/installs">Installs</Link> and download any version.
 				</div> : (
-				!items.length ?
-					<div className="empty-list">
+					!items.length ?
+						<div className="empty-list">
 						No projects found. {buttons}
-					</div> :
-					<ul className="items">
-						{items.map((item, index) => 
-							<Item
-								data={item}
-								onChange={data => handleSetItem(data, index)}
-								versions={versions}
-								key={index} />
-						)}
-					</ul>
-			)}
+						</div> :
+						<ul className="items">
+							{items.map((item, index) => 
+								<Item
+									data={item}
+									onChange={data => handleSetItem(data, index)}
+									versions={versions}
+									key={index} />
+							)}
+						</ul>
+				)}
 		</div>
 	);
 };

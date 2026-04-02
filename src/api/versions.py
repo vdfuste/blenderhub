@@ -7,6 +7,14 @@ import webview
 import src.utils as utils
 from src.locations import INSTALLS_DIR, OS_PLATFORM, RELEASES_DATA
 
+percents:dict = {
+	"INIT": 0.05,		 #   5%
+	"DOWNLOADING": 0.75, #  75%
+	"EXTRACTING": 0.85,	 #  85%
+	"MOVING": 0.95,		 #  95%
+	"DONE": 1			 # 100%
+}
+
 class Versions:
 	def __init__(self):
 		self.install_process = None
@@ -39,12 +47,8 @@ class Versions:
 				self.executes[version] = os.path.join(INSTALLS_DIR, folder, "blender.exe")
 
 	def __get_releases(self) -> None:
-		data:dict = {}
-		# if os.path.isfile(RELEASES_DATA):
-		# 	with open(RELEASES_DATA, "r") as file:
-		# 		data = json.load(file)
-		# else:
-		data = utils.download_releases_data()
+		data:dict = utils.download_releases_data()
+		
 		with open(RELEASES_DATA, "w") as file:
 			json.dump(data, file)
 		
@@ -131,102 +135,108 @@ class Versions:
 		architecture, extension = arch_ext.split(".", 1)
 		extension = f".{extension}"
 
-		# Creating and moving to a temporal folder.
+		# Creating a temporal folder.
 		temp_folder:str = tempfile.gettempdir()
-		os.chdir(temp_folder)
+		temp_filename:str = os.path.join(temp_folder, filename)
 
 		# Updating the loading bar state.
 		webview.windows[0].state.install_process = {
-			"percent": 5,
+			"percent": 0,
 			"feedback": "Initializing process"
 		}
 
 		# Checking if the file is already downloaded and is not corrupted.
 		is_valid_installer:bool = False
-		if os.path.isfile(filename):
-			checksum_installer:str = utils.generate_checksum(filename)
+		if os.path.isfile(temp_filename):
+			checksum_installer:str = utils.generate_checksum(temp_filename)
 			is_valid_installer = checksum == checksum_installer
 		
-		# Downloading the Blender installer on the temporal folder if is not already downloaded.
-		URL:str = "https://download.blender.org/release/"
-		folder_version:str = f"Blender{major}.{minor}/"
-		
-		if not is_valid_installer:
-			self.install_process = self.__exec(
-				["curl", "--progress-bar", "-o", filename, f"{URL}{folder_version}{filename}"],
-				no_parent=True,
-				stderr=subprocess.PIPE,
-				text=True
-			)
-
-			for line in self.install_process.stderr:
-				percent:int = 5
-				percent_bar:list = line.strip().split()
-				
-				if len(percent_bar) == 2:
-					percent = int(percent_bar[1].split(".")[0])
-				
-				webview.windows[0].state.install_process = {
-					"percent": percent,
-					"feedback": "Downloading installer file"
-				}
-		
-			# Checking the downloaded file.
-			checksum_installer = utils.generate_checksum(filename)
-			is_valid_installer = checksum == checksum_installer
-
+		try:
+			# Downloading the Blender installer on the temporal folder if is not already downloaded.
 			if not is_valid_installer:
-				try:
-					os.remove(filename)
-				except Exception as e:
-					print(f"Error trying to delete the installer on the temporal folder. {e}")
+				URL:str = "https://download.blender.org/release/"
+				folder_version:str = f"Blender{major}.{minor}/"
+			
+				current_percent:int = percents["INIT"] * 100
+				webview.windows[0].state.install_process = {
+					"percent": current_percent,
+					"feedback": "Downloading files"
+				}
 				
-				return ""
+				self.install_process = self.__exec(
+					["curl", "--progress-bar", "-o", filename, f"{URL}{folder_version}{filename}"],
+					no_parent=True,
+					stderr=subprocess.PIPE,
+					text=True
+				)
+
+				for line in self.install_process.stderr:					
+					download_output:list = line.strip().split()
+					if len(download_output) == 2:
+						percent = download_output[1]
+						percent = int(percent.split(".")[0])
+						webview.windows[0].state.install_process = {
+							"percent": percent * percents["DOWNLOADING"] + current_percent,
+							"feedback": "Downloading files"
+						}
+			
+				# Checking the downloaded file.
+				checksum_installer = utils.generate_checksum(temp_filename)
+				is_valid_installer = checksum == checksum_installer
+
+				if not is_valid_installer:
+					os.remove(temp_filename)
+					return ("error", "Invalid or corrupted installer")
+			
+			temp_folder_name:str = temp_filename.replace(extension, "")
+			return (temp_folder, temp_folder_name, temp_filename)
 		
-		folder_name:str = filename.replace(extension, "")
-		return (folder_name, filename)
+		except Exception as e:
+			return ("error", e)
 	
 	def install_version_on_linux(self, version:str, passw:str) -> None:
-		folder_name, filename = self.__download_version(**self.releases[version])
-		
-		if not filename:
-			print(f"Error installing Blender {version}")
+		temp_folder, temp_folder_name, temp_filename = self.__download_version(**self.releases[version])
+
+		if temp_folder_name == "error":
+			webview.windows[0].state.install_process = {
+				"percent": 0,
+				"feedback": f"Error installing Blender {version}"
+			}
 			return
 		
-		# Extracting files from the .tar.xz file.
-		self.install_process = self.__exec(
-			["tar", "-xf", filename],
-			no_parent=True,
-			stdout=subprocess.PIPE,
-			text=True
-		)
-
-		for line in self.install_process.stdout:
-			percent:int = 5
-			percent_bar:list = line.strip().split()
-			
-			if percent_bar[1]:
-				percent = int(percent_bar[1].split(".")[0])
-			
+		try:
+			# Extracting files from the .tar.xz file.
 			webview.windows[0].state.install_process = {
-				"percent": 5 + (percent - 5) * 0.85,
+				"percent": percents["EXTRACTING"] * 100,
 				"feedback": "Extracting files"
 			}
 
-		# Moving extracted folder from /tmp folder to /opt/blender folder.
-		webview.windows[0].state.install_process = {
-			"percent": 90,
-			"feedback": f"Installing Blender {version}"
-		}
+			self.install_process = self.__exec(["tar", "-xf", temp_filename, "-C", temp_folder])
 
-		self.install_process = self.__exec(["sudo", "mv", folder_name, INSTALLS_DIR])
-		
-		# Finish process.
-		self.__get_installed_versions()
-		webview.windows[0].state.install_process = {
-			"percent": 100,
-			"feedback": f"Blender {version} successfully installed!"
-		}
+			# Moving extracted folder from /tmp folder to /opt/blender folder.
+			webview.windows[0].state.install_process = {
+				"percent": percents["MOVING"] * 100,
+				"feedback": f"Installing Blender {version}"
+			}
+
+			self.install_process = self.__exec(["sudo", "mkdir", "-p", INSTALLS_DIR])
+			self.install_process = self.__exec(["sudo", "mv", temp_folder_name, INSTALLS_DIR])
+			
+			# Finish process.
+			webview.windows[0].state.install_process = {
+				"percent": 100,
+				"feedback": f"Blender {version} successfully installed!"
+			}
+
+			self.__get_installed_versions()
+			self.__get_releases()
+
+		except Exception as e:
+			webview.windows[0].state.install_process = {
+				"percent": 0,
+				"feedback": f"Error installing Blender {version}"
+			}
+			print(e)
 	
 	def install_version_on_window(self, version:str) -> None:
 		# TODO: Check the CPU architecture (x64 or ARM).
@@ -274,11 +284,13 @@ class Versions:
 				"feedback": f"Removing Blender {version}"
 			}
 		
-		self.__get_installed_versions()
 		webview.windows[0].state.remove_process = {
 			"percent": 100,
 			"feedback": f"Blender {version} removed successfully!"
 		}
+
+		self.__get_installed_versions()
+		self.__get_releases()
 
 	def remove_version_on_windows(self, version:str) -> None:
 		pass

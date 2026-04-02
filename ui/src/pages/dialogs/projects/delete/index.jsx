@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import "./style.scss";
 
 import TextInput from "@/components/inputs";
-import Dropdown from "@/components/dropdown";
-import Button from "@/components/button";
+import { Dropdown } from "@/components/dropdown";
+import { Button } from"@/components/button";
 
 import Folder from "@/assets/images/icons/folder.svg?react";
 

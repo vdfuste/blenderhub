@@ -5,7 +5,7 @@ import "./style.scss";
 import { ContextMenu } from "@/components/menu";
 import ArrowDown from "@/assets/images/icons/tria-down.svg?react";
 
-const OptionsList = ({ options, onClickItem }) => {
+export const OptionsList = ({ options, onClickItem }) => {
 	return (
 		<div className="menu-list">
 			{options.map(({ title, items }, index) => {
@@ -28,7 +28,7 @@ const OptionsList = ({ options, onClickItem }) => {
 	);
 };
 
-const Dropdown = ({ className, selected, onChange, options=[], disabled=false }) => {	
+export const Dropdown = ({ className, selected, onChange, options=[], disabled=false }) => {	
 	return (
 		<ContextMenu
 			className={parse("dropdown", className)}
@@ -44,5 +44,3 @@ const Dropdown = ({ className, selected, onChange, options=[], disabled=false })
 		</ContextMenu>
 	);
 };
-
-export default Dropdown;
