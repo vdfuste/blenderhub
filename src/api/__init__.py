@@ -12,11 +12,6 @@ class BHApi:
 	def __init__(self) -> None:
 		self.projects = Projects()
 		self.versions = Versions()
-	
-	def __exec_on_gui(self, method:str, args:str, callback=None):
-		execute:str = f"{method}({args})"
-		#print(execute)
-		return webview.windows[0].evaluate_js(execute, callback)
 
 	def get_init_data(self) -> str:
 		return json.dumps({
@@ -31,7 +26,7 @@ class BHApi:
 
 	def refresh_ui(self) -> None:
 		data:str = self.get_init_data()
-		self.__exec_on_gui("updateData", data)
+		utils.exec_on_gui("updateData", data)
 	
 	def close_app(self) -> None:
 		webview.windows[0].destroy()
@@ -43,31 +38,33 @@ class BHApi:
 		if is_created:
 			self.projects.add_created_project(data)
 			self.refresh_ui()
-			self.versions.open_project(self.projects.data[0])
 	
 	def get_folder_location(self, current_location:str) -> str:
 		result = webview.windows[0].create_file_dialog(webview.FileDialog.FOLDER, directory=current_location)
 		return result[0] if result else current_location
 	
 	def import_projects(self) -> None:
-		result = webview.windows[0].create_file_dialog(
+		entries:list = webview.windows[0].create_file_dialog(
 			webview.FileDialog.OPEN,
 			directory=USER_DOCS_DIR,
 			allow_multiple=True,
 			file_types=("Blender Files (*.blend)",)
 		)
 
-		highest_version:str = self.versions.installed[0] or "?.?.?"
+		if entries:
+			highest_version:str = self.versions.installed[0]
+			#highest_version:str = "4.5.8" # Delete later
+			highest_exec_path:str = self.versions.executes[highest_version]
 		
-		if result:
-			self.projects.add_projects(result, highest_version)
+			self.projects.add_projects(entries, highest_exec_path)
 			self.refresh_ui()
 
 	def open_project(self, data:dict) -> None:
 		self.versions.open_project(data)
 		self.projects.update_project(data)
-		self.refresh_ui()
-	
+		#self.refresh_ui()
+		self.close_app()
+
 	def remove_project(self, data:dict, remove_file:bool=False) -> None:
 		self.projects.delete_project(data)
 		self.refresh_ui()
@@ -99,7 +96,7 @@ class BHApi:
 				"version": version,
 				"title": f"Installing Blender {version}",
 			}
-			self.__exec_on_gui("installVersion", install_dialog_data)
+			utils.exec_on_gui("installVersion", install_dialog_data)
 			self.versions.install_version_on_window(version)
 		else:
 			if not passw:
@@ -110,14 +107,14 @@ class BHApi:
 					"acceptLabel": f"Install Blender {version}",
 					"execApi": "install_version"
 				}
-				self.__exec_on_gui("getPassword", dialogData)
+				utils.exec_on_gui("getPassword", dialogData)
 
 			else:
 				install_dialog_data:dict = {
 					"version": version,
 					"title": f"Installing Blender {version}",
 				}
-				self.__exec_on_gui("installVersion", install_dialog_data)
+				utils.exec_on_gui("installVersion", install_dialog_data)
 				self.versions.install_version_on_linux(version, passw)
 	
 	def open_version(self, version:str="") -> None:
@@ -140,12 +137,12 @@ class BHApi:
 					"acceptLabel": f"Remove Blender {version}",
 					"execApi": "remove_version"
 				}
-				self.__exec_on_gui("getPassword", dialogData)
+				utils.exec_on_gui("getPassword", dialogData)
 			else:
 				remove_dialog_data:dict = {
 					"version": version,
 					"title": f"Removing Blender {version}",
 				}
-				self.__exec_on_gui("removeVersion", remove_dialog_data)
+				utils.exec_on_gui("removeVersion", remove_dialog_data)
 
 				self.versions.remove_version_on_linux(version, passw)

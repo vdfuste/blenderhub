@@ -1,7 +1,21 @@
 import hashlib
 import json
 import subprocess
+import webview
+
 from src.locations import OS_PLATFORM
+
+def execute(commands, *, no_parent=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **kwargs):
+		try:
+			func = subprocess.Popen if no_parent else subprocess.run
+			return func(commands, stdout=stdout, stderr=stderr, **kwargs)
+		except subprocess.CalledProcessError as e:
+			print(f"Error executing commands: {e}")
+
+def exec_on_gui(method:str, args:str, callback=None):
+		execute:str = f"{method}({args})"
+		#print(execute)
+		return webview.windows[0].evaluate_js(execute, callback)
 
 def download_releases_data() -> dict:
 	# TODO: Get the actual data from gist.

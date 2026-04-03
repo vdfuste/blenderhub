@@ -1,5 +1,8 @@
 import os
 import time
+
+import src.blender as blender
+import src.utils as utils
 from src.locations import LOCAL_APP_DATA, PROJECTS_DATA
 
 class Projects:
@@ -49,17 +52,16 @@ class Projects:
 
 		self.__load_all_projects()
 	
-	def add_projects(self, projects:list, version:str) -> None:
+	def add_projects(self, projects:list, exec_path:str) -> None:
 		# TODO: Get projects version
 		
-		stored_projects:list = {
-			p["filepath"] for p in self.data
-		}
+		stored_projects:list = [project["filepath"] for project in self.data]
+		entries:list = []
 
-		entries:list = [
-			f"{fp};{time.time()};{version}\n"
-			for fp in projects if fp not in stored_projects
-		]
+		for filepath in projects:
+			if filepath not in stored_projects:
+				version:str = blender.check_version(exec_path, filepath)
+				entries.append(f"{filepath};{time.time()};{version}\n")
 		
 		with open(PROJECTS_DATA, "a") as file:
 			file.writelines(entries)

@@ -1,9 +1,9 @@
 import json
 import os
-import subprocess
 import tempfile
 import webview
 
+import src.blender as blender
 import src.utils as utils
 from src.locations import INSTALLS_DIR, OS_PLATFORM, RELEASES_DATA
 
@@ -95,23 +95,22 @@ class Versions:
 				self.releases_ui["series"][serie].append(index)
 
 				index += 1
-	
-	def __exec(self, commands, *, no_parent=False, stdout=None, stderr=None, **kwargs):
-		try:
-			func = subprocess.Popen if no_parent else subprocess.run
-			return func(commands, stdout=stdout, stderr=stderr, **kwargs)
-		except subprocess.CalledProcessError as e:
-			print(f"Error executing commands: {e}")
-	
+		
 	# INSTALLED VERSIONS
 	def open_project(self, data:dict) -> None:
-		self.__exec([self.executes[data["version"]], data["filepath"]], no_parent=True)
+		# TODO: Move this method to projects.py
+
+		exec_path:str = self.executes[data["version"]]
+		filepath:str = data["filepath"]
+		utils.execute([exec_path, filepath], no_parent=True)
 	
 	def open_version(self, version:str=None) -> None:
 		version = version or self.installed[-1]
-		self.__exec(self.executes[version], no_parent=True)
+		utils.execute(self.executes[version], no_parent=True)
 	
 	def create_project(self, data:dict) -> bool:
+		# TODO: Move this method to projects.py
+
 		filename, path, version = data.values()
 		filename = f"{filename}.blend"
 		filepath:str = os.path.join(path, filename)
@@ -119,11 +118,9 @@ class Versions:
 		if os.path.isfile(filepath):
 			print(f"{filename} already exists in {path}!")
 			return False
-		
-		self.__exec([
-			self.executes[version], "--background", "--python",
-			"src/blender/create.py", filepath
-		])
+
+		exec_path:str = self.executes[version]
+		blender.create_project(exec_path, filepath)
 		
 		return True
 
@@ -163,10 +160,9 @@ class Versions:
 					"feedback": "Downloading files"
 				}
 				
-				self.install_process = self.__exec(
-					["curl", "--progress-bar", "-o", filename, f"{URL}{folder_version}{filename}"],
+				self.install_process = utils.execute(
+					["curl", "--progress-bar", "-o", temp_filename, f"{URL}{folder_version}{filename}"],
 					no_parent=True,
-					stderr=subprocess.PIPE,
 					text=True
 				)
 
@@ -174,11 +170,12 @@ class Versions:
 					download_output:list = line.strip().split()
 					if len(download_output) == 2:
 						percent = download_output[1]
-						percent = int(percent.split(".")[0])
-						webview.windows[0].state.install_process = {
-							"percent": percent * percents["DOWNLOADING"] + current_percent,
-							"feedback": "Downloading files"
-						}
+						if "%" in percent:
+							percent = int(percent.split(".")[0])
+							webview.windows[0].state.install_process = {
+								"percent": percent * percents["DOWNLOADING"] + current_percent,
+								"feedback": "Downloading files"
+							}
 			
 				# Checking the downloaded file.
 				checksum_installer = utils.generate_checksum(temp_filename)
@@ -186,18 +183,21 @@ class Versions:
 
 				if not is_valid_installer:
 					os.remove(temp_filename)
-					return ("error", "Invalid or corrupted installer")
+					return ("error", "Invalid or corrupted installer", ":(")
 			
 			temp_folder_name:str = temp_filename.replace(extension, "")
 			return (temp_folder, temp_folder_name, temp_filename)
 		
 		except Exception as e:
-			return ("error", e)
+			return ("error", e, ":O")
 	
 	def install_version_on_linux(self, version:str, passw:str) -> None:
 		temp_folder, temp_folder_name, temp_filename = self.__download_version(**self.releases[version])
 
-		if temp_folder_name == "error":
+		# TODO: Find a better way to check errors.
+		if temp_folder == "error":
+			print(temp_folder_name, temp_filename)
+
 			webview.windows[0].state.install_process = {
 				"percent": 0,
 				"feedback": f"Error installing Blender {version}"
@@ -211,7 +211,7 @@ class Versions:
 				"feedback": "Extracting files"
 			}
 
-			self.install_process = self.__exec(["tar", "-xf", temp_filename, "-C", temp_folder])
+			self.install_process = utils.execute(["tar", "-xf", temp_filename, "-C", temp_folder])
 
 			# Moving extracted folder from /tmp folder to /opt/blender folder.
 			webview.windows[0].state.install_process = {
@@ -219,8 +219,8 @@ class Versions:
 				"feedback": f"Installing Blender {version}"
 			}
 
-			self.install_process = self.__exec(["sudo", "mkdir", "-p", INSTALLS_DIR])
-			self.install_process = self.__exec(["sudo", "mv", temp_folder_name, INSTALLS_DIR])
+			self.install_process = utils.execute(["sudo", "mkdir", "-p", INSTALLS_DIR])
+			self.install_process = utils.execute(["sudo", "mv", temp_folder_name, INSTALLS_DIR])
 			
 			# Finish process.
 			webview.windows[0].state.install_process = {
@@ -257,18 +257,12 @@ class Versions:
 		
 		# Running the .msix installer from PowerShell
 		#self.install_process = 
-		self.__exec(
-			["msiexec", "/i", temp_file, "/norestart"],
-			#no_parent=True,
-			#stdout=subprocess.PIPE,
-			#text=True
-		)
+		utils.execute(["msiexec", "/i", temp_file, "/norestart"])
 	
 	def remove_version_on_linux(self, version:str, passw:str) -> None:
-		remove_process = self.__exec(
+		remove_process = utils.execute(
 			["sudo", "rm", "-rf", f"{INSTALLS_DIR}/blender-{version}-linux-x64"],
 			no_parent=True,
-			stdout=subprocess.PIPE,
 			text=True
 		)
 
