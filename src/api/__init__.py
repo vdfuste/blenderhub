@@ -86,63 +86,54 @@ class BHApi:
 		return is_valid
 	
 	def install_version(self, version:str, passw:str=None) -> None:
+		if OS_PLATFORM != "windows" and not passw:
+			dialogData:dict = {
+				"version": version,
+				"title": f"Install Blender {version}",
+				"text": f"The password is required to install Blender {version}.",
+				"acceptLabel": f"Install Blender {version}",
+				"execApi": "install_version"
+			}
+			utils.exec_on_gui("getPassword", dialogData)
+			return
+		
 		webview.windows[0].state.install_process = {
 			"percent": 0,
 			"feedback": "Initializing process"
 		}
 		
-		if OS_PLATFORM == "windows":
-			install_dialog_data:dict = {
-				"version": version,
-				"title": f"Installing Blender {version}",
-			}
-			utils.exec_on_gui("installVersion", install_dialog_data)
-			self.versions.install_version_on_window(version)
-		else:
-			if not passw:
-				dialogData:dict = {
-					"version": version,
-					"title": f"Install Blender {version}",
-					"text": f"The password is required to install Blender {version}.",
-					"acceptLabel": f"Install Blender {version}",
-					"execApi": "install_version"
-				}
-				utils.exec_on_gui("getPassword", dialogData)
+		install_dialog_data:dict = {
+			"version": version,
+			"title": f"Installing Blender {version}",
+		}
 
-			else:
-				install_dialog_data:dict = {
-					"version": version,
-					"title": f"Installing Blender {version}",
-				}
-				utils.exec_on_gui("installVersion", install_dialog_data)
-				self.versions.install_version_on_linux(version, passw)
+		utils.exec_on_gui("installVersion", install_dialog_data)
+		self.versions.install_version(version, passw)
 	
 	def open_version(self, version:str="") -> None:
 		self.versions.open_version(version)
 
 	def remove_version(self, version:str, passw:str=None) -> None:
-		if OS_PLATFORM == "windows":
-			self.versions.remove_version_on_window(version)
-		else:
-			webview.windows[0].state.remove_process = {
-				"percent": 0,
-				"feedback": f"Removing Blender {version}"
+		if OS_PLATFORM != "windows" and not passw:
+			dialogData:dict = {
+				"version": version,
+				"title": f"Remove Blender {version}",
+				"text": f"The password is required to remove Blender {version}.",
+				"acceptLabel": f"Remove Blender {version}",
+				"execApi": "remove_version"
 			}
-			
-			if not passw:
-				dialogData:dict = {
-					"version": version,
-					"title": f"Remove Blender {version}",
-					"text": f"The password is required to remove Blender {version}.",
-					"acceptLabel": f"Remove Blender {version}",
-					"execApi": "remove_version"
-				}
-				utils.exec_on_gui("getPassword", dialogData)
-			else:
-				remove_dialog_data:dict = {
-					"version": version,
-					"title": f"Removing Blender {version}",
-				}
-				utils.exec_on_gui("removeVersion", remove_dialog_data)
+			utils.exec_on_gui("getPassword", dialogData)
+			return
+		
+		webview.windows[0].state.remove_process = {
+			"percent": 0,
+			"feedback": f"Removing Blender {version}"
+		}
 
-				self.versions.remove_version_on_linux(version, passw)
+		remove_dialog_data:dict = {
+			"version": version,
+			"title": f"Removing Blender {version}",
+		}
+
+		utils.exec_on_gui("removeVersion", remove_dialog_data)
+		self.versions.remove_version(version, passw)

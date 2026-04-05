@@ -1,11 +1,12 @@
 import json
 import os
+import shutil
 import tempfile
 import webview
 
 import src.blender as blender
 import src.utils as utils
-from src.locations import INSTALLS_DIR, OS_PLATFORM, RELEASES_DATA
+from src.locations import APP_DIR_NAME, INSTALLS_DIR, OS_PLATFORM, RELEASES_DATA, SHARED_DATA
 
 percents:dict = {
 	"INIT": 0.05,		 #   5%
@@ -33,21 +34,19 @@ class Versions:
 		folders.sort()
 
 		for folder in reversed(folders):
-			if OS_PLATFORM == "linux":
-				version:str = folder.split("-", 2)[1]
-				self.installed.append(version)
-				self.executes[version] = os.path.join(INSTALLS_DIR, folder, "blender")
-			
-			#elif OS_PLATFORM == "macos":
-			#	pass
-			
-			elif OS_PLATFORM == "windows":
-				version:str = folder.split(" ")[1]
-				self.installed.append(version)
-				self.executes[version] = os.path.join(INSTALLS_DIR, folder, "blender.exe")
+			app_name:str = "blender"
+			if OS_PLATFORM == "windows":
+				app_name = "blender.exe"
+
+			version:str = folder.split("-", 2)[1]
+			self.installed.append(version)
+			self.executes[version] = os.path.join(INSTALLS_DIR, folder, app_name)
 
 	def __get_releases(self) -> None:
 		data:dict = utils.download_releases_data()
+		
+		if not os.path.isdir(SHARED_DATA):
+			os.makedirs(SHARED_DATA)
 		
 		with open(RELEASES_DATA, "w") as file:
 			json.dump(data, file)
@@ -126,7 +125,7 @@ class Versions:
 
 	# INSTALL AND UNINSTALL VERSIONS
 	def __download_version(self, checksum, filename):		
-		# blender-x.y.z-linux-x64.tar.xz -> ["blender", "x.y.z", "linux", "x64.tar.xz"]
+		# blender-x.y.z-platform-architecture.tar.xz -> ["blender", "x.y.z", "platform", "architecture.tar.xz"]
 		_, version, platform, arch_ext = filename.split("-")
 		major, minor, _ = version.split(".")
 		architecture, extension = arch_ext.split(".", 1)
@@ -134,7 +133,10 @@ class Versions:
 
 		# Creating a temporal folder.
 		temp_folder:str = tempfile.gettempdir()
+		temp_folder = os.path.join(temp_folder, APP_DIR_NAME)
 		temp_filename:str = os.path.join(temp_folder, filename)
+
+		os.makedirs(temp_folder, exist_ok=True)
 
 		# Updating the loading bar state.
 		webview.windows[0].state.install_process = {
@@ -185,14 +187,17 @@ class Versions:
 					os.remove(temp_filename)
 					return ("error", "Invalid or corrupted installer", ":(")
 			
-			temp_folder_name:str = temp_filename.replace(extension, "")
-			return (temp_folder, temp_folder_name, temp_filename)
+			folder_name:str = filename.replace(extension, "")
+			return (temp_folder, folder_name, filename)
 		
 		except Exception as e:
 			return ("error", e, ":O")
 	
-	def install_version_on_linux(self, version:str, passw:str) -> None:
-		temp_folder, temp_folder_name, temp_filename = self.__download_version(**self.releases[version])
+	def install_version(self, version:str, passw:str) -> None:		
+		temp_folder, folder_name, filename = self.__download_version(**self.releases[version])
+		temp_filename:str = os.path.join(temp_folder, filename)
+		temp_folder_name:str = os.path.join(temp_folder, folder_name)
+		install_folder_name:str = os.path.join(INSTALLS_DIR, folder_name)
 
 		# TODO: Find a better way to check errors.
 		if temp_folder == "error":
@@ -205,23 +210,32 @@ class Versions:
 			return
 		
 		try:
-			# Extracting files from the .tar.xz file.
+			# Extracting files.
 			webview.windows[0].state.install_process = {
 				"percent": percents["EXTRACTING"] * 100,
 				"feedback": "Extracting files"
 			}
 
-			self.install_process = utils.execute(["tar", "-xf", temp_filename, "-C", temp_folder])
+			print("\nExtracting files")
+			print(temp_filename, " in ", temp_folder)
+			
+			# TODO: Track the process on the loading bar.
+			#self.install_process = 
+			utils.execute(["tar", "-xf", temp_filename, "-C", temp_folder])
 
-			# Moving extracted folder from /tmp folder to /opt/blender folder.
+			# Moving extracted folder from temporal folder to blenderhub folder.
 			webview.windows[0].state.install_process = {
 				"percent": percents["MOVING"] * 100,
 				"feedback": f"Installing Blender {version}"
 			}
-
-			self.install_process = utils.execute(["sudo", "mkdir", "-p", INSTALLS_DIR])
-			self.install_process = utils.execute(["sudo", "mv", temp_folder_name, INSTALLS_DIR])
 			
+			if OS_PLATFORM == "linux":
+				utils.execute(["sudo", "mkdir", "-p", INSTALLS_DIR])
+				utils.execute(["sudo", "mv", temp_folder_name, INSTALLS_DIR])
+			elif OS_PLATFORM == "windows":
+				os.makedirs(INSTALLS_DIR, exist_ok=True)
+				os.rename(temp_folder_name, install_folder_name)
+
 			# Finish process.
 			webview.windows[0].state.install_process = {
 				"percent": 100,
@@ -238,53 +252,34 @@ class Versions:
 			}
 			print(e)
 	
-	def install_version_on_window(self, version:str) -> None:
-		# TODO: Check the CPU architecture (x64 or ARM).
-		
-		temp_folder, filename = self.__download_version(self.releases[version])
-		temp_file:str = os.path.join(temp_folder, filename)
-		print(temp_file)
-		
-		if not temp_file:
-			print(f"Error installing Blender {version}")
-			return
-		
-		# The installation will be managed by the .msix installer.
-		webview.windows[0].state.install_process = {
-			"percent": 100,
-			"feedback": f"Opening Blender {version} installer"
-		}
-		
-		# Running the .msix installer from PowerShell
-		#self.install_process = 
-		utils.execute(["msiexec", "/i", temp_file, "/norestart"])
-	
-	def remove_version_on_linux(self, version:str, passw:str) -> None:
-		remove_process = utils.execute(
-			["sudo", "rm", "-rf", f"{INSTALLS_DIR}/blender-{version}-linux-x64"],
-			no_parent=True,
-			text=True
-		)
+	def remove_version(self, version:str, passw:str) -> None:
+		remove_dirname:str = os.path.dirname(self.executes[version])
+		remove_dirname = os.path.join(INSTALLS_DIR, remove_dirname)
 
-		for line in remove_process.stdout:
-			percent:int = 25
-			percent_bar:list = line.strip().split()
-			
-			if percent_bar[1]:
-				percent = int(percent_bar[1].split(".")[0])
-		
-			webview.windows[0].state.remove_process = {
-				"percent": percent,
-				"feedback": f"Removing Blender {version}"
-			}
+		print(remove_dirname)
 		
 		webview.windows[0].state.remove_process = {
-			"percent": 100,
-			"feedback": f"Blender {version} removed successfully!"
+			"percent": 5,
+			"feedback": f"Removing Blender {version}"
 		}
+		
+		try:
+			if OS_PLATFORM == "linux":
+				utils.execute(["sudo", "rm", "-rf", remove_dirname])
+			elif OS_PLATFORM == "windows":
+				shutil.rmtree(remove_dirname)
+		
+			webview.windows[0].state.remove_process = {
+				"percent": 100,
+				"feedback": f"Blender {version} removed successfully!"
+			}
 
-		self.__get_installed_versions()
-		self.__get_releases()
-
-	def remove_version_on_windows(self, version:str) -> None:
-		pass
+			self.__get_installed_versions()
+			self.__get_releases()
+		
+		except Exception as e:
+			webview.windows[0].state.remove_process = {
+				"percent": 0,
+				"feedback": f"An error ocurred while removing Blender {version}!"
+			}
+			print(e)

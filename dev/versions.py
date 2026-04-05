@@ -3,9 +3,9 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-data_path:str = os.path.join(os.getcwd(), "dev/_data_versions.json")
-md5_data_path:str = os.path.join(os.getcwd(), "dev/_data_md5_versions.txt")
-images_data_path:str = os.path.join(os.getcwd(), "dev/_data_images_versions.json")
+data_path:str = os.path.join(os.getcwd(), "_data_versions.json")
+md5_data_path:str = os.path.join(os.getcwd(), "_data_md5_versions.txt")
+images_data_path:str = os.path.join(os.getcwd(), "_data_images_versions.json")
 
 def get_raw_data(*, force:bool=False) -> None:
 	if not force and os.path.isfile(md5_data_path):
@@ -95,7 +95,7 @@ def get_all_versions_data() -> None:
 			major, minor, subversion = version.split(".")
 			architecture, extension = rest.split(".", 1)
 
-			if extension in ["msix", "zip"] or "arm" in architecture:
+			if extension in ["msi", "msix"] or "arm" in architecture:
 				continue
 			
 			data.setdefault(platform, {})

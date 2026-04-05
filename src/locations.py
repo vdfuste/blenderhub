@@ -1,38 +1,31 @@
 import os
 import sys
 
-APP_DIR_NAME = "blenderhub"
-HOME_DIR = os.path.expanduser("~")
-OS_PLATFORM = sys.platform
-UI_PATH = os.path.abspath("ui/dist/index.html")
+APP_DIR_NAME:str = "Blender Hub"
+UI_PATH:str = os.path.abspath("ui/dist/index.html")
+
+OS_PLATFORM:str = sys.platform
+HOME_DIR:str = os.path.expanduser("~")
+USER_DOCS_DIR:str = os.path.join(HOME_DIR, "Documents")
 
 if OS_PLATFORM == "linux":
-	INSTALLS_DIR = f"/opt/{APP_DIR_NAME}"
+	APP_DIR_NAME = "blenderhub"
 
-	USER_DOCS_DIR = os.path.join(HOME_DIR, "Documents")
-	LOCAL_APP_DATA = os.path.join(HOME_DIR, ".local", "share", APP_DIR_NAME)
-
-	PROJECTS_DATA = os.path.join(LOCAL_APP_DATA, "projects.txt")
-	RELEASES_DATA = os.path.join(LOCAL_APP_DATA, "releases.json")
+	SHARED_DATA:str = os.path.join("/var/lib", APP_DIR_NAME)
+	INSTALLS_DIR:str = os.path.join(SHARED_DATA, "versions")
+	LOCAL_APP_DATA:str = os.path.join(HOME_DIR, ".local", "share", APP_DIR_NAME)
 
 elif "win" in OS_PLATFORM:
 	OS_PLATFORM = "windows"
-	INSTALLS_DIR = f"C:\\Program Files\\{APP_DIR_NAME}"
 
-	USER_DOCS_DIR = os.path.join(HOME_DIR, "Documents")
-	LOCAL_APP_DATA = os.path.join(os.getenv("LOCALAPPDATA"), APP_DIR_NAME)
-
-	PROJECTS_DATA = os.path.join(LOCAL_APP_DATA, "projects.txt")
-	RELEASES_DATA = os.path.join(LOCAL_APP_DATA, "releases.json")
+	SHARED_DATA:str = os.path.join(os.getenv("PROGRAMDATA"), APP_DIR_NAME)
+	INSTALLS_DIR:str = os.path.join(SHARED_DATA, "versions")
+	LOCAL_APP_DATA:str = os.path.join(os.getenv("LOCALAPPDATA"), APP_DIR_NAME)
 
 elif OS_PLATFORM == "macos":
-	INSTALLS_DIR = f"/Applications/{APP_DIR_NAME}.app"
-
-	USER_DOCS_DIR = os.path.join(HOME_DIR, "Documents")
-	LOCAL_APP_DATA = os.path.join(HOME_DIR, "Library", "Application Support", APP_DIR_NAME)
-
-	PROJECTS_DATA = os.path.join(LOCAL_APP_DATA, "projects.txt")
-	RELEASES_DATA = os.path.join(LOCAL_APP_DATA, "releases.json")
+	SHARED_DATA:str = os.path.join("/Library/Application/Support", APP_DIR_NAME)
+	INSTALLS_DIR:str = os.path.join(SHARED_DATA, "versions")
+	LOCAL_APP_DATA:str = os.path.join(HOME_DIR, "Library", "Application Support", APP_DIR_NAME)
 
 else:
 	print(f"Looks like your operating system is not supported.")
@@ -40,8 +33,12 @@ else:
 	# TODO: Add contact info.
 	sys.exit()
 
+RELEASES_DATA:str = os.path.join(SHARED_DATA, "releases.json")
+PROJECTS_DATA:str = os.path.join(LOCAL_APP_DATA, "projects.txt")
+
 if __name__ == "__main__":
 	print(f"OS: {OS_PLATFORM}")
-	print(f"Blender installs folder: {INSTALLS_DIR}")
-	print(f"Documents folder: {USER_DOCS_DIR}")
+	print(f"Shared data: {SHARED_DATA}")
 	print(f"Local data: {LOCAL_APP_DATA}")
+	print(f"Documents folder: {USER_DOCS_DIR}")
+	print(f"Blender installs folder: {INSTALLS_DIR}")
