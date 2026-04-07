@@ -6,7 +6,7 @@ import webview
 
 import src.blender as blender
 import src.utils as utils
-from src.locations import APP_DIR_NAME, INSTALLS_DIR, OS_PLATFORM, RELEASES_DATA, SHARED_DATA
+from src.locations import APP_DIR_NAME, INSTALLS_DIR, LOCAL_APP_DATA, OS_PLATFORM, RELEASES_DATA
 
 percents:dict = {
 	"INIT": 0.05,		 #   5%
@@ -45,8 +45,8 @@ class Versions:
 	def __get_releases(self) -> None:
 		data:dict = utils.download_releases_data()
 		
-		if not os.path.isdir(SHARED_DATA):
-			os.makedirs(SHARED_DATA)
+		if not os.path.isdir(LOCAL_APP_DATA):
+			os.makedirs(LOCAL_APP_DATA)
 		
 		with open(RELEASES_DATA, "w") as file:
 			json.dump(data, file)
