@@ -1,6 +1,6 @@
 import bpy
 	
 major, minor, dunno = bpy.data.version
-version:str = f"{major}.{minor}.{dunno}"
+version:str = f"{major}.{minor}"
 
-print(f"Project version: {version}")
+print(version)

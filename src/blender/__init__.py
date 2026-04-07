@@ -6,10 +6,12 @@ def check_version(exec_path:str, filepath:str):
 		text=True
 	)
 	
-	output = result.stdout
-	print(output)
+	output:list = result.stdout.split("\n")
+	version:str = output[1]
 
-	return "0.0.0"
+	#print(f"{filepath.split("/")[-1]} -> {version}")
+
+	return version
 
 def create_project(exec_path:str, filepath:str) -> None:
 	result:str = utils.execute(

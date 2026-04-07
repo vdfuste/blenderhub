@@ -5,6 +5,7 @@ import { OverlayContext } from "./overlay";
 import GetPasswordDialog from "@/pages/dialogs/password";
 import InstallingDialog from "@/pages/dialogs/installing";
 import RemovingDialog from "@/pages/dialogs/removing";
+import ImportingDialog from "@/pages/dialogs/importing";
 
 export const AppContext = createContext();
 
@@ -23,6 +24,18 @@ const AppProvider = ({ children }) => {
 		});
 	};
 
+	const handleOpenImportDialog = data => {
+		setDialog({
+			content: setButtons => <ImportingDialog {...data} setButtons={setButtons} />,
+			buttons: {
+				accept: {
+					label: "Cancel import"
+				},
+				cancel: null
+			}
+		});
+	};
+	
 	const handleOpenInstallDialog = data => {
 		setDialog({
 			content: setButtons => <InstallingDialog {...data} setButtons={setButtons} />,
@@ -50,6 +63,7 @@ const AppProvider = ({ children }) => {
 	
 	useEffect(() => {
 		window.getPassword = data => handleOpenPasswDialog(data);
+		window.importProjects = data => handleOpenImportDialog(data);
 		window.installVersion = data => handleOpenInstallDialog(data);
 		window.removeVersion = data => handleOpenRemoveDialog(data);
 		window.updateData = newData => setData(newData);

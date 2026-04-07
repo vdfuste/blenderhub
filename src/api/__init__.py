@@ -51,13 +51,11 @@ class BHApi:
 			file_types=("Blender Files (*.blend)",)
 		)
 
+		highest_version:str = self.versions.installed[0]
+		exec_path:str = self.versions.executes[highest_version]
+
 		if entries:
-			highest_version:str = self.versions.installed[0]
-			#highest_version:str = "4.5.8" # Delete later
-			highest_exec_path:str = self.versions.executes[highest_version]
-		
-			self.projects.add_projects(entries, highest_exec_path)
-			self.refresh_ui()
+			self.projects.add_projects(entries, self.versions.installed, exec_path)
 
 	def open_project(self, data:dict) -> None:
 		self.versions.open_project(data)

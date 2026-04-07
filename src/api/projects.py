@@ -1,5 +1,6 @@
 import os
 import time
+import webview
 
 import src.blender as blender
 import src.utils as utils
@@ -52,21 +53,47 @@ class Projects:
 
 		self.__load_all_projects()
 	
-	def add_projects(self, projects:list, exec_path:str) -> None:
-		# TODO: Get projects version
-		
+	def add_projects(self, projects:list, installed_versions:list, exec_path:str) -> None:
 		stored_projects:list = [project["filepath"] for project in self.data]
 		entries:list = []
 
+		webview.windows[0].state.import_process = {
+			"percent": 0,
+			"feedback": "Loading projects"
+		}
+		
+		import_dialog_data:dict = {
+			"title": "Importing projects",
+		}
+		utils.exec_on_gui("importProjects", import_dialog_data)
+		
+		import_index:int = 0
 		for filepath in projects:
 			if filepath not in stored_projects:
-				version:str = blender.check_version(exec_path, filepath)
-				entries.append(f"{filepath};{time.time()};{version}\n")
+				webview.windows[0].state.import_process = {
+					"percent": int(import_index * 100 / len(projects)),
+					"feedback": f"Importing {os.path.basename(filepath)}"
+				}
+				
+				prefix:str = blender.check_version(exec_path, filepath)
+				full_version:str = next(
+					(version for version in installed_versions if prefix in version),
+					installed_versions[0]
+				)
+
+				entries.append(f"{filepath};{time.time()};{full_version}\n")
+
+				import_index += 1
 		
 		with open(PROJECTS_DATA, "a") as file:
 			file.writelines(entries)
 		
 		self.__load_all_projects()
+
+		webview.windows[0].state.import_process = {
+			"percent": 100,
+			"feedback": "All projects successfully imported"
+		}
 	
 	def delete_project(self, project:dict) -> None:
 		for p in self.data:
