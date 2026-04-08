@@ -40,6 +40,7 @@ python main.py
 
 ## Roadmap
 
+- Automatic checkout for updates.
 - Support for Blender versions older than 3.0.0.
 - Config page: Manage configuration, keybinds and themes files throw different versions.
 - Settings page.
