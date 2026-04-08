@@ -113,59 +113,6 @@ def get_all_versions_data() -> None:
 		json.dump(data, file, indent=2)
 	
 	print(" Done!")
-
-def __get_all_versions_data() -> None:
-	repository_url:str = "https://download.blender.org/release/"
-
-	# Get all available versions (from 3.0)
-	response = BeautifulSoup(requests.get(repository_url).text, "html.parser")
-	
-	excludes:list = ["newpy", "alpha", "beta", "Benchmark"]
-	all_versions:list = [
-		link.get_text()
-		for link in response.find_all("a")
-		if "Blender" in link.get_text()
-		and not any(
-			exclude in link.get_text()
-			for exclude in excludes
-		)
-	][66:] # 57 -> 2.79; 62 -> 2.90; 66 -> 3.0
-	
-	# Get all subversions and .md5 checksums
-	data:dict = {}
-	
-	for version_folder in all_versions:
-		version_url:str = repository_url + version_folder
-		response = BeautifulSoup(requests.get(version_url).text, "html.parser")
-
-		print(version_folder)
-		
-		# Getting md5 checksums and their filenames
-		for link in response.find_all("a"):
-			md5_file:str = link.get_text()
-			if ".md5" in md5_file:
-				md5_response = BeautifulSoup(requests.get(version_url + md5_file).text, "html.parser")
-
-				for line in md5_response.get_text().splitlines():
-					checksum, filename = line.split()
-					_, version, platform, rest = filename.split("-")
-					major, minor, subversion = version.split(".")
-					architecture, extension = rest.split(".", 1)
-
-					if extension in ["msi", "zip"] or "arm" in architecture:
-						continue
-
-					data.setdefault(platform, {})
-					data[platform].setdefault(f"serie-{major}", {})
-					data[platform][f"serie-{major}"].setdefault(f"{major}.{minor}", {})
-					data[platform][f"serie-{major}"][f"{major}.{minor}"].setdefault(version, {
-						"checksum": checksum,
-						"filename": filename,
-					})
-					
-	mock_data_path:str = os.path.join(os.getcwd(), "dev/versions.json")
-	with open(mock_data_path, "w") as file:
-		json.dump(data, file, indent=2)
 	
 if __name__ == "__main__":
 	get_all_versions_data()

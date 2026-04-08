@@ -1,9 +1,10 @@
 import hashlib
 import json
+import os
 import subprocess
 import webview
 
-from src.locations import OS_PLATFORM
+from src.locations import OS_PLATFORM, RELEASES_DATA
 
 def execute(commands, *, no_parent=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **kwargs):
 		try:
@@ -18,21 +19,15 @@ def exec_on_gui(method:str, args:str, callback=None):
 		return webview.windows[0].evaluate_js(execute, callback)
 
 def download_releases_data() -> dict:
-	# TODO: Get the actual data from gist.
-	#blenderhub-data-versions.json
-	#https://gist.github.com/vdfuste/393040a7d4383f75e0842de8c3f4dad4#file-blenderhub-data-versions-json
-	# https://gist.githubusercontent.com/vdfuste/393040a7d4383f75e0842de8c3f4dad4/raw/0679940b57a1791169a853d251a7b75cd0f1ab58/blenderhub-data-versions.json
-	# "0679940b57a1791169a853d251a7b75cd0f1ab58" is the timestamp token of the current version. When the gist is updated this token will change. 
+	# TODO: Get the actual data from blenderhub-releases.
 
-	# if os.path.isfile(RELEASES_DATA):
-	# 	with open(RELEASES_DATA, "r") as file:
-	# 		data = json.load(file)
-	# else:
-	# 	pass
+	if os.path.isfile(RELEASES_DATA):
+		with open(RELEASES_DATA, "r") as file:
+			data:dict = json.load(file)
+		return data
 	
-	with open("dev/_data_versions.json", "r") as file:
+	with open("data/_data_versions.json", "r") as file:
 		mock_local_data:dict = json.load(file)
-
 	return mock_local_data[OS_PLATFORM]
 
 def check_passw(passw:str) -> bool:
