@@ -14,7 +14,7 @@ Before run the project, `node` and `npm` (or any other package manager of your c
 
 Arch Linux:
 ```bash
-sudo pacman -S node npm 
+sudo pacman -S nodejs npm 
 ```
 
 #### Installing Blender Hub
