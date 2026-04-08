@@ -4,12 +4,14 @@ import webview
 
 import src.blender as blender
 import src.utils as utils
-from src.locations import LOCAL_APP_DATA, PROJECTS_DATA
+from src.locations import LOCAL_APP_DATA, PROJECTS_DATA, USER_DOCS_DIR
 
 class Projects:
 	def __init__(self):
 		self.data:list = []
 		self.__load_all_projects()
+
+		os.makedirs(USER_DOCS_DIR, exist_ok=True)
 
 	def __load_all_projects(self) -> None:
 		os.makedirs(LOCAL_APP_DATA, exist_ok=True)
