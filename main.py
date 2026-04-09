@@ -23,10 +23,5 @@ def window_start() -> None:
 	window = webview.create_window(**window_config)
 	webview.start(**config)
 
-if __name__ == "__main__":
-	if "-v" in sys.argv or "--verbose" in sys.argv:
-		print(OS_PLATFORM)
-		print(UI_FILEPATH)
-		print(os.curdir)
-	
+if __name__ == "__main__":	
 	window_start()

@@ -2,7 +2,6 @@ import os
 import sys
 
 APP_DIR_NAME:str = "Blender Hub"
-# LOCAL_UI_PATAH:str = "_internal/ui/index.html"
 UI_FILEPATH:str = os.path.join(os.path.dirname(__file__), "..", "ui/index.html")
 
 OS_PLATFORM:str = sys.platform
@@ -10,7 +9,6 @@ HOME_DIR:str = os.path.expanduser("~")
 
 if OS_PLATFORM == "linux":
 	APP_DIR_NAME = "blenderhub"
-	#UI_FILEPATH:str = os.path.join("/opt", APP_DIR_NAME, "app", LOCAL_UI_PATAH)
 
 	#CONFIG_DATA:str = os.path.join("/etc", APP_DIR_NAME, "config.json")
 	INSTALLS_DIR:str = os.path.join("/opt", APP_DIR_NAME, "versions")
@@ -18,7 +16,6 @@ if OS_PLATFORM == "linux":
 
 elif "win" in OS_PLATFORM:
 	OS_PLATFORM = "windows"
-	#UI_FILEPATH:str = os.path.join("C:\\Program Files", APP_DIR_NAME, LOCAL_UI_PATAH)
 
 	#CONFIG_DATA:str = os.path.join(os.getenv("PROGRAMDATA"), APP_DIR_NAME, "config.json")
 	INSTALLS_DIR:str = os.path.join(os.getenv("PROGRAMDATA"), APP_DIR_NAME, "versions")
@@ -26,7 +23,6 @@ elif "win" in OS_PLATFORM:
 
 elif OS_PLATFORM == "darwin":
 	OS_PLATFORM = "macos"
-	#UI_FILEPATH:str = os.path.join("Applications", APP_DIR_NAME, LOCAL_UI_PATAH)
 
 	#CONFIG_DATA:str = os.path.join("/Library", "Application Support", APP_DIR_NAME, "config.json")
 	INSTALLS_DIR:str = os.path.join("/Applications", APP_DIR_NAME, "versions")
