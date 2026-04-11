@@ -9,7 +9,8 @@ pyinstaller \
 --noconsole \
 --onedir \
 --name "blenderhub" \
---add-data "ui/dist:ui" \
+--add-data "data:data" \
+--add-data "ui/dist:ui/dist" \
 --exclude-module dev \
 --exclude-module scripts \
 --log-level ERROR \

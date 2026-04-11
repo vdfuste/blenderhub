@@ -2,7 +2,10 @@ import os
 import sys
 
 APP_DIR_NAME:str = "Blender Hub"
-UI_FILEPATH:str = os.path.join(os.path.dirname(__file__), "..", "ui/index.html")
+
+ROOT_DIR:str = os.path.join(os.path.dirname(__file__), "..")
+UI_FILEPATH:str = os.path.join(ROOT_DIR, "ui/dist/index.html")
+VERSIONS_DATA_FILEPATH:str = os.path.join(ROOT_DIR, "data/_data_versions.json")
 
 OS_PLATFORM:str = sys.platform
 HOME_DIR:str = os.path.expanduser("~")

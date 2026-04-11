@@ -4,7 +4,7 @@ import os
 import subprocess
 import webview
 
-from src.locations import OS_PLATFORM, RELEASES_DATA
+from src.locations import OS_PLATFORM, RELEASES_DATA, VERSIONS_DATA_FILEPATH
 
 def execute(commands, *, no_parent=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **kwargs):
 		try:
@@ -20,14 +20,13 @@ def exec_on_gui(method:str, args:str, callback=None):
 
 def download_releases_data() -> dict:
 	# TODO: Get the actual data from blenderhub-releases.
-	DATA_FILEPATH:str = os.path.join(os.path.dirname(__file__), "..", "data/_data_versions.json")
 
 	if os.path.isfile(RELEASES_DATA):
 		with open(RELEASES_DATA, "r") as file:
 			data:dict = json.load(file)
 		return data
 	
-	with open(DATA_FILEPATH, "r") as file:
+	with open(VERSIONS_DATA_FILEPATH, "r") as file:
 		mock_local_data:dict = json.load(file)
 	return mock_local_data[OS_PLATFORM]
 
