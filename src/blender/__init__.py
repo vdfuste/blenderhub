@@ -1,8 +1,10 @@
+import os
 import src.utils as utils
+from src.locations import ROOT_DIR
 
 def check_version(exec_path:str, filepath:str):
 	result:str = utils.execute(
-		[exec_path, "--background", filepath, "--python", "src/blender/version.py"],
+		[exec_path, "--background", filepath, "--python", os.path.join(ROOT_DIR, "src/blender/version.py")],
 		text=True
 	)
 	
@@ -15,5 +17,5 @@ def check_version(exec_path:str, filepath:str):
 
 def create_project(exec_path:str, filepath:str) -> None:
 	result:str = utils.execute(
-		[exec_path, "--background", "--python", "src/blender/create.py", "--", filepath],
+		[exec_path, "--background", "--python", os.path.join(ROOT_DIR, "src/blender/create.py"), "--", filepath],
 	)

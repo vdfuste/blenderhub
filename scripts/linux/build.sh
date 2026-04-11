@@ -9,6 +9,7 @@ pyinstaller \
 --noconsole \
 --onedir \
 --name "blenderhub" \
+--add-data "src/blender:src/blender" \
 --add-data "data:data" \
 --add-data "ui/dist:ui/dist" \
 --exclude-module dev \
@@ -17,21 +18,27 @@ pyinstaller \
 --noconfirm \
 main.py
 
+rm -r dist/blenderhub/_internal/src/blender/__*
+
 echo "Done!"
 echo -n "Creating .tar.xz file... "
 
-mkdir -p "blenderhub-$VERSION-linux-x64/"
-mv dist/blenderhub/ "blenderhub-$VERSION-linux-x64/app/"
-cp scripts/linux/install.sh "blenderhub-$VERSION-linux-x64/"
+FOLDER_NAME="blenderhub-$VERSION-linux-x64"
+
+mkdir -p "$FOLDER_NAME"
+#mv dist/blenderhub/ "$FOLDER_NAME/app/"
+cp -r dist/blenderhub/ "$FOLDER_NAME/app/"
+cp scripts/linux/install.sh "$FOLDER_NAME"
 
 tar \
 --xz \
 --create \
---file="blenderhub-$VERSION-linux-x64.tar.xz" \
-"blenderhub-$VERSION-linux-x64"
+--file="$FOLDER_NAME.tar.xz" \
+"$FOLDER_NAME"
 
 echo "Done!"
 
-rm -r blenderhub.spec "blenderhub-$VERSION-linux-x64/" build/ dist/
+#rm -r blenderhub.spec "$FOLDER_NAME" build/ dist/
+rm -r blenderhub.spec build/
 
 echo "Blender Hub $VERSION for Linux x64 successfully created!"

@@ -27,6 +27,7 @@ if defined NO_BUILD (
 	--noconsole ^
 	--onedir ^
 	--name "blenderhub" ^
+	--add-data "src/blender;src/blender" ^
 	--add-data "data;data" ^
 	--add-data "ui/dist;ui/dist" ^
 	--exclude-module dev ^
