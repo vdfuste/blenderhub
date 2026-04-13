@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-# Get the version
+:: Get the version
 if "%~1"=="" (
 	set VERSION=%1
 ) else (
@@ -10,7 +10,7 @@ if "%~1"=="" (
 )
 
 
-# Get the flags
+:: Get the flags
 set NO_BUILD=
 set NO_INSTALLER=
 
@@ -19,14 +19,14 @@ for %%a in (%*) do (
 	if /i "%%~a"=="--no-installer" set NO_INSTALLER=1
 )
 
-# If all flags are used, just exit the script.
+:: If all flags are used, just exit the script.
 if defined NO_BUILD if defined NO_INSTALLER (
 	echo Uhm... Ok, all set I guess. 
 	exit /b 0
 )
 
 
-# Building the project
+:: Building the project
 if defined NO_BUILD (
 	echo Skipping pyinstaller build.
 ) else (
@@ -56,7 +56,7 @@ if defined NO_BUILD (
 )
 
 
-# Creating the installer
+:: Creating the installer
 if defined NO_INSTALLER (
 	echo Skipping installer creation.
 ) else (
@@ -67,8 +67,8 @@ if defined NO_INSTALLER (
 	
 	echo|set /p="Creating installer..."
 
-	# Only for local testing purposes
-	# C:\Program Files\Inno Setup 7\ISCC.exe
+	:: Only for local testing purposes
+	:: C:\Program Files\Inno Setup 7\ISCC.exe
 	
 	iscc /Q ^
 	/DVersion=%VERSION% ^

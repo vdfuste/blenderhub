@@ -8,20 +8,12 @@ Blender Hub is a modern desktop application to simplify the organization of your
 
 ### For Developers
 
-Both `node` and `npm` (or any other package manager of your choice) is required in order to run/build the GUI.
-
 #### Installing Blender Hub
 
 ```bash
 #Clone the repository
 git clone https://github.com/vdfuste/blenderhub.git
 cd blenderhub
-
-# Build the GUI files
-cd ui
-npm install
-npm run build
-cd ..
 
 # Create a virtual environment and install dependencies
 python -m venv virt
@@ -34,7 +26,34 @@ python -m pip install -r requirements.txt
 
 # Run the application
 python main.py
+
+# Or run the app in development mode
+python dev
 ```
+#### Running the UI
+
+```bash
+# Go to the UI directory
+cd blenderhub/ui
+
+# Install all the packages
+npm install
+
+# Normal mode:
+# Build the UI. No need to keep the terminal open.
+npm run build
+
+# Development mode:
+# Use this to run the UI and make changes on real-time.
+# Needs to keep the terminal open.
+npm run dev
+
+# Then run the app
+python dev --local-gui
+```
+
+> [!NOTE]
+> Both `node` and `npm` (or any other package manager of your choice) is required in order to run/build the GUI.
 
 
 
