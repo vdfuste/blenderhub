@@ -3,10 +3,10 @@ setlocal
 
 :: Get the version
 if "%~1"=="" (
-	set VERSION=%1
-) else (
 	echo No version especified. Exiting now...
 	exit /b 1
+) else (
+	set VERSION=%1
 )
 
 
