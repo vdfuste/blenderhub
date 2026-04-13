@@ -1,69 +1,81 @@
 @echo off
 setlocal
 
+# Get the version
+if "%~1"=="" (
+	set VERSION=%1
+) else (
+	echo No version especified. Exiting now...
+	exit /b 1
+)
+
+
+# Get the flags
 set NO_BUILD=
 set NO_INSTALLER=
-set KEEP_OUTPUT=
+
 for %%a in (%*) do (
 	if /i "%%~a"=="--no-build" set NO_BUILD=1
 	if /i "%%~a"=="--no-installer" set NO_INSTALLER=1
-	if /i "%%~a"=="--keep-output" set KEEP_OUTPUT=1
 )
 
-if defined NO_BUILD if defined NO_INSTALLER if defined KEEP_OUTPUT (
-	echo Umh... Ok, all set I guess. 
+# If all flags are used, just exit the script.
+if defined NO_BUILD if defined NO_INSTALLER (
+	echo Uhm... Ok, all set I guess. 
 	exit /b 0
 )
 
-set /p VERSION="Enter version (default 0.1.0): "
-set VERSION=0.1.0
 
+# Building the project
 if defined NO_BUILD (
-	echo Skipping Blender Hub build.
+	echo Skipping pyinstaller build.
 ) else (
-	echo|set /p="Building Blender Hub %VERSION%... "
+	echo|set /p="Building Blender Hub %VERSION% with pyinstaller... "
 
 	pyinstaller ^
-	--noconsole ^
 	--onedir ^
+	--noconsole ^
 	--name "blenderhub" ^
-	--add-data "src/blender;src/blender" ^
 	--add-data "data;data" ^
 	--add-data "ui/dist;ui/dist" ^
+	--add-data "src/blender;src/blender" ^
 	--exclude-module dev ^
 	--exclude-module scripts ^
 	--log-level ERROR ^
 	--noconfirm ^
 	main.py
 
+	del /s "dist\blenderhub\_internal\src\blender\__*" >nul
+
+	if not exists "output\" mkdir "output\" >nul
+	move /y "blenderhub.spec" "output\" >nul
+	move /y "build\" "output\" >nul
+	move /y "dist\" "output\" >nul
+
 	echo Done!
 )
 
+
+# Creating the installer
 if defined NO_INSTALLER (
 	echo Skipping installer creation.
 ) else (
-	if not exist "dist" (
+	if not exist "output\dist\blenderhub\blenderhub" (
 		echo No Blender Hub build found. The installer was not made.
 		exit /b 1
 	)
 	
 	echo|set /p="Creating installer..."
 
-	"C:\Program Files\Inno Setup 7\ISCC.exe" /Q ^
+	# Only for local testing purposes
+	# C:\Program Files\Inno Setup 7\ISCC.exe
+	
+	iscc /Q ^
 	/DVersion=%VERSION% ^
-	/O"." ^
+	/O"output\" ^
 	scripts\windows\installer.iss
 
 	echo Done!
 )
 
-if not defined KEEP_OUTPUT (
-	if exist "blenderhub.spec" del /s /q "blenderhub.spec" >nul
-	if exist "build" rmdir /s /q "build" >nul
-
-	if not defined NO_INSTALLER if not defined NO_BUILD (
-		if exist "dist" rmdir /s /q "dist" >nul
-	)
-)
-
-echo Blender Hub %VERSION% for Windows x64 successfully created!
+echo Blender Hub %VERSION% for Windows successfully created!

@@ -1,44 +1,88 @@
 #!/bin/bash
 
-read -p "Enter version (default 0.1.0): " VERSION
-VERSION=0.1.0
+# Get the version
+if [ -n "$1" ]; then
+	VERSION=$1
+else
+	echo "No version especified. Exiting now..."
+	exit 1
+fi
 
-echo -n "Bundling Blender Hub... "
 
-pyinstaller \
---noconsole \
---onedir \
---name "blenderhub" \
---add-data "src/blender:src/blender" \
---add-data "data:data" \
---add-data "ui/dist:ui/dist" \
---exclude-module dev \
---exclude-module scripts \
---log-level ERROR \
---noconfirm \
-main.py
+# Get the flags
+NO_BUILD=0
+NO_TAR=0
 
-rm -r dist/blenderhub/_internal/src/blender/__*
+while [[ "$#" -gt 0 ]]; do
+	case $1 in
+		--no-build) NO_BUILD=1 ;;
+		--no-tar) NO_TAR=1 ;;
+	esac
+	shift
+done
 
-echo "Done!"
-echo -n "Creating .tar.xz file... "
+# If all flags are used, just exit the script.
+if [ "$NO_BUILD" -eq 1 ] && [ "$NO_TAR" -eq 1 ]; then
+	echo "Uhm... Ok, all set I guess."
+	exit 0
+fi
 
-FOLDER_NAME="blenderhub-$VERSION-linux-x64"
 
-mkdir -p "$FOLDER_NAME"
-#mv dist/blenderhub/ "$FOLDER_NAME/app/"
-cp -r dist/blenderhub/ "$FOLDER_NAME/app/"
-cp scripts/linux/install.sh "$FOLDER_NAME"
+# Building the project
+if [ "$NO_BUILD" -eq 1 ]; then
+	echo "Skipping pyinstaller build."
+else
+	echo -n "Building Blender Hub $VERSION with pyinstaller... "
 
-tar \
---xz \
---create \
---file="$FOLDER_NAME.tar.xz" \
-"$FOLDER_NAME"
+	pyinstaller \
+	--onedir \
+	--noconsole \
+	--name "blenderhub" \
+	--add-data "data:data" \
+	--add-data "ui/dist:ui/dist" \
+	--add-data "src/blender:src/blender" \
+	--exclude-module dev \
+	--exclude-module scripts \
+	--log-level ERROR \
+	--noconfirm \
+	main.py
 
-echo "Done!"
+	rm -r dist/blenderhub/_internal/src/blender/__*
+	
+	mkdir -p output/
+	mv blenderhub.spec build/ dist/ output/
 
-#rm -r blenderhub.spec "$FOLDER_NAME" build/ dist/
-rm -r blenderhub.spec build/
+	echo "Done!"
+fi
 
-echo "Blender Hub $VERSION for Linux x64 successfully created!"
+
+# Compressing the project in a tarball
+if [ "$NO_TAR" -eq 1 ]; then
+	echo "Skipping the tarball file compression."
+else
+	if [ ! -f "output/dist/blenderhub/blenderhub" ]; then
+		echo "No pyinstaller build found. Tarball file was not made."
+		exit 1
+	fi
+
+	echo -n "Creating .tar.xz file... "
+
+	FOLDER_NAME="blenderhub-$VERSION-linux-x64"
+
+	mkdir -p "output/$FOLDER_NAME/app"
+	rm -rf "output/$FOLDER_NAME/app/*"
+	
+	cp -r output/dist/blenderhub/* "output/$FOLDER_NAME/app/"
+	cp scripts/linux/install.sh "output/$FOLDER_NAME"
+
+	tar \
+	--xz \
+	--create \
+	--file="output/$FOLDER_NAME.tar.xz" \
+	"output/$FOLDER_NAME"
+
+	echo "Done!"
+fi
+
+
+echo "Blender Hub $VERSION for Linux successfully created!"
