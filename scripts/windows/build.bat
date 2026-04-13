@@ -1,36 +1,33 @@
 @echo off
-setlocal
+setlocal enabledelayedexpansion
 
 :: Get the version
 if "%~1"=="" (
 	echo No version especified. Exiting now...
 	exit /b 1
-) else (
-	set VERSION=%1
 )
 
+set "VERSION=%~1"
+set "NO_BUILD="
+set "NO_INSTALLER="
 
 :: Get the flags
-set NO_BUILD=
-set NO_INSTALLER=
-
 for %%a in (%*) do (
-	if /i "%%~a"=="--no-build" set NO_BUILD=1
-	if /i "%%~a"=="--no-installer" set NO_INSTALLER=1
+	if /i "%%~a"=="--no-build" set "NO_BUILD=1"
+	if /i "%%~a"=="--no-installer" set "NO_INSTALLER=1"
 )
 
 :: If all flags are used, just exit the script.
 if defined NO_BUILD if defined NO_INSTALLER (
-	echo Uhm... Ok, all set I guess. 
+	echo Uhm... Ok, all set I guess.
 	exit /b 0
 )
-
 
 :: Building the project
 if defined NO_BUILD (
 	echo Skipping pyinstaller build.
 ) else (
-	echo|set /p="Building Blender Hub %VERSION% with pyinstaller... "
+	set /p="Building Blender Hub %VERSION% with pyinstaller... "<nul
 
 	pyinstaller ^
 	--onedir ^
@@ -47,34 +44,25 @@ if defined NO_BUILD (
 
 	del /s "dist\blenderhub\_internal\src\blender\__*" >nul
 
-	if not exists "output\" mkdir "output\" >nul
+	if not exist "output\" mkdir "output\"
 	move /y "blenderhub.spec" "output\" >nul
-	move /y "build\" "output\" >nul
-	move /y "dist\" "output\" >nul
+	if exist "build\" move /y "build\" "output\" >nul
+	if exist "dist\" move /y "dist\" "output\" >nul
 
 	echo Done!
 )
-
 
 :: Creating the installer
 if defined NO_INSTALLER (
 	echo Skipping installer creation.
 ) else (
-	if not exist "output\dist\blenderhub\blenderhub" (
-		echo No Blender Hub build found. The installer was not made.
+	if not exist "output\dist\blenderhub" (
+		echo Build not found. Skipping installer.
 		exit /b 1
 	)
 	
-	echo|set /p="Creating installer..."
-
-	:: Only for local testing purposes
-	:: C:\Program Files\Inno Setup 7\ISCC.exe
-	
-	iscc /Q ^
-	/DVersion=%VERSION% ^
-	/O"output\" ^
-	scripts\windows\installer.iss
-
+	set /p="Creating installer... "<nul
+	iscc /Q /DVersion=%VERSION% /O"output\" "scripts\windows\installer.iss"
 	echo Done!
 )
 
