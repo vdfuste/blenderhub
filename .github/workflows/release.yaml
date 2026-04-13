@@ -49,7 +49,7 @@ jobs:
       
       # Windows only
       - name: Install Inno Setup
-        if: matrix.os == "windows-latest"
+        if: matrix.os == 'windows-latest'
         run: choco install innosetup
 
       - name: Run build script
