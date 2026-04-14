@@ -3,12 +3,15 @@ import sys
 import webview
 
 from src.api import BHApi
-from src.locations import OS_PLATFORM, UI_FILEPATH
+from src.locations import OS_PLATFORM, UI_FILEPATH, VERSION_FILEPATH
+
+with open(VERSION_FILEPATH, "r") as file:
+	VERSION:str = file.readline()
 
 bhapi = BHApi()
 config = {}
 window_config:dict = {
-	"title": "Blender Hub v0.1.0",
+	"title": f"Blender Hub {VERSION}",
 	"width": 1280,
 	"height": 720,
 	"background_color": "#121416",

@@ -1,21 +1,18 @@
 @echo off
 setlocal enabledelayedexpansion
 
-:: Get the version
-if "%~1"=="" (
-	echo No version especified. Exiting now...
-	exit /b 1
-)
-
-set "VERSION=%~1"
+:: Get the flags
+set "VERSION=Build_Test"
 set "NO_BUILD="
 set "NO_INSTALLER="
 
-:: Get the flags
 for %%a in (%*) do (
-	if /i "%%~a"=="--no-build" set "NO_BUILD=1"
-	if /i "%%~a"=="--no-installer" set "NO_INSTALLER=1"
+	if /i "%%~a"=="--no-build" ( set "NO_BUILD=1"
+	) else if /i "%%~a"=="--no-installer" ( set "NO_INSTALLER=1"
+	) else ( set "VERSION=%%a" )
 )
+
+echo %VERSION%
 
 :: If all flags are used, just exit the script.
 if defined NO_BUILD if defined NO_INSTALLER (
@@ -40,14 +37,18 @@ if defined NO_BUILD (
 	--exclude-module scripts ^
 	--log-level ERROR ^
 	--noconfirm ^
+	--clean ^
 	main.py
 
+	echo %VERSION% > "dist\blenderhub\_internal\data\version.txt"
 	del /s "dist\blenderhub\_internal\src\blender\__*" >nul
 
-	if not exist "output\" mkdir "output\"
-	move /y "blenderhub.spec" "output\" >nul
-	if exist "build\" move /y "build\" "output\" >nul
-	if exist "dist\" move /y "dist\" "output\" >nul
+	rmdir /s /q "output" 2>nul
+	mkdir "output"
+
+	move /y "blenderhub.spec" "output" >nul
+	if exist "build" move /y "build" "output" >nul
+	if exist "dist" move /y "dist" "output" >nul
 
 	echo Done!
 )

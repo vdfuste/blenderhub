@@ -1,15 +1,7 @@
 #!/bin/bash
 
-# Get the version
-if [ -n "$1" ]; then
-	VERSION=$1
-else
-	echo "No version especified. Exiting now..."
-	exit 1
-fi
-
-
 # Get the flags
+VERSION="Build_Test"
 NO_BUILD=0
 NO_TAR=0
 
@@ -17,6 +9,7 @@ while [[ "$#" -gt 0 ]]; do
 	case $1 in
 		--no-build) NO_BUILD=1 ;;
 		--no-tar) NO_TAR=1 ;;
+		*) VERSION=$1 ;;
 	esac
 	shift
 done
@@ -45,8 +38,10 @@ else
 	--exclude-module scripts \
 	--log-level ERROR \
 	--noconfirm \
+	--clean \
 	main.py
 
+	echo "$VERSION" > dist/blenderhub/_internal/data/version.txt
 	rm -r dist/blenderhub/_internal/src/blender/__*
 	
 	mkdir -p output/

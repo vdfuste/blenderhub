@@ -5,6 +5,7 @@ APP_DIR_NAME:str = "Blender Hub"
 
 ROOT_DIR:str = os.path.join(os.path.dirname(__file__), "..")
 UI_FILEPATH:str = os.path.join(ROOT_DIR, "ui/dist/index.html")
+VERSION_FILEPATH:str = os.path.join(ROOT_DIR, "data/version.txt")
 VERSIONS_DATA_FILEPATH:str = os.path.join(ROOT_DIR, "data/_data_versions.json")
 
 OS_PLATFORM:str = sys.platform
