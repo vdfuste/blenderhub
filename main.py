@@ -6,7 +6,7 @@ from src.api import BHApi
 from src.locations import OS_PLATFORM, UI_FILEPATH, VERSION_FILEPATH
 
 with open(VERSION_FILEPATH, "r") as file:
-	VERSION:str = file.readline()
+	VERSION:str = file.readline().strip()
 
 bhapi = BHApi()
 config = {}
