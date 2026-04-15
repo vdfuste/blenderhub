@@ -17,7 +17,7 @@ SolidCompression=yes
 WizardStyle=modern
 
 [Files]
-Source: "..\..\output\dist\blenderhub\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs 
+Source: "..\..\dist\blenderhub\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs 
 
 [Run]
 Filename: "{app}\BlenderHub.exe"; Description: "{cm:LaunchProgram,Blender Hub}"; Flags: nowait postinstall skipifsilent
