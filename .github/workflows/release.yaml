@@ -48,7 +48,7 @@ jobs:
       - name: Run build script
         shell: bash
         run: |
-          echo "${{ github.event.inputs.manual_version || github.ref_name }}" | ${{ matrix.script }}
+          ${{ matrix.script }} ${{ github.event.inputs.manual_version || github.ref_name }}
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
