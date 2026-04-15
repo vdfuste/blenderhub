@@ -651,3 +651,11 @@ e8a6c64c9ecf45ac23a8bd0328661d63  blender-5.0.0-windows-arm64.zip
 0672e12b5af7b3bad3d6ce742e09a46f  blender-5.1.0-windows-arm64.msi
 bb3f12b1731cc2e197c303f5d24fcb12  blender-5.1.0-windows-arm64.msix
 7a3a64b87c0129504af879f55d06d7b5  blender-5.1.0-windows-arm64.zip
+b5f0f4f6df5680dddbc3a4127683c972  blender-5.1.1-macos-arm64.dmg
+ffa1248713768306a1d908cabc8fc264  blender-5.1.1-linux-x64.tar.xz
+85e13ac8f7742da13499b7382c2a19fb  blender-5.1.1-windows-x64.msi
+6dba799704c825a05cb97d4a1f07880c  blender-5.1.1-windows-x64.msix
+aa6cd935b4eb0950a06e18a978147394  blender-5.1.1-windows-x64.zip
+d4ca3a61fb1add54abf83c476f144ae3  blender-5.1.1-windows-arm64.msi
+b88fd9b8ead68bd67613528cf165a53d  blender-5.1.1-windows-arm64.msix
+256b1f4ce0d005f8b36f28b1629c3d2b  blender-5.1.1-windows-arm64.zip
