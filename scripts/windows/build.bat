@@ -44,7 +44,6 @@ if defined NO_BUILD (
 
 	echo %VERSION% > "dist\blenderhub\_internal\data\version.txt"
 	del /s "dist\blenderhub\_internal\src\blender\__*" >nul
-
 	echo Done!
 )
 
@@ -58,12 +57,12 @@ if defined NO_INSTALLER (
 	)
 	
 	set /p="Creating installer... "<nul
-	iscc /Q /DVersion=%VERSION% "scripts\windows\installer.iss"
+	iscc /Q /DVersion=%VERSION% /O"." "scripts\windows\installer.iss"
 	echo Done!
 )
 
 
-# Moving generated files to output directory
+:: Moving generated files to output directory
 if defined OUTPUT_DIR (
 	rmdir /s /q "output" 2>nul
 	mkdir "output"
