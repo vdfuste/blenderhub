@@ -4,17 +4,19 @@
 VERSION="Build_Test"
 NO_BUILD=0
 NO_TAR=0
+OUTPUT_DIR=0
 
 while [[ "$#" -gt 0 ]]; do
 	case $1 in
 		--no-build) NO_BUILD=1 ;;
 		--no-tar) NO_TAR=1 ;;
+		--output-dir) OUTPUT_DIR=1 ;;
 		*) VERSION=$1 ;;
 	esac
 	shift
 done
 
-# If all flags are used, just exit the script.
+# If all "--no-" flags are used, just exit the script.
 if [ "$NO_BUILD" -eq 1 ] && [ "$NO_TAR" -eq 1 ]; then
 	echo "Uhm... Ok, all set I guess."
 	exit 0
@@ -44,9 +46,6 @@ else
 	echo "$VERSION" > dist/blenderhub/_internal/data/version.txt
 	rm -r dist/blenderhub/_internal/src/blender/__*
 	
-	mkdir -p output/
-	mv blenderhub.spec build/ dist/ output/
-
 	echo "Done!"
 fi
 
@@ -55,29 +54,40 @@ fi
 if [ "$NO_TAR" -eq 1 ]; then
 	echo "Skipping the tarball file compression."
 else
-	if [ ! -f "output/dist/blenderhub/blenderhub" ]; then
+	FOLDER_NAME="blenderhub-$VERSION-linux-x64"
+	FILE_NAME="$FOLDER_NAME.tar.xz"
+	
+	if [ ! -f "dist/blenderhub/blenderhub" ]; then
 		echo "No pyinstaller build found. Tarball file was not made."
 		exit 1
 	fi
 
 	echo -n "Creating .tar.xz file... "
 
-	FOLDER_NAME="blenderhub-$VERSION-linux-x64"
-
-	mkdir -p "output/$FOLDER_NAME/app"
-	rm -rf "output/$FOLDER_NAME/app/*"
+	mkdir -p "$FOLDER_NAME/app"
+	rm -rf "$FOLDER_NAME/app/*"
 	
-	cp -r output/dist/blenderhub/* "output/$FOLDER_NAME/app/"
-	cp scripts/linux/install.sh "output/$FOLDER_NAME"
+	cp -r dist/blenderhub/* "$FOLDER_NAME/app"
+	cp scripts/linux/install.sh "$FOLDER_NAME"
 
 	tar \
 	--xz \
 	--create \
-	--file="output/$FOLDER_NAME.tar.xz" \
-	"output/$FOLDER_NAME"
+	--file="$FILE_NAME" \
+	"$FOLDER_NAME"
 
 	echo "Done!"
 fi
 
+# Moving generated files to output directory
+if [ "$OUTPUT_DIR" -eq 1 ]; then
+	rm -rf output/
+	mkdir -p output/
+	mv blenderhub.spec build/ dist/ output/
+
+	if [ "$NO_TAR" -eq 0 ]; then
+		mv "$FOLDER_NAME" "$FILE_NAME" output/
+	fi
+fi
 
 echo "Blender Hub $VERSION for Linux successfully created!"
