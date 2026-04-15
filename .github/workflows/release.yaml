@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - "v*.*.*"
+  
+  workflow_dispatch:
+    inputs:
+      manual_version:
+        description: 'Manual build'
+        required: true
 
 jobs:
   build:
