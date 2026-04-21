@@ -4,14 +4,36 @@ Blender Hub is a modern desktop application to simplify the organization of your
 
 
 
-## Getting Started
+## Installing Blender Hub
 
-### For Developers
+### On Windows
 
-#### Installing Blender Hub
+To install Blender Hub on Windows just download the installer from [here](https://github.com/vdfuste/blenderhub/releases/download/v0.0.1/BlenderHub-v0.0.1-Windows-Installer.exe).
+
+### On Linux
+
+To install Blender Hub on Linux download the tarball file from [here](https://github.com/vdfuste/blenderhub/releases/download/v0.0.1/blenderhub-v0.0.1-linux-x64.tar.xz).
+
+Then open a terminal on the same location as the file and execute these commands:
 
 ```bash
-#Clone the repository
+# Extract the content of the tarball file
+tar -xf blenderhub-v0.0.1-linux-x64.tar.xz
+
+# Move to the extracted directory
+cd blenderhub-v0.0.1-linux-x64
+
+# Grant permission to the installer script
+sudo chmod +x install.sh
+
+# Execute the script
+sudo ./install.sh
+```
+
+### From Source Code
+
+```bash
+# Clone the repository
 git clone https://github.com/vdfuste/blenderhub.git
 cd blenderhub
 
@@ -19,41 +41,17 @@ cd blenderhub
 python -m venv virt
 
 # Pick one based on your OS
-source virt/bin/activate # Linux and MacOS
+source virt/bin/activate # Linux
 virt\Scripts\activate    # Windows
 
 python -m pip install -r requirements.txt
+python -m pip install -r dev/requirements.txt
 
-# Run the application
-python main.py
-
-# Or run the app in development mode
-python dev
+# Run build script
+# Pick one based on your OS
+scripts/linux/build.sh v0.0.1    # Linux
+scripts\windows\build.bat v0.0.1 # Windows
 ```
-#### Running the UI
-
-```bash
-# Go to the UI directory
-cd blenderhub/ui
-
-# Install all the packages
-npm install
-
-# Normal mode:
-# Build the UI. No need to keep the terminal open.
-npm run build
-
-# Development mode:
-# Use this to run the UI and make changes on real-time.
-# Needs to keep the terminal open.
-npm run dev
-
-# Then run the app
-python dev --local-gui
-```
-
-> [!NOTE]
-> Both `node` and `npm` (or any other package manager of your choice) is required in order to run/build the GUI.
 
 
 
