@@ -1,5 +1,7 @@
 # Blender Hub
 
+![Blender Hub](images/readme_header.png)
+
 Blender Hub is a modern desktop application to simplify the organization of your Blender projects and manage the installation of multiple versions in a single place.
 
 
