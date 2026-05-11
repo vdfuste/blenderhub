@@ -11,17 +11,21 @@ import List from "@/components/list";
 
 const Buttons = ({ versions, userDocs, type="outline" }) => {
 	const { setDialog } = useContext(OverlayContext);
-
+	
 	const formattedVersions = [
 		{
 			label: `Open Blender ${versions[0]}`,
 			value: versions[0]
-		},
-		{
-			title: "More installed versions",
-			items: versions.slice(1)
 		}
 	];
+
+	const moreVersions = versions.slice(1)
+	if(moreVersions.length) {
+		formattedVersions.push({
+			title: "More installed versions",
+			items: moreVersions
+		});
+	}
 
 	const handleImportProjects = () => {
 		window.pywebview.api.import_projects();
@@ -52,14 +56,16 @@ const Buttons = ({ versions, userDocs, type="outline" }) => {
 			<Button onClick={handleCreateProject} type={type}>
 				{type === "outline" ? "New Project" : "Create a new one"}
 			</Button>
-			{type === "outline" &&
-				// <Button onClick={handleOpenBlender}>
-				// 	Open Blender {selectedVersion}
-				// </Button>
-				<DropdownButton
-					options={formattedVersions}
-					onClick={handleOpenBlender} />
-			}
+			{type === "outline" && (
+				moreVersions.length ?
+					<DropdownButton
+						options={formattedVersions}
+						onClick={handleOpenBlender} />
+					:
+					<Button onClick={handleOpenBlender}>
+						Open Blender {versions[0]}
+					</Button>
+			)}
 		</div>
 	);
 };
