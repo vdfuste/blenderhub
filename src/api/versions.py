@@ -25,22 +25,36 @@ class Versions:
 
 	def __get_installed_versions(self) -> None:
 		self.installed:list = []
+		self.unmannaged:list = []
 		self.executes:dict = {}
 
-		if not os.path.isdir(INSTALLS_DIR):
-			return
+		# Checking for mannaged installed versions
+		if os.path.isdir(INSTALLS_DIR):
+			folders:list = os.listdir(INSTALLS_DIR)
+			folders.sort()
 
-		folders:list = os.listdir(INSTALLS_DIR)
-		folders.sort()
+			for folder in reversed(folders):
+				app_name:str = "blender"
+				if OS_PLATFORM == "windows":
+					app_name = "blender.exe"
 
-		for folder in reversed(folders):
-			app_name:str = "blender"
-			if OS_PLATFORM == "windows":
-				app_name = "blender.exe"
+				version:str = folder.split("-", 2)[1]
+				self.installed.append(version)
+				self.executes[version] = os.path.join(INSTALLS_DIR, folder, app_name)
 
-			version:str = folder.split("-", 2)[1]
-			self.installed.append(version)
-			self.executes[version] = os.path.join(INSTALLS_DIR, folder, app_name)
+		# Checking for unmannaged installed versions
+		if OS_PLATFORM == "windows":
+			from src.locations import UNMANNAGED_INSTALLS_DIR
+			
+			if os.path.isdir(UNMANNAGED_INSTALLS_DIR):
+				folders:list = os.listdir(UNMANNAGED_INSTALLS_DIR)
+				folders.sort()
+
+				for folder in reversed(folders):
+					app_name:str = "blender.exe"
+					version:str = folder.split()[1]
+					self.installed.append(version)
+					self.executes[version] = os.path.join(UNMANNAGED_INSTALLS_DIR, folder, app_name)
 
 	def __get_releases(self) -> None:
 		data:dict = utils.download_releases_data()
@@ -230,6 +244,7 @@ class Versions:
 			}
 			
 			if OS_PLATFORM == "linux":
+				utils.execute(["echo", "This versions is, indeed, managed by Blender Hub.", ">", f"{temp_folder_name}/managed"])
 				utils.execute(["sudo", "mkdir", "-p", INSTALLS_DIR])
 				utils.execute(["sudo", "mv", temp_folder_name, INSTALLS_DIR])
 			elif OS_PLATFORM == "windows":
@@ -265,6 +280,13 @@ class Versions:
 		
 		try:
 			if OS_PLATFORM == "linux":
+				if not os.path.isfile(os.path.join(remove_dirname, "managed")):
+					webview.windows[0].state.remove_process = {
+						"percent": 0,
+						"feedback": f"Blender {version} was not installed with Blender Hub!"
+					}
+					return
+
 				utils.execute(["sudo", "rm", "-rf", remove_dirname])
 			elif OS_PLATFORM == "windows":
 				shutil.rmtree(remove_dirname)

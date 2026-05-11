@@ -15,7 +15,7 @@ if OS_PLATFORM == "linux":
 	APP_DIR_NAME = "blenderhub"
 
 	#CONFIG_DATA:str = os.path.join("/etc", APP_DIR_NAME, "config.json")
-	INSTALLS_DIR:str = os.path.join("/opt", APP_DIR_NAME, "versions")
+	INSTALLS_DIR:str = "/opt/blender"
 	LOCAL_APP_DATA:str = os.path.join(HOME_DIR, ".local/share", APP_DIR_NAME)
 
 elif "win" in OS_PLATFORM:
@@ -23,6 +23,7 @@ elif "win" in OS_PLATFORM:
 
 	#CONFIG_DATA:str = os.path.join(os.getenv("PROGRAMDATA"), APP_DIR_NAME, "config.json")
 	INSTALLS_DIR:str = os.path.join(os.getenv("PROGRAMDATA"), APP_DIR_NAME, "versions")
+	UNMANNAGED_INSTALLS_DIR:str = os.path.join(os.getenv("PROGRAMFILES"), "Blender Foundation")
 	LOCAL_APP_DATA:str = os.path.join(os.getenv("LOCALAPPDATA"), APP_DIR_NAME)
 
 elif OS_PLATFORM == "darwin":
