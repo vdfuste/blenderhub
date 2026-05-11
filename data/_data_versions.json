@@ -348,6 +348,10 @@
             "checksum": "83407c8a6d5553998f6424f1ce03f685",
             "filename": "blender-4.2.2-linux-x64.tar.xz"
           },
+          "4.2.20": {
+            "checksum": "ea99bceb58a6b9ced618d17ed291f20a",
+            "filename": "blender-4.2.20-linux-x64.tar.xz"
+          },
           "4.2.3": {
             "checksum": "34fe4456252a703c39cb93efbfa84f8c",
             "filename": "blender-4.2.3-linux-x64.tar.xz"
@@ -455,6 +459,10 @@
           "4.5.8": {
             "checksum": "093aecfe9975e67e97d5ec256ed43c71",
             "filename": "blender-4.5.8-linux-x64.tar.xz"
+          },
+          "4.5.9": {
+            "checksum": "33d3a4a931c5b92e04b17bdfdf1f71d7",
+            "filename": "blender-4.5.9-linux-x64.tar.xz"
           }
         },
         "url_image": "2025/06/blender_splash_45.webp",
@@ -839,6 +847,10 @@
             "checksum": "453bfb1167c1b68224ce8ffa10eec595",
             "filename": "blender-4.2.2-macos-x64.dmg"
           },
+          "4.2.20": {
+            "checksum": "394c3ddf8612adba19c0b7ed401fd79d",
+            "filename": "blender-4.2.20-macos-x64.dmg"
+          },
           "4.2.3": {
             "checksum": "7b5f6ddba082265a20eedd861d8809d0",
             "filename": "blender-4.2.3-macos-x64.dmg"
@@ -946,6 +958,10 @@
           "4.5.8": {
             "checksum": "da2f67839dd76138087752ce0064b20f",
             "filename": "blender-4.5.8-macos-x64.dmg"
+          },
+          "4.5.9": {
+            "checksum": "2f2a47d603e64fadc3a75ef5f9a576a3",
+            "filename": "blender-4.5.9-macos-x64.dmg"
           }
         },
         "url_image": "2025/06/blender_splash_45.webp",
@@ -1302,6 +1318,10 @@
             "checksum": "e57ed9fd345a5728163c706ac198806c",
             "filename": "blender-4.2.2-windows-x64.zip"
           },
+          "4.2.20": {
+            "checksum": "21ab141faa141e9972faa27aca79f09d",
+            "filename": "blender-4.2.20-windows-x64.zip"
+          },
           "4.2.3": {
             "checksum": "41d6216402f1c69affee189e066dac9b",
             "filename": "blender-4.2.3-windows-x64.zip"
@@ -1409,6 +1429,10 @@
           "4.5.8": {
             "checksum": "47c06187b79b656445a0af1f91117d0e",
             "filename": "blender-4.5.8-windows-x64.zip"
+          },
+          "4.5.9": {
+            "checksum": "b3ebefa643acb17f6775ab44c1f10193",
+            "filename": "blender-4.5.9-windows-x64.zip"
           }
         },
         "url_image": "2025/06/blender_splash_45.webp",
