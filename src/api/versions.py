@@ -154,8 +154,7 @@ class Versions:
 		extension = f".{extension}"
 
 		# Creating a temporal folder.
-		temp_folder:str = tempfile.gettempdir()
-		temp_folder = os.path.join(temp_folder, APP_DIR_NAME)
+		temp_folder:str = os.path.join(tempfile.gettempdir(), APP_DIR_NAME)
 		temp_filename:str = os.path.join(temp_folder, filename)
 
 		os.makedirs(temp_folder, exist_ok=True)
@@ -175,7 +174,12 @@ class Versions:
 		try:
 			# Downloading the Blender installer on the temporal folder if is not already downloaded.
 			if not is_valid_installer:
-				URL:str = "https://download.blender.org/release/"
+				# The official mirrors fails to download the files via curl.
+				# TODO: Automatically select the best mirrors and/or add an option
+				# to manually select the preferred mirrors.
+				# Check https://projects.blender.org/infrastructure/mirror/wiki and https://mirror.blender.org/release/
+				
+				URL:str = "https://mirror.clarkson.edu/blender/release/" #"https://download.blender.org/release/"
 				folder_version:str = f"Blender{major}.{minor}/"
 			
 				current_percent:int = percents["INIT"] * 100
@@ -184,6 +188,8 @@ class Versions:
 					"feedback": "Downloading files"
 				}
 				
+				print(f"{URL}{folder_version}{filename}")
+
 				self.install_process = utils.execute(
 					["curl", "--progress-bar", "-o", temp_filename, f"{URL}{folder_version}{filename}"],
 					no_parent=True,
@@ -200,7 +206,7 @@ class Versions:
 								"percent": percent * percents["DOWNLOADING"] + current_percent,
 								"feedback": "Downloading files"
 							}
-			
+
 				# Checking the downloaded file.
 				checksum_installer = utils.generate_checksum(temp_filename)
 				is_valid_installer = checksum == checksum_installer
@@ -218,6 +224,7 @@ class Versions:
 	def install_version(self, version:str, passw:str) -> None:
 		temp_folder, folder_name, filename = self.__download_version(**self.releases[version])
 		temp_filename:str = os.path.join(temp_folder, filename)
+
 		temp_folder_name:str = os.path.join(temp_folder, folder_name)
 		install_folder_name:str = os.path.join(INSTALLS_DIR, folder_name)
 
